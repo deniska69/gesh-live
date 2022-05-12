@@ -1,0 +1,37 @@
+/* Настройка кнопок социальных сетей */
+
+.social_networks1 {
+  display: block;
+  position: fixed;
+  left:1vw;
+  bottom: 8vh;
+  z-index: 99999;
+
+  padding: 0;
+  margin-top: 0.5vh;
+  padding-bottom: 1vh;
+
+  min-width: 3vw;
+  max-width: 3vw;
+}
+
+.social_networks2 {
+  display: block;
+  position: fixed;
+  left: 1vw;
+  bottom: 1vh;
+  z-index: 99999;
+
+  padding: 0;
+  margin-top: 0.5vh;
+  padding-bottom: 1vh;
+
+  min-width: 3vw;
+  max-width: 3vw;
+}
+
+@media screen and (max-width: 480px) {
+  .add_palitra {
+    top: 100px !important;
+  }
+}

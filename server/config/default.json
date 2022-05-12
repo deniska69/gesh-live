@@ -1,0 +1,7 @@
+{
+  "serverPort": 90,
+  "dbUrl": "mongodb://localhost:27017/gesh_live",
+  "secretKey": "gesh_live-secket-key",
+  "staticPath": "C:\\Dev\\www_gesh_live\\server\\static",
+  "wwwUrl": "http://localhost/"
+}

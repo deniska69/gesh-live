@@ -1,0 +1,34 @@
+/* Настройка шапки */
+
+#header {
+    background-color: rgba(0, 0, 0, 0.4);
+    min-height: 5vh;
+    max-height: 5vh;
+    margin: 0;
+    font-size: 2vh;
+}
+
+#nawbar_items {
+    margin-top: 1vh;
+    padding: 0;
+}
+
+#nawbar_items_a {
+    text-decoration: none;
+    color: white;
+}
+
+#nawbar_items_a:hover {
+    text-decoration: underline;
+}
+
+#nawbar_items_icons {
+    width: 3vh;
+    height: 3vh;
+    margin-right: 0.5vw;
+    object-fit: cover
+}
+
+#button_auth {
+    min-width: 8vw;
+}

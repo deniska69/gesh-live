@@ -1,0 +1,60 @@
+.cardWeather {
+  max-width: 40vw;
+}
+
+#avatar {
+  width: 15vw;
+  height: 15vw;
+  object-fit: cover;
+}
+
+.left_line {
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.card_padding {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.iconWeather {
+  max-width: 10vw;
+  -webkit-filter: drop-shadow(3px 5px 5px #000);
+  filter: drop-shadow(3px 5px 5px rgb(102, 102, 102));
+}
+
+.rowWeatherIconAndTemp {
+  max-width: 40vw;
+  margin-left: 2vw;
+}
+
+.rowWeatherFeelsLikeTempAndDescription {
+  max-width: 40vw;
+  margin-left: 2vw;
+}
+
+.rowWeatherOther {
+  max-width: 40vw;
+  margin-left: 2vw;
+}
+
+._clear {
+  padding: 0;
+}
+
+.colWeatherIcon {
+  max-width: 10vw;
+}
+
+.colWeatherTemp {
+  max-width: 10vw;
+  padding-top: 3vh;
+}
+
+.pWeather {
+  margin: 0;
+}
+
+.colWeatherOther {
+  margin: 12;
+  border-left: 1px solid #eb6e4b;
+}

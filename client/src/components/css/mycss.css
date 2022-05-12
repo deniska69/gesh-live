@@ -1,0 +1,135 @@
+.debug {
+  border: 1px solid red;
+}
+
+/* Настройка блока для подгружаемого контента */
+#root {
+	box-sizing: border-box;
+	min-height: calc(100vh - 6rem);
+}
+
+/* Настройка ссылок под шапкой */
+
+.ac {
+  color: #FFFFFF;
+}
+
+.ac:link {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16pt;
+    font-weight: 600;
+    margin-right : 10px;
+    text-decoration: none;
+    color: #FFFFFF;
+	text-shadow:
+		-0   -1px 1px #33374F,
+		 0   -1px 1px #33374F,
+		-0    1px 1px #33374F,
+		 0    1px 1px #33374F,
+		-1px -0   1px #33374F,
+		 1px -0   1px #33374F,
+		-1px  0   1px #33374F,
+		 1px  0   1px #33374F,
+		-1px -1px 1px #33374F,
+		 1px -1px 1px #33374F,
+		-1px  1px 1px #33374F,
+		 1px  1px 1px #33374F,
+		-1px -1px 1px #33374F,
+		 1px -1px 1px #33374F,
+		-1px  1px 1px #33374F,
+		 1px  1px 1px #33374F;
+}
+
+.ac:hover {
+    text-decoration: none;
+
+     color: #33374F;
+ 	text-shadow:
+ 		-0   -1px 1px #FFFFFF,
+ 		 0   -1px 1px #FFFFFF,
+ 		-0    1px 1px #FFFFFF,
+ 		 0    1px 1px #FFFFFF,
+ 		-1px -0   1px #FFFFFF,
+ 		 1px -0   1px #FFFFFF,
+ 		-1px  0   1px #FFFFFF,
+ 		 1px  0   1px #FFFFFF,
+ 		-1px -1px 1px #FFFFFF,
+ 		 1px -1px 1px #FFFFFF,
+ 		-1px  1px 1px #FFFFFF,
+ 		 1px  1px 1px #FFFFFF,
+ 		-1px -1px 1px #FFFFFF,
+ 		 1px -1px 1px #FFFFFF,
+ 		-1px  1px 1px #FFFFFF,
+ 		 1px  1px 1px #FFFFFF;
+}
+
+#parent {
+    display: table;
+    float: left;
+}
+
+#child {
+    display: table-cell;
+    vertical-align: middle;
+    height: 5vh;
+}
+
+/* Настройка позиционирования центральной надписи на главной */
+
+#parentcc {
+    display: table;
+    margin: auto;
+}
+
+#childcc {
+    display: table-cell;
+    vertical-align: middle;
+    height: 20vh;
+    text-align: center;
+    padding-top: 20vh;
+    padding-bottom: 2vh;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 50pt;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.8),
+             0px 8px 13px rgba(0,0,0,0.3),
+             0px 18px 23px rgba(0,0,0,0.3);
+}
+
+/* Настройка больших трёх кнопок */
+
+#baseCard {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0;
+  width: 70vw;
+}
+
+.threeBtn {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 10px 20px;
+  color: #000000;
+  background: #ffffff;
+  border-radius: 3px;
+  border: 2px solid #c73232;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 12pt;
+  font-weight: 600;
+  text-align: center;
+
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 20vw;
+}
+
+.threeBtn:hover{
+  background: #c73232;
+  color: #ffffff;
+  border: 2px solid #c73232;
+  transition: all 0.4s ease;
+}

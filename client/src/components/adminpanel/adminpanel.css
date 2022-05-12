@@ -1,0 +1,50 @@
+.card_adminpanel {
+  max-width: 90vw;
+}
+
+#avatar {
+  max-width: 15vw;
+}
+
+.otstupSelect {
+  color: white;
+}
+
+.containerAdminpanelBtnSelect {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(118, 122, 143, 0.459);
+}
+
+.btnAdminPanelSelectUser,
+.btnAdminPanelSelectHotelsAndRooms,
+.btnAdminPanelSelectNews,
+.btnAdminPanelSelectEvents {
+  width: 15vw;
+  margin-right: 0.5rem;
+}
+
+.avatarAdminPanelProfileUser {
+  max-width: 10vw;
+}
+
+.idSelectUserAdminPanel {
+  font-size: 0.7rem;
+}
+
+.btnAdminpanelDeleteAvatar {
+  width: 10vw;
+}
+
+table {
+  border-collapse: collapse;
+  /*убираем пустые промежутки между ячейками*/
+  border: 1px solid;
+  /*устанавливаем для таблицы внешнюю границу серого цвета толщиной 1px*/
+}
+
+th,
+td {
+  border: 1px solid;
+}
