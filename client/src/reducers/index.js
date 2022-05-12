@@ -5,7 +5,6 @@ import userReducer from "./userReducer";
 import hotelsReducer from "./hotelsReducer";
 import roomsReducer from "./roomsReducer";
 import bookingReducer from "./bookingReducer";
-import "bootstrap";
 import newsReducer from "./newsReducer";
 import eventsReducer from "./eventsReducer";
 import weatherReducer from "./weatherReducer";

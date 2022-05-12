@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
+//import Modal from "react-bootstrap/Modal";
 import "./findRoom.css";
 import { booking } from "../../actions/bookings";
 
@@ -14,12 +14,15 @@ const FindRoom = () => {
   const bookingOptions = useSelector((state) => state.booking.options); //Количество дней проживания
 
   //Переменные для работы с модальным окном
+  // eslint-disable-next-line
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line
   const handleClose = () => setShow(false);
   // eslint-disable-next-line
   const handleShow = () => setShow(true);
-
+  // eslint-disable-next-line
   const [show2, setShow2] = useState(false);
+  // eslint-disable-next-line
   const handleClose2 = () => setShow2(false);
   // eslint-disable-next-line
   const handleShow2 = () => setShow2(true);
@@ -31,7 +34,9 @@ const FindRoom = () => {
   let typePay; //Переменная для хранения типа оплаты
 
   //Переменные для хранения выбора отеля для отображения соответствующей кнопки
+  // eslint-disable-next-line
   const [isPayHotel, setIsPayHotel] = useState(false);
+  // eslint-disable-next-line
   const [isPayCard, setIsPayCard] = useState(false);
 
   //Фнукция вызова модального окна выбора оплаты
@@ -49,12 +54,14 @@ const FindRoom = () => {
   }
 
   //Фнукция вызова модального окна выбора оплаты
+  // eslint-disable-next-line
   function showModal2() {
     setShow(false);
     setShow2(true);
   }
 
   //Функция обработки выбора типа оплаты
+  // eslint-disable-next-line
   function changeTypePay(event) {
     typePay = event.target.value;
 
@@ -72,8 +79,22 @@ const FindRoom = () => {
   }
 
   //Функция записи бронирования в базу данных
+  // eslint-disable-next-line
   function setBooking() {
-    booking(idUser, currentHotel._id, currentRoom._id, currentRoom.person1, currentRoom.person2, bookingOptions[0], bookingOptions[1], currentRoom.price * bookingOptions[2], new Date(), currentHotel.name, currentRoom.name, currentUser.email);
+    booking(
+      idUser,
+      currentHotel._id,
+      currentRoom._id,
+      currentRoom.person1,
+      currentRoom.person2,
+      bookingOptions[0],
+      bookingOptions[1],
+      currentRoom.price * bookingOptions[2],
+      new Date(),
+      currentHotel.name,
+      currentRoom.name,
+      currentUser.email
+    );
   }
 
   return (
@@ -116,7 +137,7 @@ const FindRoom = () => {
         </div>
 
         {/* Модальное окно выбора вида оплаты*/}
-        <Modal size="lg" show={show} onHide={handleClose}>
+        {/* <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header>
             <Modal.Title>Вы выбрали следующие условия проживания:</Modal.Title>
             <button type="button" className="btn-close" onClick={handleClose} />
@@ -168,10 +189,10 @@ const FindRoom = () => {
               </div>
             </div>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
 
         {/* Модальное окно выбора вида оплаты*/}
-        <Modal size="lg" show={show2} onHide={handleClose2}>
+        {/* <Modal size="lg" show={show2} onHide={handleClose2}>
           <Modal.Header>
             <Modal.Title>Оплата бронирования</Modal.Title>
             <button type="button" className="btn-close" onClick={handleClose2} />
@@ -229,7 +250,7 @@ const FindRoom = () => {
               </div>
             </div>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </div>
     </div>
   );
