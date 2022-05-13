@@ -17,6 +17,7 @@ import History from "../history/history";
 import Gallery from "../gallery/gallery";
 import Press from "../press/press";
 import ConfirmBooking from "../confirmBooking/confirmBooking";
+import Hotel from "../hotel/hotel";
 
 function RightBlock() {
   //Получаем из редюсера состояние: авторизован ли пользователь
@@ -65,6 +66,7 @@ function RightBlock() {
             <Route path="/gallery" component={Gallery} />
             <Route path="/press" component={Press} />
             <Route path="/confirmBooking/:idBooking/:idRoom" component={ConfirmBooking} />
+            <Route path="/hotels/:urlHotel" component={Hotel} />
           </Switch>
         </BrowserRouter>
       </div>

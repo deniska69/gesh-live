@@ -16,15 +16,17 @@ const HotelEditor = () => {
 
   //Профиль выбранного отеля
   const [isSelectHotel, setIsSelectHotel] = useState(false); //Выбран ли какой-либо отель из спика
-  const [idSelectHotel, setIdSelectHotel] = useState(""); //ID выбранного отеля
+  const [idSelectHotel, setIdSelectHotel] = useState("0"); //ID выбранного отеля
   const [nameSelectHotel, setNameSelectHotel] = useState(""); //Название выбранного отеля
   const [descriptionSelectHotel, setDescriptionSelectHotel] = useState(""); //Описание выбранного отеля
   const [idManagerSelectHotel, setIdManagerSelectHotel] = useState(""); //ID менеджера выбранного отеля
+  const [urlSelectHotel, setURLSelectHotel] = useState(""); //URL выбранного отеля
 
   //Обновлённые данные профиля отеля
   const [nameSelectHotelNew, setNameSelectHotelNew] = useState(""); //Новое название выбранного отеля
   const [descriptionSelectHotelNew, setDescriptionSelectHotelNew] = useState(""); //Новое описание выбранного отеля
   const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
+  const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
@@ -38,45 +40,34 @@ const HotelEditor = () => {
     //Если выбран како-либо отель из спика
     if (isSelectHotel) {
       //Если никакие данные не были измененны
-      if (nameSelectHotel === nameSelectHotelNew && descriptionSelectHotel === descriptionSelectHotelNew && idManagerSelectHotel === idManagerSelectHotelNew) {
+      if (nameSelectHotel === nameSelectHotelNew && descriptionSelectHotel === descriptionSelectHotelNew && idManagerSelectHotel === idManagerSelectHotelNew && urlSelectHotel === urlSelectHotelNew) {
         return toastView("warning", "Никакие данные не были изменены.");
       } else {
-        //Вызываем функцию обновления данных отеля
-        dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew));
-        setNameSelectHotel(nameSelectHotelNew);
-        setDescriptionSelectHotel(descriptionSelectHotelNew);
-        setIdManagerSelectHotel(idManagerSelectHotelNew);
+        if (urlSelectHotelNew != "") {
+          //Вызываем функцию обновления данных отеля
+          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew));
+          setNameSelectHotel(nameSelectHotelNew);
+          setDescriptionSelectHotel(descriptionSelectHotelNew);
+          setIdManagerSelectHotel(idManagerSelectHotelNew);
+          setURLSelectHotel(urlSelectHotelNew);
+          selectHotel(idSelectHotel);
+        } else {
+          return toastView("error", "Необходимо ввести ссылку!");
+        }
       }
     } else {
       toastView("warning", "Необходимо выбрать отель!");
     }
   }
 
-  //Функция выбора отеля из списка
+  //Функция обаботки выбора отеля из выпадающего списка
   function changeHandlerHotelList(e) {
     setIsSelectHotel(false); //Предварительно сбрасываем выбор отеля из списка
 
     /* eslint eqeqeq: 0 */
     if (e.target.value != 0) {
-      allHotels.reduce((res, note) => {
-        if (note._id === e.target.value) {
-          setIsSelectHotel(true); //Подтверждаем выбор отеля из списка
-
-          setIdSelectHotel(note._id); //Получаем ID отеля
-          setNameSelectHotel(note.name); //Получаем Название отеля
-          setDescriptionSelectHotel(note.description); //Получаем Описание отеля
-          setIdManagerSelectHotel(note.id_manager); //Получаем ID менеджера отеля
-
-          setNameSelectHotelNew(note.name); //Получаем Название отеля
-          setDescriptionSelectHotelNew(note.description); //Получаем Описание отеля
-          setIdManagerSelectHotelNew(note.id_manager); //Получаем ID менеджера отеля
-
-          // eslint-disable-next-line
-          return;
-        } else {
-          return res;
-        }
-      }, {});
+      selectHotel(e.target.value); //Вызов функции вывода данных отеля на страницу
+      setIsSelectHotel(true); //Подтверждаем выбор отеля из списка
     } else {
       setIsSelectHotel(false); //Сбрасываем выбор отеля из списка
     }
@@ -100,6 +91,29 @@ const HotelEditor = () => {
     } else {
       setIdManagerSelectHotelNew(""); //Заносим пустое значение в переменную отвечающую за хранение нового значения id менеджера
     }
+  }
+
+  //Функция выбора отеля >> вывод данных отеля на страницу
+  function selectHotel(id) {
+    allHotels.reduce((res, note) => {
+      if (note._id === id) {
+        setIdSelectHotel(note._id); //Получаем ID отеля
+        setNameSelectHotel(note.name); //Получаем Название отеля
+        setDescriptionSelectHotel(note.description); //Получаем Описание отеля
+        setIdManagerSelectHotel(note.id_manager); //Получаем ID менеджера отеля
+        setURLSelectHotel(note.url); //Получаем URL отеля
+
+        setNameSelectHotelNew(note.name); //Получаем Название отеля
+        setDescriptionSelectHotelNew(note.description); //Получаем Описание отеля
+        setIdManagerSelectHotelNew(note.id_manager); //Получаем ID менеджера отеля
+        setURLSelectHotelNew(note.url); //Получаем URL отеля
+
+        // eslint-disable-next-line
+        return;
+      } else {
+        return res;
+      }
+    }, {});
   }
 
   return (
@@ -126,6 +140,11 @@ const HotelEditor = () => {
                 <button className="btn btn-primary btn-sm" type="button" onClick={() => updateHotelNow()}>
                   Сохранить отель
                 </button>
+              )}
+              {isSelectHotel && (
+                <a className="btn btn-warning btn-sm" href={`/hotels/${urlSelectHotel}`} role="button" target="_blank" rel="noopener noreferrer">
+                  Открыть страницу
+                </a>
               )}
             </div>
 
@@ -178,6 +197,16 @@ const HotelEditor = () => {
               </div>
             </div>
 
+            {/* URL выбранного отеля */}
+            <div className="row">
+              <div className="col-sm-3">
+                <label className="form-label form-control-sm">Ссылка:</label>
+              </div>
+              <div className="col-sm-9">
+                <Input className="form-control form-control-sm" value={urlSelectHotelNew} setValue={setURLSelectHotelNew} placeholder="Введите Ссылку..." />
+              </div>
+            </div>
+
             {/* Описание выбранного отеля */}
             <div className="row">
               <div className="col-sm-3">
@@ -187,42 +216,32 @@ const HotelEditor = () => {
                 <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditDescription">
                   Редактировать
                 </button>
-                <div className="modal fade" id="modalEditDescription" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div className="modal-dialog modal-xl">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">
-                          Описание отеля {nameSelectHotelNew}
-                        </h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div className="modal-body">
-                        <TextEditor setValue={setDescriptionSelectHotelNew} initialValue={descriptionSelectHotel} />
-                      </div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-primary btn-sm" onClick={() => updateHotelNow()}>
-                          Сохранить
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Блок вывода предпросмотра описания карточки отеля */}
-        {isSelectHotel && (
-          <div className="col-lg-5">
-            Предпросмотр описания отеля:
-            <br />
-            <br />
-            <h3>{nameSelectHotelNew}</h3>
-            <br />
-            <div dangerouslySetInnerHTML={{ __html: descriptionSelectHotelNew }} />
+        {/* Модальное окно с редактором описания отеля */}
+        <div className="modal fade" id="modalEditDescription" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Описание отеля {nameSelectHotelNew}
+                </h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <TextEditor setValue={setDescriptionSelectHotelNew} initialValue={descriptionSelectHotel} />
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => updateHotelNow()}>
+                  Сохранить
+                </button>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* {isSelectHotel && <RoomEditor id_hotel={currentIDHotel} name_hotel={nameHotelNew} />} */}
