@@ -16,6 +16,8 @@ const Hotels = new Schema({
 
   //Ссылка отеля - тип поля: строковый, не обязательный, не уникальный
   url: { type: String },
+
+  benefits: [{ title: { type: String }, description: { type: String } }],
 });
 
 //Экспорт схемы

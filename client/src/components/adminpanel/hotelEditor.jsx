@@ -7,6 +7,7 @@ import AddHotel from "./addHotel";
 import { allUser } from "../../actions/users";
 import { toastView } from "../App";
 //import RoomEditor from "./roomEditor";
+import { Check2Circle } from "react-bootstrap-icons";
 
 const HotelEditor = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const HotelEditor = () => {
   const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
   const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
 
+  const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]);
+  const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]);
+
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
     dispatch(allHotel());
@@ -46,10 +50,19 @@ const HotelEditor = () => {
         if (urlSelectHotelNew != "") {
           //Вызываем функцию обновления данных отеля
           dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew));
-          setNameSelectHotel(nameSelectHotelNew);
-          setDescriptionSelectHotel(descriptionSelectHotelNew);
-          setIdManagerSelectHotel(idManagerSelectHotelNew);
-          setURLSelectHotel(urlSelectHotelNew);
+
+          // setNameSelectHotel(nameSelectHotelNew);
+          // setNameSelectHotelNew(nameSelectHotelNew);
+
+          // setDescriptionSelectHotel(descriptionSelectHotelNew);
+          // setDescriptionSelectHotelNew(descriptionSelectHotelNew);
+
+          // setIdManagerSelectHotel(idManagerSelectHotelNew);
+          // setIdManagerSelectHotelNew(idManagerSelectHotelNew);
+
+          // setURLSelectHotel(urlSelectHotelNew);
+          // setURLSelectHotelNew(urlSelectHotelNew);
+
           selectHotel(idSelectHotel);
         } else {
           return toastView("error", "Необходимо ввести ссылку!");
@@ -73,6 +86,35 @@ const HotelEditor = () => {
     }
   }
 
+  //Функция выбора отеля >> вывод данных отеля на страницу
+  function selectHotel(id) {
+    allHotels.reduce((res, note) => {
+      if (note._id === id) {
+        setIdSelectHotel(note._id); //Получаем ID отеля
+
+        setNameSelectHotel(note.name); //Получаем Название отеля
+        setNameSelectHotelNew(note.name); //Получаем Название отеля
+
+        setDescriptionSelectHotel(note.description); //Получаем Описание отеля
+        setDescriptionSelectHotelNew(note.description); //Получаем Описание отеля
+
+        setIdManagerSelectHotel(note.id_manager); //Получаем ID менеджера отеля
+        setIdManagerSelectHotelNew(note.id_manager); //Получаем ID менеджера отеля
+
+        setURLSelectHotel(note.url); //Получаем URL отеля
+        setURLSelectHotelNew(note.url); //Получаем URL отеля
+
+        setBenefitsSelectHotel([...note.benefits]); //Получаем преимущества отеля
+        setBenefitsSelectHotelNew([...note.benefits]); //Получаем преимущества отеля
+
+        // eslint-disable-next-line
+        return;
+      } else {
+        return res;
+      }
+    }, {});
+  }
+
   //Функция выбора менеджера из выпадающего списка
   function changeHandlerManagerList(e) {
     /* eslint eqeqeq: 0 */
@@ -91,29 +133,6 @@ const HotelEditor = () => {
     } else {
       setIdManagerSelectHotelNew(""); //Заносим пустое значение в переменную отвечающую за хранение нового значения id менеджера
     }
-  }
-
-  //Функция выбора отеля >> вывод данных отеля на страницу
-  function selectHotel(id) {
-    allHotels.reduce((res, note) => {
-      if (note._id === id) {
-        setIdSelectHotel(note._id); //Получаем ID отеля
-        setNameSelectHotel(note.name); //Получаем Название отеля
-        setDescriptionSelectHotel(note.description); //Получаем Описание отеля
-        setIdManagerSelectHotel(note.id_manager); //Получаем ID менеджера отеля
-        setURLSelectHotel(note.url); //Получаем URL отеля
-
-        setNameSelectHotelNew(note.name); //Получаем Название отеля
-        setDescriptionSelectHotelNew(note.description); //Получаем Описание отеля
-        setIdManagerSelectHotelNew(note.id_manager); //Получаем ID менеджера отеля
-        setURLSelectHotelNew(note.url); //Получаем URL отеля
-
-        // eslint-disable-next-line
-        return;
-      } else {
-        return res;
-      }
-    }, {});
   }
 
   return (
@@ -218,6 +237,18 @@ const HotelEditor = () => {
                 </button>
               </div>
             </div>
+
+            {/* Преимущества выбранного отеля */}
+            <div className="row">
+              <div className="col-sm-3">
+                <label className="form-label form-control-sm">Преимущества:</label>
+              </div>
+              <div className="col-sm-9">
+                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits">
+                  Редактировать
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
@@ -233,6 +264,42 @@ const HotelEditor = () => {
               </div>
               <div className="modal-body">
                 <TextEditor setValue={setDescriptionSelectHotelNew} initialValue={descriptionSelectHotel} />
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => updateHotelNow()}>
+                  Сохранить
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Модальное окно с редактором преимуществ отеля */}
+        <div className="modal fade" id="modalEditBenefits" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Преимущества отеля {nameSelectHotelNew}
+                </h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                {benefitsSelectHotelNew.map((benefitsSelectHotelNew, index) => (
+                  <table key={index}>
+                    <tbody>
+                      <tr>
+                        <td rowSpan="2">
+                          <Check2Circle color="royalblue" size={60} />
+                        </td>
+                        <td>{benefitsSelectHotelNew.title}</td>
+                      </tr>
+                      <tr>
+                        <td>{benefitsSelectHotelNew.description}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                ))}
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary btn-sm" onClick={() => updateHotelNow()}>

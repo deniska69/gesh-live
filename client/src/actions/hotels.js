@@ -50,6 +50,9 @@ export const updateHotel = (_id, name, description, id_manager, url) => {
         id_manager,
         url,
       });
+
+      console.log("response.data.hotel.url", response.data.hotel.url);
+
       dispatch(setOneHotelUpdate(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
     } catch (e) {
@@ -59,12 +62,13 @@ export const updateHotel = (_id, name, description, id_manager, url) => {
 };
 
 //Функция получения данных одного отеля
-export const oneHotel = (url) => {
+export const oneHotel = (_id, url) => {
   return async (dispatch) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Отправка асинхронного PUT-запроса на серверную часть
       const response = await axios.put(`${API_URL}api/auth/hotelOne`, {
+        _id,
         url,
       });
       dispatch(setOneHotel(response.data.hotel));

@@ -162,7 +162,7 @@ router.put(
         url: hotel.url,
       });
 
-      if (url.length < 3) {
+      if (url.length < 4) {
         console.log("\nОшибка API-сервера в users.routes router.put('/hotelOneUpdate').\nСлишком коротий URL сервера.");
         return res.status(400).send({ message: "URL должен быть длиннее 3 символов." });
       }
@@ -267,12 +267,18 @@ router.put(
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Получаем значения отправленных полей
-      const { url } = req.body;
+      const { _id, url } = req.body;
 
       //Получаем из БД текущие данные отеля
-      const hotel = await Hotels.findOne({ url });
+      if (_id != "") {
+        const hotel = await Hotels.findOne({ _id: _id });
+        return res.json({ hotel });
+      }
 
-      return res.json({ hotel });
+      if (url != "") {
+        const hotel = await Hotels.findOne({ url: url });
+        return res.json({ hotel });
+      }
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {

@@ -6,14 +6,13 @@ import { oneHotel } from "../../actions/hotels";
 const Hotel = (props) => {
   const dispatch = useDispatch();
   const urlHotel = props.match.params.urlHotel;
+  const hotel = useSelector((state) => state.hotel.oneHotel);
 
   //Вызов функции для получения данных одного отеля
   useEffect(() => {
-    dispatch(oneHotel(urlHotel));
+    dispatch(oneHotel("", urlHotel));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const hotel = useSelector((state) => state.hotel.oneHotel);
 
   return (
     <div className="card" id="card_cabinet">
