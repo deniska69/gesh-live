@@ -6,8 +6,10 @@ import { allHotel, updateHotel } from "../../actions/hotels";
 import AddHotel from "./addHotel";
 import { allUser } from "../../actions/users";
 import { toastView } from "../App";
-//import RoomEditor from "./roomEditor";
-import { Check2Circle } from "react-bootstrap-icons";
+// eslint-disable-next-line
+import RoomEditor from "./roomEditor";
+// eslint-disable-next-line
+import { Check2Circle, PencilFill, Trash3Fill, CheckLg, PlusSquareDotted } from "react-bootstrap-icons";
 
 const HotelEditor = () => {
   const dispatch = useDispatch();
@@ -29,8 +31,9 @@ const HotelEditor = () => {
   const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
   const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
 
-  const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]);
-  const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]);
+  // eslint-disable-next-line
+  const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]); //Список преимуществ выбранного отеля
+  const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]); //новый список преимуществ выбранного отеля
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
@@ -133,6 +136,26 @@ const HotelEditor = () => {
     } else {
       setIdManagerSelectHotelNew(""); //Заносим пустое значение в переменную отвечающую за хранение нового значения id менеджера
     }
+  }
+
+  //Функция добавления новых преимуществ в список в модальном окне
+  function addBenefitsToArray() {
+    setBenefitsSelectHotelNew([
+      ...benefitsSelectHotelNew,
+      {
+        title: "Название",
+        description: "Описание",
+      },
+    ]);
+  }
+
+  //Функция удаления преимуществ из списка в модальном окне
+  function removeBenefitsFromArray(index) {
+    setBenefitsSelectHotelNew([...benefitsSelectHotelNew.filter((_, i) => i != index)]);
+  }
+
+  function _test() {
+    console.log(benefitsSelectHotelNew);
   }
 
   return (
@@ -280,29 +303,52 @@ const HotelEditor = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Преимущества отеля {nameSelectHotelNew}
+                  Преимущества отеля {nameSelectHotelNew} ({benefitsSelectHotelNew.length} из 10)
                 </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                {benefitsSelectHotelNew.map((benefitsSelectHotelNew, index) => (
-                  <table key={index}>
-                    <tbody>
-                      <tr>
-                        <td rowSpan="2">
-                          <Check2Circle color="royalblue" size={60} />
-                        </td>
-                        <td>{benefitsSelectHotelNew.title}</td>
-                      </tr>
-                      <tr>
-                        <td>{benefitsSelectHotelNew.description}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                ))}
+                <div className="col-8">
+                  {benefitsSelectHotelNew.map((benefitsSelectHotelNew, index) => (
+                    <table id={"tableBenefitsHeader" + index} key={index}>
+                      <tbody>
+                        <tr>
+                          <td id="tdBenefitsIcon" rowSpan="2">
+                            <Check2Circle color="#0daff2" size={40} />
+                          </td>
+                          <td id="tdBenefitsHeader">{benefitsSelectHotelNew.title}</td>
+                          <td id="tdBenefitsBtnEdit" rowSpan="2">
+                            <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-warning ">
+                              <PencilFill color="white" />
+                            </button>
+                          </td>
+                          <td id="tdBenefitsBtnCheck" rowSpan="2">
+                            <button id={"btnBenefitsComplete" + index} type="button" className="btn btn-sm btn-success" disabled>
+                              <CheckLg color="white" />
+                            </button>
+                          </td>
+                          <td id="tdBenefitsBtnDelete" rowSpan="2">
+                            <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeBenefitsFromArray(index)}>
+                              <Trash3Fill color="white" />
+                            </button>
+                          </td>
+                        </tr>
+                        <tr id="trBenefitsBottom">
+                          <td id="tdBenefitsText">{benefitsSelectHotelNew.description}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  ))}
+                  <br />
+                  {benefitsSelectHotelNew.length < 10 && (
+                    <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => addBenefitsToArray()}>
+                      <PlusSquareDotted size={40} className="iconBtnBenefitsAddNew" />
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => updateHotelNow()}>
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => _test()}>
                   Сохранить
                 </button>
               </div>
