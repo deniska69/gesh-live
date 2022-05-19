@@ -2,10 +2,11 @@ import React from "react";
 import "./social_networks.css";
 import social_networks1 from "./vk.svg";
 import social_networks2 from "./instagram.svg";
+import { toastView } from "../App";
 
 const SocialNetworks = () => {
   function alertSocial() {
-    alert("Здесь могла быть ваша соц.сеть!");
+    toastView("success", "Здесь могла быть ваша соц.сеть!");
   }
 
   return (

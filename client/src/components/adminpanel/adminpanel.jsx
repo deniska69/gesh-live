@@ -1,11 +1,20 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import "./adminpanel.css";
 import UserEditor from "./userEditor";
 import HotelEditor from "./hotelEditor";
 import NewsEditor from "./newsEditor";
 import EventsEditor from "./eventsEditor";
+import { WWW_URL } from "../../config";
 
 const AdminPanel = () => {
+  //Получаем из редюсера состояние: авторизован ли пользователь
+  const isAuth = useSelector((state) => state.user.isAuth);
+  const isAdmin = useSelector((state) => state.user.isAdmin);
+
+  //Если пользователь не авторизован и не явлется администратором, то редиректим его на главную страницу
+  if (!isAuth && !isAdmin) window.location.href = `${WWW_URL}`;
+
   const [panelUsers, setPanelUsers] = useState(true);
   const [panelHotelsAndRooms, setPanelHotelsAndRooms] = useState(false);
   const [panelNews, setPanelNews] = useState(false);

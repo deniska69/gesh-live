@@ -6,12 +6,18 @@ import { updateProfile } from "../../actions/users";
 import { useDispatch } from "react-redux";
 import { uploadAvatar } from "../../actions/users";
 import avatarDefault from "../../assets/img/avatar.png";
-import { API_URL } from "../../config";
+import { API_URL, WWW_URL } from "../../config";
 import { allBookings } from "../../actions/bookings";
 import StatusBooking from "./statusBooking";
 
 const Cabinet = () => {
   const dispatch = useDispatch();
+
+  //Получаем из редюсера состояние: авторизован ли пользователь
+  const isAuth = useSelector((state) => state.user.isAuth);
+
+  //Если пользователь не авторизован, то редиректим его на главную страницу
+  if (!isAuth) window.location.href = `${WWW_URL}`;
 
   //Переменные для хранения данных о пользователе
   const currentUser = useSelector((state) => state.user.currentUser);

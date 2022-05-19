@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { auth } from "../../actions/users";
 import { useEffect } from "react";
 import Cabinet from "../cabinet/cabinet";
@@ -18,11 +18,9 @@ import Gallery from "../gallery/gallery";
 import Press from "../press/press";
 import ConfirmBooking from "../confirmBooking/confirmBooking";
 import Hotel from "../hotel/hotel";
+import Error from "../error/error";
 
 function RightBlock() {
-  //Получаем из редюсера состояние: авторизован ли пользователь
-  const isAuth = useSelector((state) => state.user.isAuth);
-  const isAdmin = useSelector((state) => state.user.isAdmin);
   const dispatch = useDispatch();
 
   //Пробуем получить токен
@@ -41,21 +39,12 @@ function RightBlock() {
     <div className="container-fluid" id="content">
       <div className="row" id="contentRow">
         <BrowserRouter>
-          {isAuth && (
-            <Switch>
-              <Route path="/cabinet" component={Cabinet} />
-              <Route path="/booking" component={Booking} />
-              {isAdmin && (
-                <Switch>
-                  <Route path="/adminpanel" component={AdminPanel} />
-                </Switch>
-              )}
-            </Switch>
-          )}
-
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/home" component={Home} />
+            <Route path="/cabinet" component={Cabinet} />
+            <Route path="/adminpanel" component={AdminPanel} />
+            <Route path="/booking" component={Booking} />
             <Route path="/news" component={News} />
             <Route path="/events" component={Events} />
             <Route path="/elevator" component={Elevator} />
@@ -67,6 +56,7 @@ function RightBlock() {
             <Route path="/press" component={Press} />
             <Route path="/confirmBooking/:idBooking/:idRoom" component={ConfirmBooking} />
             <Route path="/hotels/:urlHotel" component={Hotel} />
+            <Route path="*" component={Error} />
           </Switch>
         </BrowserRouter>
       </div>

@@ -10,7 +10,7 @@ const LeftBlock = () => {
   return (
     <div className="col leftBlock">
       <div className="row justify-content-center">
-        <a className="a_menu" href="/home">
+        <a className="a_menu" href="/">
           {/* eslint-disable-next-line */}
           <img src={logo} id="icons_menu" />
         </a>

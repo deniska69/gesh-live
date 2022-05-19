@@ -78,6 +78,7 @@ export const auth = () => {
         dispatch(setUserAdmin());
       }
     } catch (e) {
+      console.log(e);
       localStorage.removeItem("token"); //В случае ошибки выводим уведомление с ответом от сервера об ошибке
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
