@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
-
 import Input from "../../utils/input/Input";
 import { useDispatch } from "react-redux";
 import { login } from "../../actions/users";
+import { toastView } from "../App";
 
 const Authorization = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +41,11 @@ const Authorization = () => {
   //Функция обработки нажатия кнопки "Войти"
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function loginInToTheSite() {
-    dispatch(login(email, password));
+    if (email === "" || password === "") {
+      return toastView("warning", "Необходимо вести данные для авторизации.");
+    } else {
+      dispatch(login(email, password));
+    }
   }
 
   return (

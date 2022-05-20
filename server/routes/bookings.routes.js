@@ -183,6 +183,9 @@ router.get(
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
+      console.log(req.query);
+      return;
+
       const bookings = await Bookings.aggregate([
         {
           $match: {

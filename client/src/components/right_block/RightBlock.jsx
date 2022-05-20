@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../actions/users";
 import { useEffect } from "react";
 import Cabinet from "../cabinet/cabinet";
@@ -21,6 +21,11 @@ import Hotel from "../hotel/hotel";
 import Error from "../error/error";
 
 function RightBlock() {
+  //Получаем из редюсера состояние: авторизован ли пользователь
+  // eslint-disable-next-line
+  //const isAuth = useSelector((state) => state.user.isAuth);
+  // eslint-disable-next-line
+  //const isAdmin = useSelector((state) => state.user.isAdmin);
   const dispatch = useDispatch();
 
   //Пробуем получить токен

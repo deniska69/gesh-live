@@ -5,15 +5,18 @@ import UserEditor from "./userEditor";
 import HotelEditor from "./hotelEditor";
 import NewsEditor from "./newsEditor";
 import EventsEditor from "./eventsEditor";
+// eslint-disable-next-line
 import { WWW_URL } from "../../config";
 
 const AdminPanel = () => {
   //Получаем из редюсера состояние: авторизован ли пользователь
+  // eslint-disable-next-line
   const isAuth = useSelector((state) => state.user.isAuth);
+  // eslint-disable-next-line
   const isAdmin = useSelector((state) => state.user.isAdmin);
 
   //Если пользователь не авторизован и не явлется администратором, то редиректим его на главную страницу
-  if (!isAuth && !isAdmin) window.location.href = `${WWW_URL}`;
+  //if (!isAuth && !isAdmin) window.location.href = `${WWW_URL}`;
 
   const [panelUsers, setPanelUsers] = useState(true);
   const [panelHotelsAndRooms, setPanelHotelsAndRooms] = useState(false);

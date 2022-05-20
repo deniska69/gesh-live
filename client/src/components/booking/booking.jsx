@@ -3,14 +3,16 @@ import "./booking.css";
 import HotelSelect from "./hotelSelect";
 import { useSelector } from "react-redux";
 import FindRoom from "./findRoom";
+// eslint-disable-next-line
 import { WWW_URL } from "../../config";
 
 const Booking = () => {
   //Получаем из редюсера состояние: авторизован ли пользователь
+  // eslint-disable-next-line
   const isAuth = useSelector((state) => state.user.isAuth);
 
   //Если пользователь не авторизован, то редиректим его на главную страницу
-  if (!isAuth) window.location.href = `${WWW_URL}`;
+  //if (!isAuth) window.location.href = `${WWW_URL}`;
 
   const isBooking = useSelector((state) => state.booking.isBooking);
 

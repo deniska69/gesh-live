@@ -7,7 +7,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const authMiddleware = require("../middleware/auth.middleware");
-const nodemailer = require("nodemailer");
+//const nodemailer = require("nodemailer");
 
 ///////////// Users ////////////////
 
