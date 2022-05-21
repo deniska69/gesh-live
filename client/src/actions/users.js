@@ -1,8 +1,9 @@
 import axios from "axios";
-import { setUser } from "../reducers/userReducer";
-import { setUserAdmin } from "../reducers/userReducer";
-import { setAllUser } from "../reducers/userReducer";
-import { setOneUser } from "../reducers/userReducer";
+import { setUserCurrentAuth } from "../reducers/userReducer";
+import { setUserCurrentAuthIsAdmin } from "../reducers/userReducer";
+import { setUserOneList } from "../reducers/userReducer";
+import { setUserAllList } from "../reducers/userReducer";
+import { setUserUpdateOneInAllList } from "../reducers/userReducer";
 import { API_URL } from "../config";
 import { WWW_URL } from "../config";
 import { toastView } from "../components/App";
@@ -46,11 +47,11 @@ export const login = (email, password) => {
         password,
       });
 
-      dispatch(setUser(response.data.user)); //Обработка ответа от сервера
+      dispatch(setUserCurrentAuth(response.data.user)); //Обработка ответа от сервера
 
       // eslint-disable-next-line
       if (response.data.user.id_acc == 2) {
-        dispatch(setUserAdmin());
+        dispatch(setUserCurrentAuthIsAdmin());
       }
 
       localStorage.setItem("token", response.data.token); //Сохранение токена аутентификации в локальном хранилище на компьютер клиента
@@ -71,14 +72,13 @@ export const auth = () => {
       const response = await axios.get(`${API_URL}api/auth/auth`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, //Отправка токена аутентификации из локального хранилища на компьютере клиента
       });
-      dispatch(setUser(response.data.user)); //Обработка ответа от сервера
+      dispatch(setUserCurrentAuth(response.data.user)); //Обработка ответа от сервера
       localStorage.setItem("token", response.data.token); //Сохранение токена авторизации на компьютер клиента
       // eslint-disable-next-line
       if (response.data.user.id_acc == 2) {
-        dispatch(setUserAdmin());
+        dispatch(setUserCurrentAuthIsAdmin());
       }
     } catch (e) {
-      console.log(e);
       localStorage.removeItem("token"); //В случае ошибки выводим уведомление с ответом от сервера об ошибке
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
@@ -92,7 +92,7 @@ export const uploadAvatar = (_id, file) => {
       const formData = new FormData();
       formData.append("file", file);
       const response = await axios.post(`${API_URL}api/files/avatar`, formData, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });
-      dispatch(setUser(response.data));
+      dispatch(setUserCurrentAuth(response.data));
       toastView("success", "Аватар успешно обновлён."); //Вывод уведомления с ответом от сервера об успешной блокировке
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -110,7 +110,7 @@ export const allUser = (id_acc) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, //Отправка токена аутентификации из локального хранилища на компьютере клиента
       });
 
-      dispatch(setAllUser(response.data.user));
+      dispatch(setUserAllList(response.data.user));
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
@@ -125,7 +125,7 @@ export const oneUser = (id) => {
       //Отправка асинхронного POST-запроса на серверную часть
       const response = await axios.get(`${API_URL}api/auth/oneUser?_id=${id}`);
 
-      dispatch(setOneUser(response.data.user));
+      dispatch(setUserOneList(response.data.user));
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
@@ -146,7 +146,7 @@ export const updateProfile = (_id, email, password, name, id_acc) => {
         id_acc,
       });
 
-      dispatch(setOneUser(response.data.user));
+      dispatch(setUserUpdateOneInAllList(response.data.user));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении профиля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -165,7 +165,7 @@ export const blockProfile = (_id, enable) => {
         enable,
       });
 
-      dispatch(setOneUser(response.data.user));
+      dispatch(setUserUpdateOneInAllList(response.data.user));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -183,7 +183,7 @@ export const deleteAvatar = (_id) => {
         _id,
       });
 
-      dispatch(setOneUser(response.data.user));
+      dispatch(setUserUpdateOneInAllList(response.data.user));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление

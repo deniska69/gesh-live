@@ -5,7 +5,7 @@ import pencil from "./pencil.svg";
 import Registration from "../registration/registration";
 import Authorization from "../login/login";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../reducers/userReducer";
+import { setUserCurrentAuthIsLogout } from "../../reducers/userReducer";
 import avatarDefault from "../../assets/img/avatar.png";
 import { API_URL } from "../../config";
 import Feedback from "./feedback";
@@ -93,7 +93,7 @@ const Header = () => {
               {/* eslint-disable-next-line */}
               <li>
                 {/* eslint-disable-next-line */}
-                <a className="dropdown-item" href="" onClick={() => dispatch(logout())}>
+                <a className="dropdown-item" href="" onClick={() => dispatch(setUserCurrentAuthIsLogout())}>
                   Выход
                 </a>
               </li>

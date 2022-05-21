@@ -1,30 +1,32 @@
-const SET_USER = "SET_USER";
-const LOGOUT = "LOGOUT";
-const SET_ADMIN = "SET_ADMIN";
-const SET_ALLUSER = "SET_ALLUSER";
-const SET_ONEUSER = "SET_ONEUSER";
+const SET_USER_CURRENT_AUTH = "SET_USER_CURRENT_AUTH";
+const SET_USER_CURRENT_AUTH_IS_LOGOUT = "SET_USER_CURRENT_AUTH_IS_LOGOUT";
+const SET_USER_CURRENT_AUTH_IS_ADMIN = "SET_USER_CURRENT_AUTH_IS_ADMIN";
+const SET_USER_ONE_LIST = "SET_USER_ONE_LIST";
+const SET_USER_ALL_LIST = "SET_USER_ALL_LIST";
+const SET_USER_UPDATE_ONE_IN_ALL_LIST = "SET_USER_UPDATE_ONE_IN_ALL_LIST";
 
 const defaultState = {
   currentUser: {},
   isAuth: false,
   isAdmin: false,
   listUsers: [],
+  oneUser: {},
 };
 
 export default function userReducer(state = defaultState, action) {
   switch (action.type) {
-    case SET_USER:
+    case SET_USER_CURRENT_AUTH:
       return {
         ...state,
         currentUser: action.payload,
         isAuth: true,
       };
-    case SET_ADMIN:
+    case SET_USER_CURRENT_AUTH_IS_ADMIN:
       return {
         ...state,
         isAdmin: true,
       };
-    case LOGOUT:
+    case SET_USER_CURRENT_AUTH_IS_LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -33,25 +35,32 @@ export default function userReducer(state = defaultState, action) {
         idAdmin: false,
         listUsers: [],
       };
-    case SET_ONEUSER:
+    case SET_USER_ONE_LIST:
       return {
         ...state,
-        listUsers: state.listUsers.map((n) => (n._id === action.payload._id ? action.payload : n)),
+        oneUser: action.payload,
       };
-    case SET_ALLUSER:
+    case SET_USER_ALL_LIST:
       return {
         ...state,
         listUsers: action.payload,
       };
+    case SET_USER_UPDATE_ONE_IN_ALL_LIST:
+      return {
+        ...state,
+        listUsers: state.listUsers.map((n) => (n._id === action.payload._id ? action.payload : n)),
+      };
+
     default:
       return state;
   }
 }
 
-export const setUser = (user) => ({ type: SET_USER, payload: user });
-export const setOneUser = (userOne) => ({ type: SET_ONEUSER, payload: userOne });
-export const setAllUser = (users) => ({ type: SET_ALLUSER, payload: users });
-export const setUserAdmin = () => ({ type: SET_ADMIN });
-export const logout = () => ({ type: LOGOUT });
+export const setUserCurrentAuth = (userCurrentAuth) => ({ type: SET_USER_CURRENT_AUTH, payload: userCurrentAuth });
+export const setUserCurrentAuthIsAdmin = () => ({ type: SET_USER_CURRENT_AUTH_IS_ADMIN });
+export const setUserCurrentAuthIsLogout = () => ({ type: SET_USER_CURRENT_AUTH_IS_LOGOUT });
+export const setUserOneList = (usersOneList) => ({ type: SET_USER_ALL_LIST, payload: usersOneList });
+export const setUserAllList = (usersAllList) => ({ type: SET_USER_ALL_LIST, payload: usersAllList });
+export const setUserUpdateOneInAllList = (userUpdateOneInAllList) => ({ type: SET_USER_UPDATE_ONE_IN_ALL_LIST, payload: userUpdateOneInAllList });
 
 //export const addFile = (userOne) => ({ type: SET_ONEUSER, payload: userOne });

@@ -42,14 +42,10 @@ export const allBookings = (id_user) => {
   return async (dispatch) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
-      console.log(id_user);
-
       //Отправка асинхронного POST-запроса на серверную часть
       const response = await axios.get(`${API_URL}api/auth/allBookings?id_user=${id_user}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, //Отправка токена аутентификации из локального хранилища на компьютере клиента
       });
-
-      console.log(response.data.bookings);
 
       dispatch(setHistory(response.data.bookings));
     } catch (e) {

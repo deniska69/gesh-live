@@ -183,9 +183,6 @@ router.get(
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
-      console.log(req.query);
-      return;
-
       const bookings = await Bookings.aggregate([
         {
           $match: {
@@ -215,7 +212,7 @@ router.get(
 
       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
     } catch (e) {
-      console.log(e);
+      console.log("\nОшибка получения списка всех бронирований:\n", e);
       res.send({ message: "Ошибка сервера в auth.routes router.get('/allBookings')." });
     }
   }
