@@ -135,21 +135,26 @@ export const oneUser = (id) => {
 //Функция обновления профиля, принимает параметры: идентификатор пользователя, эл.потча, пароль, ф.и.о
 export const updateProfile = (_id, email, password, name, id_acc) => {
   return async (dispatch) => {
-    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
-    try {
-      //Отправка асинхронного PUT-запроса на серверную часть
-      const response = await axios.put(`${API_URL}api/auth/updateProfile`, {
-        _id,
-        email,
-        password,
-        name,
-        id_acc,
-      });
+    //Проверяем длинну пароля
+    if (password.length < 6) {
+      toastView("error", "Пароль должен быть не менее 6 символов!");
+    } else {
+      //Оборовачиваем выполняемый код в try/cath для отлова ошибок
+      try {
+        //Отправка асинхронного PUT-запроса на серверную часть
+        const response = await axios.put(`${API_URL}api/auth/updateProfile`, {
+          _id,
+          email,
+          password,
+          name,
+          id_acc,
+        });
 
-      dispatch(setUserUpdateOneInAllList(response.data.user));
-      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении профиля
-    } catch (e) {
-      toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
+        dispatch(setUserUpdateOneInAllList(response.data.user));
+        toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении профиля
+      } catch (e) {
+        toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
+      }
     }
   };
 };

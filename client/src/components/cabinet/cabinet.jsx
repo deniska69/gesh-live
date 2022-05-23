@@ -9,6 +9,7 @@ import avatarDefault from "../../assets/img/avatar.png";
 import { API_URL } from "../../config";
 import { allBookings } from "../../actions/bookings";
 import StatusBooking from "./statusBooking";
+import { toastView } from "../App";
 
 const Cabinet = () => {
   const dispatch = useDispatch();
@@ -18,13 +19,12 @@ const Cabinet = () => {
   const avatar = currentUser.avatar ? `${API_URL + "\\avatars\\" + currentUser.avatar}` : avatarDefault;
 
   //State переменные для Input'ов
-  const [nameNew, setNameNew] = useState(""); //Имя
-  const [emailNew, setEmailNew] = useState(""); //Email
-  const [passwordNew, setPasswordNew] = useState(""); //Пароль
+  const [nameUserNew, setNameUserNew] = useState(currentUser.name); //Новое имя пользователя
+  const [emailUserNew, setEmailUserNew] = useState(currentUser.email); //Новый Email пользователя
+  const [passwordUserNew, serPasswordUserNew] = useState(""); //Новый пароль пользователя
 
   useEffect(() => {
-    setNameNew(currentUser.name);
-    setEmailNew(currentUser.email);
+    //Записываем данные о пользователе
     dispatch(allBookings(currentUser.id)); //Вызов функции для получения истории брионирования
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
@@ -32,11 +32,29 @@ const Cabinet = () => {
   //Переменная для хранения истории бронирования
   const historyBooking = useSelector((state) => state.booking.history);
 
+  //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
+  function selectAvatarShow() {
+    //Получаем доступ к Input-элементу
+    const fileInput = document.getElementById("btnSelectAvatarHide");
+
+    //Вручную инициализируем нажатие по элементу
+    fileInput.click();
+  }
+
   //Функция загрузки аватара
-  function changeHandler(e) {
+  function selectAvatarHide(e) {
     const file = e.target.files[0];
     dispatch(uploadAvatar(currentUser.id, file));
     e.target.value = "";
+  }
+
+  //Функция обновления профиля, принимает параметры: идентификатор пользователя, эл.потча, пароль, ф.и.о
+  function updateProfileNow() {
+    if (nameUserNew === currentUser.name && emailUserNew === currentUser.email && passwordUserNew === "") {
+      return toastView("warning", "Никакие данные не были изменены.");
+    } else {
+      dispatch(updateProfile(currentUser.id, emailUserNew, passwordUserNew, nameUserNew, 1));
+    }
   }
 
   return (
@@ -47,40 +65,56 @@ const Cabinet = () => {
           <div className="col-lg-6">
             <div className="row align-item-start">
               <div className="col">
-                <h5>Профиль</h5>
-                <p />
-                <div className="mb-3">
-                  <label className="form-label">Ф.И.О.:</label>
-                  <Input className="form-control form-control-sm" value={nameNew} setValue={setNameNew} type="text" />
+                <h5 className="bottom_line">Профиль</h5>
+                <div className="row">
+                  <div className="col-sm-4">
+                    <label className="form-label form-control-sm">Имя:</label>
+                  </div>
+                  <div className="col-sm-8">
+                    <Input className="form-control form-control-sm" value={nameUserNew} setValue={setNameUserNew} type="text" />
+                  </div>
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Email-адрес: </label>
-                  <Input className="form-control form-control-sm" value={emailNew} setValue={setEmailNew} type="text" />
+                <div className="row">
+                  <div className="col-sm-4">
+                    <label className="form-label form-control-sm">Email:</label>
+                  </div>
+                  <div className="col-sm-8">
+                    <Input className="form-control form-control-sm" value={emailUserNew} setValue={setEmailUserNew} type="text" />
+                  </div>
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="exampleInputPassword1" className="form-label">
-                    Пароль
-                  </label>
-                  <Input className="form-control form-control-sm" value={passwordNew} setValue={setPasswordNew} type="password" placeholder="********" />
+                <div className="row">
+                  <div className="col-sm-4">
+                    <label className="form-label form-control-sm">Пароль:</label>
+                  </div>
+                  <div className="col-sm-8" autoComplete="off">
+                    <form action="">
+                      <Input className="form-control form-control-sm" value={passwordUserNew} setValue={serPasswordUserNew} type="password" placeholder="Введите новый пароль" />
+                    </form>
+                  </div>
                 </div>
-                <div className="mb-3">
-                  <button type="button" className="btn btn-primary btn-sm" id="btnSaveProfileLK" onClick={() => updateProfile(currentUser.id, emailNew, passwordNew, nameNew)}>
-                    Сохранить профиль
-                  </button>
+                <div className="row">
+                  <div className="col-sm-8 offset-sm-4">
+                    <input id="btnSelectAvatarHide" accept="image/*" onChange={(e) => selectAvatarHide(e)} type="file" />
+                    <button type="button" className="btn btn-primary btn-sm" id="btnSelectAvatarShow" onClick={() => selectAvatarShow()}>
+                      Выбрать изображение
+                    </button>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-8 offset-sm-4">
+                    <button type="button" className="btn btn-success btn-sm" id="btnSaveProfileLK" onClick={() => updateProfileNow()}>
+                      Сохранить профиль
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <div className="col">
-                <h5>Аватар</h5>
+                <h5 className="bottom_line">Аватар</h5>
                 <p />
                 <div className="crop">
                   {/* eslint-disable-next-line */}
-                  <img className="rounded" src={avatar} id="avatar" alt={currentUser.id} onError={(e) => ((e.target.onerror = null), (e.target.src = avatarDefault))} />
-                </div>
-                <div className="mb-3">
-                  <p />
-                  <label className="form-label">Загрузить/изменить аватар:</label>
-                  <input className="form-control form-control-sm" accept="image/*" onChange={(e) => changeHandler(e)} type="file" />
+                  <img className="rounded" src={avatar} id="avatar_cabinet" alt={currentUser.id} onError={(e) => ((e.target.onerror = null), (e.target.src = avatarDefault))} />
                 </div>
               </div>
             </div>
@@ -90,7 +124,7 @@ const Cabinet = () => {
           <div className="col-lg-6 left_line">
             <div className="row align-item-start">
               <div className="col">
-                <h5>История бронирования</h5>
+                <h5 className="bottom_line">История бронирования</h5>
                 <p />
 
                 {historyBooking.map(({ _id, person1, person2, date1, date2, price, date_add, hotel, room, status }) => (
