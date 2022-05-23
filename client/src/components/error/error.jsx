@@ -3,7 +3,7 @@ import "./error.css";
 
 const Error = () => {
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_error">
       <div className="card-body">
         <div className="row">
           <h5>Ошибка 404 - Такой страницы не существует!</h5>

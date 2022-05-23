@@ -17,7 +17,7 @@ const Events = () => {
   const listEvents = useSelector((state) => state.events.listEvents); //Заносим в переменную все записи претензий из редюсера
 
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_events">
       <div className="card-body">
         <div className="row">
           <h3>События Шерегеша</h3>

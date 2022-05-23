@@ -4,7 +4,7 @@ import imgElevator from "../../assets/img/elevator/elevator.jpg";
 
 const Elevator = () => {
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_elevator">
       <div className="card-body">
         <div className="row">
           <div className="field-item even">

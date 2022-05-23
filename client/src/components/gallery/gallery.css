@@ -1,25 +1,25 @@
-#card_cabinet {
-    max-width: 70vw;
+#card_gallery {
+  width: 90vw;
 }
 
 #avatar {
-    width: 15vw;
-    height: 15vw;
-    object-fit: cover
+  width: 15vw;
+  height: 15vw;
+  object-fit: cover;
 }
 
 .left_line {
-    border-left: 1px solid rgba(0,0,0,.200);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .card_padding {
-    padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 .img-thumbnail {
-    max-width: 200px;
+  max-width: 200px;
 }
 
 .gallery {
-    max-width: 100%;
+  max-width: 100%;
 }

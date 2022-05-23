@@ -17,7 +17,7 @@ const News = () => {
   const listNews = useSelector((state) => state.news.listNews); //Заносим в переменную все записи претензий из редюсера
 
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_news">
       <div className="card-body">
         <div className="row">
           <h3>Новости Шерегеша</h3>

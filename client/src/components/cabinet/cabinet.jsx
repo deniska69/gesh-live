@@ -18,7 +18,7 @@ const Cabinet = () => {
   const avatar = currentUser.avatar ? `${API_URL + "\\avatars\\" + currentUser.avatar}` : avatarDefault;
 
   //State переменные для Input'ов
-  const [nameNew, setNameNew] = useState("Не получается"); //Имя
+  const [nameNew, setNameNew] = useState(""); //Имя
   const [emailNew, setEmailNew] = useState(""); //Email
   const [passwordNew, setPasswordNew] = useState(""); //Пароль
 

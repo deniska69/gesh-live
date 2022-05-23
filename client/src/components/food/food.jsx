@@ -14,7 +14,7 @@ import food10 from "../../assets/img/food/food10.png";
 
 const Food = () => {
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_food">
       <div className="card-body">
         <div className="row">
           <h3>Источники питания</h3>

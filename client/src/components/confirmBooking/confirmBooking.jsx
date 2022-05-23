@@ -35,7 +35,7 @@ const ConfirmBooking = (props) => {
   }
 
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_confirmBooking">
       <div className="card-body">
         <div className="row">
           <h5>Пожалуйста, подтвердите бронирование в вашем отеле:</h5>

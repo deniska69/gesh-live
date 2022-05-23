@@ -17,7 +17,7 @@ const Booking = () => {
   const isBooking = useSelector((state) => state.booking.isBooking);
 
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_booking">
       <div className="card-body">
         <div className="row align-item-start">
           <div className="col-lg-4">

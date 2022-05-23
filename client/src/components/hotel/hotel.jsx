@@ -15,7 +15,7 @@ const Hotel = (props) => {
   }, []);
 
   return (
-    <div className="card" id="card_cabinet">
+    <div className="card" id="card_hotel">
       <div className="card-body">
         <div className="row">
           <h3>{hotel.name}</h3>
