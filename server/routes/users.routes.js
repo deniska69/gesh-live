@@ -274,8 +274,8 @@ router.put(
         user.password = await bcrypt.hash(password, 8);
       }
 
-      if (id_acc != "") {
-        user.id_acc = id_acc;
+      if (id_acc === "" || id_acc === undefined) {
+        user.id_acc = user.id_acc;
       }
 
       //Сохранем пользователя

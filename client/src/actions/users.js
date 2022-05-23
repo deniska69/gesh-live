@@ -86,7 +86,7 @@ export const auth = () => {
 };
 
 //Функция загрузки аватара
-export const uploadAvatar = (_id, file) => {
+export const uploadAvatar = (file) => {
   return async (dispatch) => {
     try {
       const formData = new FormData();
@@ -136,7 +136,7 @@ export const oneUser = (id) => {
 export const updateProfile = (_id, email, password, name, id_acc) => {
   return async (dispatch) => {
     //Проверяем длинну пароля
-    if (password.length < 6) {
+    if (password.length < 6 && password !== "") {
       toastView("error", "Пароль должен быть не менее 6 символов!");
     } else {
       //Оборовачиваем выполняемый код в try/cath для отлова ошибок

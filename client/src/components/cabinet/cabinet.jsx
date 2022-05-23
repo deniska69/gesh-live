@@ -7,7 +7,9 @@ import { useDispatch } from "react-redux";
 import { uploadAvatar } from "../../actions/users";
 import avatarDefault from "../../assets/img/avatar.png";
 import { API_URL } from "../../config";
+// eslint-disable-next-line
 import { allBookings } from "../../actions/bookings";
+// eslint-disable-next-line
 import StatusBooking from "./statusBooking";
 import { toastView } from "../App";
 
@@ -17,20 +19,20 @@ const Cabinet = () => {
   //Переменные для хранения данных о пользователе
   const currentUser = useSelector((state) => state.user.currentUser);
   const avatar = currentUser.avatar ? `${API_URL + "\\avatars\\" + currentUser.avatar}` : avatarDefault;
-
-  //State переменные для Input'ов
+  const userID = currentUser.id; //ID пользователя
+  const userID_Acc = currentUser.id_acc; //Уровень доступа пользователя
   const [nameUserNew, setNameUserNew] = useState(currentUser.name); //Новое имя пользователя
   const [emailUserNew, setEmailUserNew] = useState(currentUser.email); //Новый Email пользователя
   const [passwordUserNew, serPasswordUserNew] = useState(""); //Новый пароль пользователя
 
   useEffect(() => {
     //Записываем данные о пользователе
-    dispatch(allBookings(currentUser.id)); //Вызов функции для получения истории брионирования
+    //dispatch(allBookings(userID)); //Вызов функции для получения истории брионирования
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   //Переменная для хранения истории бронирования
-  const historyBooking = useSelector((state) => state.booking.history);
+  //const historyBooking = useSelector((state) => state.booking.history);
 
   //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
   function selectAvatarShow() {
@@ -44,7 +46,7 @@ const Cabinet = () => {
   //Функция загрузки аватара
   function selectAvatarHide(e) {
     const file = e.target.files[0];
-    dispatch(uploadAvatar(currentUser.id, file));
+    dispatch(uploadAvatar(file));
     e.target.value = "";
   }
 
@@ -53,7 +55,7 @@ const Cabinet = () => {
     if (nameUserNew === currentUser.name && emailUserNew === currentUser.email && passwordUserNew === "") {
       return toastView("warning", "Никакие данные не были изменены.");
     } else {
-      dispatch(updateProfile(currentUser.id, emailUserNew, passwordUserNew, nameUserNew, 1));
+      dispatch(updateProfile(userID, emailUserNew, passwordUserNew, nameUserNew, userID_Acc));
     }
   }
 
@@ -96,7 +98,7 @@ const Cabinet = () => {
                   <div className="col-sm-8 offset-sm-4">
                     <input id="btnSelectAvatarHide" accept="image/*" onChange={(e) => selectAvatarHide(e)} type="file" />
                     <button type="button" className="btn btn-primary btn-sm" id="btnSelectAvatarShow" onClick={() => selectAvatarShow()}>
-                      Выбрать изображение
+                      Изменить аватар
                     </button>
                   </div>
                 </div>
@@ -114,7 +116,7 @@ const Cabinet = () => {
                 <p />
                 <div className="crop">
                   {/* eslint-disable-next-line */}
-                  <img className="rounded" src={avatar} id="avatar_cabinet" alt={currentUser.id} onError={(e) => ((e.target.onerror = null), (e.target.src = avatarDefault))} />
+                  <img className="rounded" src={avatar} id="avatar_cabinet" alt={userID} onError={(e) => ((e.target.onerror = null), (e.target.src = avatarDefault))} />
                 </div>
               </div>
             </div>
@@ -127,7 +129,7 @@ const Cabinet = () => {
                 <h5 className="bottom_line">История бронирования</h5>
                 <p />
 
-                {historyBooking.map(({ _id, person1, person2, date1, date2, price, date_add, hotel, room, status }) => (
+                {/* {historyBooking.map(({ _id, person1, person2, date1, date2, price, date_add, hotel, room, status }) => (
                   <div key={_id} className="card card_otstup">
                     <div className="card-body card_padding">
                       {room.map((room) => (
@@ -157,7 +159,7 @@ const Cabinet = () => {
                       <StatusBooking status={status} />
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           </div>
