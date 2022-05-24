@@ -276,6 +276,8 @@ router.put(
 
       if (id_acc === "" || id_acc === undefined) {
         user.id_acc = user.id_acc;
+      } else {
+        user.id_acc = id_acc;
       }
 
       //Сохранем пользователя

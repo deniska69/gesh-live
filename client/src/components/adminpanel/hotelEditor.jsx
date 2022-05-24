@@ -9,7 +9,7 @@ import { toastView } from "../App";
 // eslint-disable-next-line
 import RoomEditor from "./roomEditor";
 // eslint-disable-next-line
-import { Check2Circle, PencilFill, Trash3Fill, CheckLg, PlusSquareDotted } from "react-bootstrap-icons";
+import { Check2Circle, Trash3Fill, PlusSquareDotted } from "react-bootstrap-icons";
 
 const HotelEditor = () => {
   const dispatch = useDispatch();
@@ -37,46 +37,12 @@ const HotelEditor = () => {
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
-    dispatch(allHotel());
-    dispatch(allUser(3));
+    dispatch(allHotel()); //Вызов функции загрузки списка всех отелей
+    dispatch(allUser(3)); //Вызов функции загрузски списка всех пользователей с уровнем доступа 3 ("Менеджер отеля")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Функция обновления данных выбранного отеля
-  function updateHotelNow() {
-    //Если выбран како-либо отель из спика
-    if (isSelectHotel) {
-      //Если никакие данные не были измененны
-      if (nameSelectHotel === nameSelectHotelNew && descriptionSelectHotel === descriptionSelectHotelNew && idManagerSelectHotel === idManagerSelectHotelNew && urlSelectHotel === urlSelectHotelNew) {
-        return toastView("warning", "Никакие данные не были изменены.");
-      } else {
-        if (urlSelectHotelNew != "") {
-          //Вызываем функцию обновления данных отеля
-          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew));
-
-          // setNameSelectHotel(nameSelectHotelNew);
-          // setNameSelectHotelNew(nameSelectHotelNew);
-
-          // setDescriptionSelectHotel(descriptionSelectHotelNew);
-          // setDescriptionSelectHotelNew(descriptionSelectHotelNew);
-
-          // setIdManagerSelectHotel(idManagerSelectHotelNew);
-          // setIdManagerSelectHotelNew(idManagerSelectHotelNew);
-
-          // setURLSelectHotel(urlSelectHotelNew);
-          // setURLSelectHotelNew(urlSelectHotelNew);
-
-          selectHotel(idSelectHotel);
-        } else {
-          return toastView("error", "Необходимо ввести ссылку!");
-        }
-      }
-    } else {
-      toastView("warning", "Необходимо выбрать отель!");
-    }
-  }
-
-  //Функция обаботки выбора отеля из выпадающего списка
+  //Функция обработки выбора отеля из выпадающего списка
   function changeHandlerHotelList(e) {
     setIsSelectHotel(false); //Предварительно сбрасываем выбор отеля из списка
 
@@ -118,6 +84,38 @@ const HotelEditor = () => {
     }, {});
   }
 
+  //Функция обновления данных выбранного отеля
+  function updateHotelNow() {
+    //Если выбран како-либо отель из спика
+    if (isSelectHotel) {
+      //Если никакие данные не были измененны
+      if (
+        nameSelectHotel === nameSelectHotelNew &&
+        descriptionSelectHotel === descriptionSelectHotelNew &&
+        idManagerSelectHotel === idManagerSelectHotelNew &&
+        urlSelectHotel === urlSelectHotelNew &&
+        benefitsSelectHotel === benefitsSelectHotelNew
+      ) {
+        return toastView("warning", "Никакие данные не были изменены.");
+      } else {
+        if (urlSelectHotelNew != "") {
+          //Вызываем функцию обновления данных отеля
+          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew));
+
+          setNameSelectHotel(nameSelectHotelNew);
+          setDescriptionSelectHotel(descriptionSelectHotelNew);
+          setIdManagerSelectHotel(idManagerSelectHotelNew);
+          setURLSelectHotel(urlSelectHotelNew);
+          setBenefitsSelectHotel(benefitsSelectHotelNew);
+        } else {
+          return toastView("error", "Необходимо ввести ссылку!");
+        }
+      }
+    } else {
+      toastView("warning", "Необходимо выбрать отель!");
+    }
+  }
+
   //Функция выбора менеджера из выпадающего списка
   function changeHandlerManagerList(e) {
     /* eslint eqeqeq: 0 */
@@ -143,10 +141,15 @@ const HotelEditor = () => {
     setBenefitsSelectHotelNew([
       ...benefitsSelectHotelNew,
       {
-        title: "Название",
-        description: "Описание",
+        title: "",
+        description: "",
       },
     ]);
+  }
+
+  //Функция принудительного присваивания текуших преимуществ в переменную храняющую новые значения
+  function assignmentBenefitsToNewArray() {
+    setBenefitsSelectHotelNew(benefitsSelectHotel);
   }
 
   //Функция удаления преимуществ из списка в модальном окне
@@ -154,8 +157,14 @@ const HotelEditor = () => {
     setBenefitsSelectHotelNew([...benefitsSelectHotelNew.filter((_, i) => i != index)]);
   }
 
-  function _test() {
-    console.log(benefitsSelectHotelNew);
+  //Функция обработки изменений в названиях преимуществ отеля
+  function benefitsChangeTitle(e, index) {
+    setBenefitsSelectHotelNew(benefitsSelectHotelNew.map((benefits, i) => (index === i ? { ...benefits, title: e.target.value } : benefits)));
+  }
+
+  //Функция обработки изменений в описании преимуществ отеля
+  function benefitsChangeDescription(e, index) {
+    setBenefitsSelectHotelNew(benefitsSelectHotelNew.map((benefits, i) => (index === i ? { ...benefits, description: e.target.value } : benefits)));
   }
 
   return (
@@ -197,34 +206,43 @@ const HotelEditor = () => {
         {/* Блок редактирования данных выбранного отеля */}
         {isSelectHotel && (
           <div className="col-lg-5">
-            {/* ID выбранного отеля (отображается только для администратора) */}
+            {/* Блок отображающийся только для администраторов */}
             {isAdmin && (
-              <div className="row">
-                <div className="col-sm-3">
-                  <label className="form-label form-control-sm">ID:</label>
+              <div className="alert alert-warning" role="alert">
+                {/* ID выбранного отеля */}
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label className="form-label form-control-sm">ID:</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <label className="form-label form-control-sm">{idSelectHotel}</label>
+                  </div>
                 </div>
-                <div className="col-sm-9">
-                  <label className="form-label form-control-sm">{idSelectHotel}</label>
+                {/* Менеджер выбранного отеля */}
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label className="form-label form-control-sm">Менеджер:</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <select className="form-select form-select-sm" aria-label="Default select example" value={idManagerSelectHotelNew} onChange={(e) => changeHandlerManagerList(e)}>
+                      <option value={0}>Выберите менеджера...</option>
+                      {allUsers.map((allUsers) => (
+                        <option key={allUsers._id.toString()} value={allUsers._id.toString()}>
+                          {" "}
+                          {allUsers.name.toString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* Менеджер выбранного отеля (отображается только для администратора) */}
-            {isAdmin && (
-              <div className="row">
-                <div className="col-sm-3">
-                  <label className="form-label form-control-sm">Менеджер:</label>
-                </div>
-                <div className="col-sm-9">
-                  <select className="form-select form-select-sm" aria-label="Default select example" value={idManagerSelectHotelNew} onChange={(e) => changeHandlerManagerList(e)}>
-                    <option value={0}>Выберите менеджера...</option>
-                    {allUsers.map((allUsers) => (
-                      <option key={allUsers._id.toString()} value={allUsers._id.toString()}>
-                        {" "}
-                        {allUsers.name.toString()}
-                      </option>
-                    ))}
-                  </select>
+                {/* URL выбранного отеля */}
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label className="form-label form-control-sm">Ссылка:</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <Input className="form-control form-control-sm" value={urlSelectHotelNew} setValue={setURLSelectHotelNew} placeholder="Введите Ссылку..." />
+                  </div>
                 </div>
               </div>
             )}
@@ -236,16 +254,6 @@ const HotelEditor = () => {
               </div>
               <div className="col-sm-9">
                 <Input className="form-control form-control-sm" value={nameSelectHotelNew} setValue={setNameSelectHotelNew} placeholder="Введите Название..." />
-              </div>
-            </div>
-
-            {/* URL выбранного отеля */}
-            <div className="row">
-              <div className="col-sm-3">
-                <label className="form-label form-control-sm">Ссылка:</label>
-              </div>
-              <div className="col-sm-9">
-                <Input className="form-control form-control-sm" value={urlSelectHotelNew} setValue={setURLSelectHotelNew} placeholder="Введите Ссылку..." />
               </div>
             </div>
 
@@ -267,7 +275,7 @@ const HotelEditor = () => {
                 <label className="form-label form-control-sm">Преимущества:</label>
               </div>
               <div className="col-sm-9">
-                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits">
+                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits" onClick={() => assignmentBenefitsToNewArray()}>
                   Редактировать
                 </button>
               </div>
@@ -308,36 +316,50 @@ const HotelEditor = () => {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
-                <div className="col-8">
+                <div className="col-12">
                   {benefitsSelectHotelNew.map((benefitsSelectHotelNew, index) => (
-                    <table id={"tableBenefitsHeader" + index} key={index}>
-                      <tbody>
-                        <tr>
-                          <td id="tdBenefitsIcon" rowSpan="2">
-                            <Check2Circle color="#0daff2" size={40} />
-                          </td>
-                          <td id="tdBenefitsHeader">{benefitsSelectHotelNew.title}</td>
-                          <td id="tdBenefitsBtnEdit" rowSpan="2">
-                            <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-warning ">
-                              <PencilFill color="white" />
-                            </button>
-                          </td>
-                          <td id="tdBenefitsBtnCheck" rowSpan="2">
-                            <button id={"btnBenefitsComplete" + index} type="button" className="btn btn-sm btn-success" disabled>
-                              <CheckLg color="white" />
-                            </button>
-                          </td>
-                          <td id="tdBenefitsBtnDelete" rowSpan="2">
-                            <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeBenefitsFromArray(index)}>
-                              <Trash3Fill color="white" />
-                            </button>
-                          </td>
-                        </tr>
-                        <tr id="trBenefitsBottom">
-                          <td id="tdBenefitsText">{benefitsSelectHotelNew.description}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="row bottom_line_benefits" id={"roweBenefits" + index} key={index}>
+                      <div className="col-1 text-center align-middle benefitsNumber">
+                        <h5>{index + 1}</h5>
+                      </div>
+
+                      <div className="col-10">
+                        <div className="row">
+                          <div className="col-sm-2">
+                            <label className="form-label form-control-sm">Название:</label>
+                          </div>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control form-control-sm"
+                              value={benefitsSelectHotelNew.title}
+                              onChange={(e) => benefitsChangeTitle(e, index)}
+                              placeholder="Введите название преимущества..."
+                            />
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-2">
+                            <label className="form-label form-control-sm">Описание:</label>
+                          </div>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control form-control-sm"
+                              value={benefitsSelectHotelNew.description}
+                              onChange={(e) => benefitsChangeDescription(e, index)}
+                              placeholder="Введите описание преимущества..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-1 text-center benefitsBtnDelete">
+                        <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeBenefitsFromArray(index)}>
+                          <Trash3Fill color="white" />
+                        </button>
+                      </div>
+                    </div>
                   ))}
                   <br />
                   {benefitsSelectHotelNew.length < 10 && (
@@ -348,7 +370,10 @@ const HotelEditor = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => _test()}>
+                <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                  Отмена
+                </button>
+                <button type="button" className="btn btn-primary btn-sm" data-bs-dismiss="modal" onClick={() => updateHotelNow()}>
                   Сохранить
                 </button>
               </div>

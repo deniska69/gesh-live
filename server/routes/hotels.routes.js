@@ -147,7 +147,7 @@ router.put(
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Получаем значения отправленных полей
-      const { _id, name, description, id_manager, url } = req.body;
+      const { _id, name, description, id_manager, url, benefits } = req.body;
 
       //Получаем из БД текущие данные отеля
       const hotel = await Hotels.findOne({ _id });
@@ -160,6 +160,7 @@ router.put(
         description: hotel.description,
         id_manager: hotel.id_manager,
         url: hotel.url,
+        benefits: hotel.benefits,
       });
 
       if (url.length < 4) {
@@ -236,6 +237,7 @@ router.put(
         description: description,
         id_manager: id_manager,
         url: urlNew,
+        benefits: benefits,
       });
 
       //Применяем новые данные отеля
@@ -243,6 +245,7 @@ router.put(
       hotel.description = description;
       hotel.id_manager = id_manager;
       hotel.url = urlNew;
+      hotel.benefits = benefits;
 
       //Сохранем отель
       await hotel.save();

@@ -70,3 +70,17 @@
 .iconBtnBenefitsAddNew {
   color: #0daff2;
 }
+
+#labelIDUserEditor {
+  font-size: 0.7rem;
+}
+
+.bottom_line_benefits {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
+}
+
+.benefitsNumber,
+.benefitsBtnDelete {
+  padding-top: 1rem;
+}

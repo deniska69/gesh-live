@@ -158,7 +158,7 @@ const UserEditor = () => {
           </select>
           <br />
           <button className="btn btn-success btn-sm w-100" type="button" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            Добавить пользователя
+            Добавить
           </button>
 
           {/* Импортируем модальное окно добавления нового пользователя */}
@@ -181,7 +181,9 @@ const UserEditor = () => {
                 <label className="form-label form-control-sm">ID:</label>
               </div>
               <div className="col-sm-8">
-                <label className="form-label form-control-sm">{idSelectUser}</label>
+                <label className="form-label form-control-sm" id="labelIDUserEditor">
+                  {idSelectUser}
+                </label>
               </div>
             </div>
             <div className="row">
@@ -233,13 +235,6 @@ const UserEditor = () => {
             <div className="row">
               <div className="col">
                 <div className="d-grid">
-                  <button type="button" className="btn btn-primary btn-sm w-auto" onClick={() => updateProfileNow()}>
-                    Сохранить
-                  </button>
-                </div>
-              </div>
-              <div className="col">
-                <div className="d-grid">
                   {isEnableSelectUser ? (
                     <button type="button" className="btn btn-warning btn-sm btnAdminpanelBlockuser" onClick={() => blockProfileNow()}>
                       Заблокировать
@@ -249,6 +244,13 @@ const UserEditor = () => {
                       Разблокировать
                     </button>
                   )}
+                </div>
+              </div>
+              <div className="col">
+                <div className="d-grid">
+                  <button type="button" className="btn btn-primary btn-sm w-auto" onClick={() => updateProfileNow()}>
+                    Сохранить
+                  </button>
                 </div>
               </div>
             </div>

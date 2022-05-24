@@ -1,5 +1,5 @@
 #card_hotel {
-  width: 90vw;
+  width: 85vw;
 }
 
 #avatar {
@@ -14,4 +14,15 @@
 
 .card_padding {
   padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.hotelBenefitsTitile {
+  color: #0daff2;
+  font-weight: 600;
+}
+
+.bottom_line {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: calc(var(--bs-gutter-x) / 2);
+  margin-bottom: 1rem;
 }

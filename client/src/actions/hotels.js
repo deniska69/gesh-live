@@ -38,7 +38,7 @@ export const allHotel = () => {
 };
 
 //Функция обновления данных отеля
-export const updateHotel = (_id, name, description, id_manager, url) => {
+export const updateHotel = (_id, name, description, id_manager, url, benefits) => {
   return async (dispatch) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
@@ -49,9 +49,8 @@ export const updateHotel = (_id, name, description, id_manager, url) => {
         description,
         id_manager,
         url,
+        benefits,
       });
-
-      console.log("response.data.hotel.url", response.data.hotel.url);
 
       dispatch(setOneHotelUpdate(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
