@@ -15,7 +15,7 @@ class FileController {
       return res.json(user);
     } catch (e) {
       console.log(e);
-      return res.status(400).json({ message: "Ошибка загрузки аватара." });
+      return res.status(400).json({ message: "Ошибка загрузки аватара на сервер." });
     }
   }
 
@@ -27,7 +27,7 @@ class FileController {
       return res.json({ attachmentName: attachmentName });
     } catch (e) {
       console.log(e);
-      return res.status(400).json({ message: "Ошибка загрузки обложки новости." });
+      return res.status(400).json({ message: "Ошибка загрузки обложки новости на сервер." });
     }
   }
 
@@ -39,7 +39,19 @@ class FileController {
       return res.json({ attachmentName: attachmentName });
     } catch (e) {
       console.log(e);
-      return res.status(400).json({ message: "Ошибка загрузки обложки события." });
+      return res.status(400).json({ message: "Ошибка загрузки обложки события на сервер." });
+    }
+  }
+
+  async uploadHotelsGallery(req, res) {
+    try {
+      const file = req.files.file;
+      const attachmentName = req.files.file.name;
+      file.mv(config.get("staticPath") + "\\hotels\\" + attachmentName);
+      return res.json({ attachmentName: attachmentName });
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: "Ошибка загрузки изображений галереи на сервер." });
     }
   }
 }

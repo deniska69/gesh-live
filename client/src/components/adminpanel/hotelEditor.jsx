@@ -8,8 +8,7 @@ import { allUser } from "../../actions/users";
 import { toastView } from "../App";
 // eslint-disable-next-line
 import RoomEditor from "./roomEditor";
-// eslint-disable-next-line
-import { Check2Circle, Trash3Fill, PlusSquareDotted } from "react-bootstrap-icons";
+import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill } from "react-bootstrap-icons";
 
 const HotelEditor = () => {
   const dispatch = useDispatch();
@@ -24,16 +23,16 @@ const HotelEditor = () => {
   const [descriptionSelectHotel, setDescriptionSelectHotel] = useState(""); //Описание выбранного отеля
   const [idManagerSelectHotel, setIdManagerSelectHotel] = useState(""); //ID менеджера выбранного отеля
   const [urlSelectHotel, setURLSelectHotel] = useState(""); //URL выбранного отеля
+  const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]); //Список преимуществ выбранного отеля
+  const [gallerySelectHotel, setGallerySelectHotel] = useState([]); //Галерея выбранного отеля
 
   //Обновлённые данные профиля отеля
   const [nameSelectHotelNew, setNameSelectHotelNew] = useState(""); //Новое название выбранного отеля
   const [descriptionSelectHotelNew, setDescriptionSelectHotelNew] = useState(""); //Новое описание выбранного отеля
   const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
   const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
-
-  // eslint-disable-next-line
-  const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]); //Список преимуществ выбранного отеля
-  const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]); //новый список преимуществ выбранного отеля
+  const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]); //Новый список преимуществ выбранного отеля
+  const [gallerySelectHotelNew, setGallerySelectHotelNew] = useState([]); //Галерея выбранного отеля
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
@@ -76,6 +75,9 @@ const HotelEditor = () => {
         setBenefitsSelectHotel([...note.benefits]); //Получаем преимущества отеля
         setBenefitsSelectHotelNew([...note.benefits]); //Получаем преимущества отеля
 
+        setGallerySelectHotel([...note.gallery]); //Получаем галерею отеля
+        setGallerySelectHotelNew([...note.gallery]); //Получаем галерею отеля
+
         // eslint-disable-next-line
         return;
       } else {
@@ -94,19 +96,21 @@ const HotelEditor = () => {
         descriptionSelectHotel === descriptionSelectHotelNew &&
         idManagerSelectHotel === idManagerSelectHotelNew &&
         urlSelectHotel === urlSelectHotelNew &&
-        benefitsSelectHotel === benefitsSelectHotelNew
+        benefitsSelectHotel === benefitsSelectHotelNew &&
+        gallerySelectHotel === gallerySelectHotelNew
       ) {
         return toastView("warning", "Никакие данные не были изменены.");
       } else {
         if (urlSelectHotelNew != "") {
           //Вызываем функцию обновления данных отеля
-          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew));
+          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew, gallerySelectHotelNew));
 
           setNameSelectHotel(nameSelectHotelNew);
           setDescriptionSelectHotel(descriptionSelectHotelNew);
           setIdManagerSelectHotel(idManagerSelectHotelNew);
           setURLSelectHotel(urlSelectHotelNew);
           setBenefitsSelectHotel(benefitsSelectHotelNew);
+          setGallerySelectHotel(gallerySelectHotelNew);
         } else {
           return toastView("error", "Необходимо ввести ссылку!");
         }
@@ -136,6 +140,13 @@ const HotelEditor = () => {
     }
   }
 
+  /// ----- Преимущества отеля ----- ///
+
+  //Функция принудительного присваивания текуших преимуществ в переменную храняющую новые значения
+  function assignmentBenefitsToNewArray() {
+    setBenefitsSelectHotelNew(benefitsSelectHotel);
+  }
+
   //Функция добавления новых преимуществ в список в модальном окне
   function addBenefitsToArray() {
     setBenefitsSelectHotelNew([
@@ -145,11 +156,6 @@ const HotelEditor = () => {
         description: "",
       },
     ]);
-  }
-
-  //Функция принудительного присваивания текуших преимуществ в переменную храняющую новые значения
-  function assignmentBenefitsToNewArray() {
-    setBenefitsSelectHotelNew(benefitsSelectHotel);
   }
 
   //Функция удаления преимуществ из списка в модальном окне
@@ -165,6 +171,46 @@ const HotelEditor = () => {
   //Функция обработки изменений в описании преимуществ отеля
   function benefitsChangeDescription(e, index) {
     setBenefitsSelectHotelNew(benefitsSelectHotelNew.map((benefits, i) => (index === i ? { ...benefits, description: e.target.value } : benefits)));
+  }
+
+  /// ----- Галерея отеля ----- ///
+
+  //Функция принудительного присваивания текушей галереи в переменную храняющую новые значения
+  function assignmentGalleryToNewArray() {
+    setGallerySelectHotelNew(gallerySelectHotel);
+  }
+
+  //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
+  function selectGalleryShow() {
+    //Получаем доступ к Input-элементу
+    const fileInput = document.getElementById("btnSelectGalleryHide");
+
+    //Вручную инициализируем нажатие по элементу
+    fileInput.click();
+  }
+
+  //Функция добавления новых изображений в список в модальном окне
+  function addGalleryToArray(e) {
+    const files = e.target.files;
+
+    if (files.length > 10) {
+      return toastView("error", "Загрузить можно не более 10 изображений.");
+    }
+
+    console.log(files);
+    //dispatch(uploadAvatar(file));
+    e.target.value = "";
+    // setGallerySelectHotelNew([
+    //   ...gallerySelectHotelNew,
+    //   {
+    //     image: "",
+    //   },
+    // ]);
+  }
+
+  //Функция удаления изображений из списка в модальном окне
+  function removeGalleryFromArray(index) {
+    setGallerySelectHotelNew([...gallerySelectHotelNew.filter((_, i) => i != index)]);
   }
 
   return (
@@ -280,6 +326,18 @@ const HotelEditor = () => {
                 </button>
               </div>
             </div>
+
+            {/* Галерея выбранного отеля */}
+            <div className="row">
+              <div className="col-sm-3">
+                <label className="form-label form-control-sm">Галерея:</label>
+              </div>
+              <div className="col-sm-9">
+                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGallery" onClick={() => assignmentGalleryToNewArray()}>
+                  Редактировать
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
@@ -366,6 +424,58 @@ const HotelEditor = () => {
                     <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => addBenefitsToArray()}>
                       <PlusSquareDotted size={40} className="iconBtnBenefitsAddNew" />
                     </button>
+                  )}
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                  Отмена
+                </button>
+                <button type="button" className="btn btn-primary btn-sm" data-bs-dismiss="modal" onClick={() => updateHotelNow()}>
+                  Сохранить
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Модальное окно с редактором галереи отеля */}
+        <div className="modal fade" id="modalEditGallery" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Галерея отеля {nameSelectHotelNew} ({gallerySelectHotelNew.length} из 10)
+                </h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="col-12">
+                  {gallerySelectHotelNew.map((gallery, index) => (
+                    <div className="row bottom_line_benefits" id={"roweBenefits" + index} key={index}>
+                      <div className="col-1 text-center align-middle benefitsNumber">
+                        <h5>{index + 1}</h5>
+                      </div>
+
+                      <div className="col-10">
+                        <div className="row">Тут будет изображение</div>
+                      </div>
+
+                      <div className="col-1 text-center benefitsBtnDelete">
+                        <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeGalleryFromArray(index)}>
+                          <Trash3Fill color="white" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <br />
+                  {gallerySelectHotelNew.length < 10 && (
+                    <div>
+                      <input id="btnSelectGalleryHide" accept=".jpg,.jpeg,.png" onChange={(e) => addGalleryToArray(e)} type="file" multiple />
+                      <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => selectGalleryShow()}>
+                        <CloudArrowUpFill size={40} className="iconBtnBenefitsAddNew" />
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

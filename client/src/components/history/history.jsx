@@ -16,14 +16,14 @@ const History = () => {
           <h3>Гора Зеленая на курорте Шерегеш: Заезд в купальниках, гривы хребта и легенды Шории</h3>
           <p></p>
 
-          <div class="row g-0">
-            <div class="col-md-3">
+          <div className="row g-0">
+            <div className="col-md-3">
               {/* eslint-disable-next-line */}
-              <img src={history1} class="img-fluid" alt="..." />
+              <img src={history1} className="img-fluid" alt="..." />
             </div>
-            <div class="col-md-9">
-              <div class="card-body">
-                <p class="card-text">
+            <div className="col-md-9">
+              <div className="card-body">
+                <p className="card-text">
                   Склоны горы Зеленой (русское название шорской горы Каритшал) еще в 1980 году привлекли внимание специалистов, которые нашли их подходящими для спортивных соревнований. В те годы
                   Шерегеш на десять лет стал базой подготовки советских спортсменов-горнолыжников и был закрыт для массового туризма. В настоящее время гора Зеленая на курорте Шерегеш принимает
                   миллион туристов в зимний сезон. Основная часть инфраструктуры и шерегешских трасс сосредоточены именно на этой горе.
@@ -32,26 +32,26 @@ const History = () => {
             </div>
           </div>
 
-          <div class="row g-0">
-            <div class="col-md-6">
-              <div class="card-body">
-                <p class="card-text">
+          <div className="row g-0">
+            <div className="col-md-6">
+              <div className="card-body">
+                <p className="card-text">
                   Склоны горы Зеленой (русское название шорской горы Каритшал) еще в 1980 году привлекли внимание специалистов, которые нашли их подходящими для спортивных соревнований. В те годы
                   Шерегеш на десять лет стал базой подготовки советских спортсменов-горнолыжников и был закрыт для массового туризма. В настоящее время гора Зеленая на курорте Шерегеш принимает
                   миллион туристов в зимний сезон. Основная часть инфраструктуры и шерегешских трасс сосредоточены именно на этой горе.
                 </p>
               </div>
             </div>
-            <div class="col-md-6">
+            <div className="col-md-6">
               {/* eslint-disable-next-line */}
-              <img src={history2} class="img-fluid" alt="..." />
+              <img src={history2} className="img-fluid" alt="..." />
             </div>
           </div>
 
-          <div class="row g-0">
-            <div class="col-md-12">
-              <div class="card-body">
-                <ul class="list-unstyled">
+          <div className="row g-0">
+            <div className="col-md-12">
+              <div className="card-body">
+                <ul className="list-unstyled">
                   <li>
                     Гора Зеленая на курорте Шерегеш соседствует еще с тремя вершинами, где проложены горнолыжные трассы, их высоты такие:
                     <ul>
@@ -66,10 +66,10 @@ const History = () => {
             </div>
           </div>
 
-          <div class="row g-0">
-            <div class="col-md-12">
-              <div class="card-body">
-                <p class="card-text">
+          <div className="row g-0">
+            <div className="col-md-12">
+              <div className="card-body">
+                <p className="card-text">
                   Территория современной Горной Шории осваивалась местным народом тадар (ныне шорцы) более 1000 лет назад. Название Шерегеш впервые встречается в 1931 году в очерке Т.А. Никольской
                   «Открытие Шерегеш». В те годы история развития этого региона была тесно связана с добывающей промышленностью. Поселок открыли как центр добычи железной руды и назвали в честь
                   местного шорца по фамилии Шерегешев, который указал геологам местонахождение руды.В советские годы территория горы Зеленой и ближайших вершин была закрыта для посторонних. Это
@@ -81,17 +81,17 @@ const History = () => {
             </div>
           </div>
 
-          <div class="row g-0">
-            <div class="col-md-12">
+          <div className="row g-0">
+            <div className="col-md-12">
               {/* eslint-disable-next-line */}
-              <img src={history3} class="img-fluid" alt="..." />
+              <img src={history3} className="img-fluid" alt="..." />
             </div>
           </div>
 
-          <div class="row g-0">
-            <div class="col-md-12">
-              <div class="card-body">
-                <p class="card-text">
+          <div className="row g-0">
+            <div className="col-md-12">
+              <div className="card-body">
+                <p className="card-text">
                   Рельеф горы Зеленой оказался более удобным для обустройства трасс по спортивным стандартам в отличие от склонов в Таштаголе. Поэтому именно в Шерегеше прошла Спартакиада народов
                   РСФСР в 1981 году. С двух трасс, слалома и скоростного спуска, началась горнолыжная история горы Зеленой. До 1990 года они в основном использовались в спортивных целях, хотя
                   приезжали сюда покататься и немногочисленные любители горных лыж из соседних городов. В годы перестройки горнорудные предприятия Шории оказались в кризисе, тогда возникла идея

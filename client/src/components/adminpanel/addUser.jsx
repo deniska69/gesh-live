@@ -42,8 +42,10 @@ const AddUser = () => {
               <div className="col-sm-2">
                 <label className="form-label form-control-sm">Email:</label>
               </div>
-              <div className="col-sm-10">
-                <Input className="form-control form-control-sm" value={email} setValue={setEmail} />
+              <div className="col-sm-10" autoComplete="off">
+                <form action="">
+                  <Input className="form-control form-control-sm" value={email} setValue={setEmail} type="text" />
+                </form>
               </div>
             </div>
 
@@ -51,8 +53,10 @@ const AddUser = () => {
               <div className="col-sm-2">
                 <label className="form-label form-control-sm">Пароль:</label>
               </div>
-              <div className="col-sm-10">
-                <Input className="form-control form-control-sm" value={password} setValue={setPassword} type="password" />
+              <div className="col-sm-10" autoComplete="off">
+                <form action="">
+                  <Input className="form-control form-control-sm" value={password} setValue={setPassword} type="password" />
+                </form>
               </div>
             </div>
 

@@ -207,8 +207,10 @@ const UserEditor = () => {
               <div className="col-sm-4">
                 <label className="form-label form-control-sm">Пароль:</label>
               </div>
-              <div className="col-sm-8">
-                <Input className="form-control form-control-sm" value={passwordSelectUserNew} setValue={setPasswordSelectUserNew} type="password" placeholder="********" />
+              <div className="col-sm-8" autoComplete="off">
+                <form action="">
+                  <Input className="form-control form-control-sm" value={passwordSelectUserNew} setValue={setPasswordSelectUserNew} type="password" placeholder="Введите новый пароль" />
+                </form>
               </div>
             </div>
 

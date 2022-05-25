@@ -27,12 +27,12 @@ const Cabinet = () => {
 
   useEffect(() => {
     //Записываем данные о пользователе
-    //dispatch(allBookings(userID)); //Вызов функции для получения истории брионирования
+    dispatch(allBookings(userID)); //Вызов функции для получения истории брионирования
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   //Переменная для хранения истории бронирования
-  //const historyBooking = useSelector((state) => state.booking.history);
+  const historyBooking = useSelector((state) => state.booking.history);
 
   //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
   function selectAvatarShow() {
@@ -129,7 +129,7 @@ const Cabinet = () => {
                 <h5 className="bottom_line">История бронирования</h5>
                 <p />
 
-                {/* {historyBooking.map(({ _id, person1, person2, date1, date2, price, date_add, hotel, room, status }) => (
+                {historyBooking.map(({ _id, person1, person2, date1, date2, price, date_add, hotel, room, status }) => (
                   <div key={_id} className="card card_otstup">
                     <div className="card-body card_padding">
                       {room.map((room) => (
@@ -159,7 +159,7 @@ const Cabinet = () => {
                       <StatusBooking status={status} />
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
             </div>
           </div>

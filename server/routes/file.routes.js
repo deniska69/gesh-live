@@ -6,5 +6,6 @@ const fileController = require("../controllers/fileController");
 router.post("/avatar", authMiddleware, fileController.uploadAvatar);
 router.post("/news", fileController.uploadNews);
 router.post("/events", fileController.uploadEvents);
+router.post("/uploadHotelsGallery", authMiddleware, fileController.uploadHotelsGallery);
 
 module.exports = router;

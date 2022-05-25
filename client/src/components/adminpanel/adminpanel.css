@@ -84,3 +84,7 @@
 .benefitsBtnDelete {
   padding-top: 1rem;
 }
+
+#btnSelectGalleryHide {
+  display: none;
+}
