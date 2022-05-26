@@ -2,11 +2,13 @@ const SET_HOTEL = "SET_HOTEL";
 const SET_UPDATEONEHOTEL = "SET_UPDATEONEHOTEL";
 const SET_ALLHOTELS = "SET_ALLHOTELS";
 const SET_ONEHOTEL = "SET_ONEHOTEL";
+const SET_GALLERYHOTEL = "SET_GALLERYHOTEL";
 
 const defaultState = {
   currentHotel: {},
   listHotels: [],
   oneHotel: {},
+  listGallery: [],
 };
 
 export default function hotelsReducer(state = defaultState, action) {
@@ -31,6 +33,11 @@ export default function hotelsReducer(state = defaultState, action) {
         ...state,
         oneHotel: action.payload,
       };
+    case SET_GALLERYHOTEL:
+      return {
+        ...state,
+        listGallery: action.payload,
+      };
     default:
       return state;
   }
@@ -39,3 +46,4 @@ export const setHotel = (hotel) => ({ type: SET_HOTEL, payload: hotel });
 export const setOneHotelUpdate = (hotelOneUpdate) => ({ type: SET_UPDATEONEHOTEL, payload: hotelOneUpdate });
 export const setAllHotels = (hotels) => ({ type: SET_ALLHOTELS, payload: hotels });
 export const setOneHotel = (hotelOne) => ({ type: SET_ONEHOTEL, payload: hotelOne });
+export const setGalleryHotels = (hotelsGallery) => ({ type: SET_GALLERYHOTEL, payload: hotelsGallery });

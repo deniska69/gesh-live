@@ -7,5 +7,6 @@ router.post("/avatar", authMiddleware, fileController.uploadAvatar);
 router.post("/news", fileController.uploadNews);
 router.post("/events", fileController.uploadEvents);
 router.post("/uploadHotelsGallery", authMiddleware, fileController.uploadHotelsGallery);
+router.post("/uploadHotelsGallery", authMiddleware, fileController.deleteHotelsGallery);
 
 module.exports = router;

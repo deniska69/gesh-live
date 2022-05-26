@@ -77,3 +77,45 @@ export const oneHotel = (_id, url) => {
     }
   };
 };
+
+//Функция загрузки изображений галереи на сервер
+export const uploadHotelsGallery = (id_hotel, files) => {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      for (const file of files) {
+        formData.append("file", file);
+      }
+
+      const response = await axios.post(`${API_URL}api/files/uploadHotelsGallery?id_hotel=${id_hotel}`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
+      });
+
+      dispatch(setOneHotel(response.data.hotel));
+      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
+    } catch (e) {
+      toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
+    }
+  };
+};
+
+//Функция удаления изображений галереи на сервер
+export const deleteHotelsGallery = (id_hotel, files) => {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      for (const file of files) {
+        formData.append("file", file);
+      }
+
+      const response = await axios.post(`${API_URL}api/files/deleteHotelsGallery?id_hotel=${id_hotel}`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
+      });
+
+      dispatch(setOneHotel(response.data.hotel));
+      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
+    } catch (e) {
+      toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
+    }
+  };
+};

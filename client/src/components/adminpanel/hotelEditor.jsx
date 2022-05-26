@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Input from "../../utils/input/Input";
 import TextEditor from "../../utils/input/TextEditor";
-import { allHotel, updateHotel } from "../../actions/hotels";
+import { allHotel, updateHotel, uploadHotelsGallery } from "../../actions/hotels";
 import AddHotel from "./addHotel";
 import { allUser } from "../../actions/users";
 import { toastView } from "../App";
 // eslint-disable-next-line
 import RoomEditor from "./roomEditor";
-import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill } from "react-bootstrap-icons";
+import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill, XCircleFill } from "react-bootstrap-icons";
+import { API_URL } from "../../config";
+import imageError from "../../assets/img/error.png";
 
 const HotelEditor = () => {
   const dispatch = useDispatch();
   const isAdmin = useSelector((state) => state.user.isAdmin); //Получаем из редюсера значение, авторизованный пользователь администратор или нет
   const allHotels = useSelector((state) => state.hotel.listHotels); //Получаем из редюсера список отелей
   const allUsers = useSelector((state) => state.user.listUsers); //Получаем из редюсера список пользователей (в данном случае будем дальше выбирать только менеджеров)
+  //const galleryHotel = useSelector((state) => state.hotel.listGallery); //Получаем из редюсера список имён изображений галереи
 
   //Профиль выбранного отеля
   const [isSelectHotel, setIsSelectHotel] = useState(false); //Выбран ли какой-либо отель из спика
@@ -32,7 +35,6 @@ const HotelEditor = () => {
   const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
   const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
   const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]); //Новый список преимуществ выбранного отеля
-  const [gallerySelectHotelNew, setGallerySelectHotelNew] = useState([]); //Галерея выбранного отеля
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
@@ -76,7 +78,7 @@ const HotelEditor = () => {
         setBenefitsSelectHotelNew([...note.benefits]); //Получаем преимущества отеля
 
         setGallerySelectHotel([...note.gallery]); //Получаем галерею отеля
-        setGallerySelectHotelNew([...note.gallery]); //Получаем галерею отеля
+        //setGallerySelectHotelNew([...note.gallery]); //Получаем галерею отеля
 
         // eslint-disable-next-line
         return;
@@ -96,21 +98,19 @@ const HotelEditor = () => {
         descriptionSelectHotel === descriptionSelectHotelNew &&
         idManagerSelectHotel === idManagerSelectHotelNew &&
         urlSelectHotel === urlSelectHotelNew &&
-        benefitsSelectHotel === benefitsSelectHotelNew &&
-        gallerySelectHotel === gallerySelectHotelNew
+        benefitsSelectHotel === benefitsSelectHotelNew
       ) {
         return toastView("warning", "Никакие данные не были изменены.");
       } else {
         if (urlSelectHotelNew != "") {
           //Вызываем функцию обновления данных отеля
-          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew, gallerySelectHotelNew));
+          dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew));
 
           setNameSelectHotel(nameSelectHotelNew);
           setDescriptionSelectHotel(descriptionSelectHotelNew);
           setIdManagerSelectHotel(idManagerSelectHotelNew);
           setURLSelectHotel(urlSelectHotelNew);
           setBenefitsSelectHotel(benefitsSelectHotelNew);
-          setGallerySelectHotel(gallerySelectHotelNew);
         } else {
           return toastView("error", "Необходимо ввести ссылку!");
         }
@@ -175,11 +175,6 @@ const HotelEditor = () => {
 
   /// ----- Галерея отеля ----- ///
 
-  //Функция принудительного присваивания текушей галереи в переменную храняющую новые значения
-  function assignmentGalleryToNewArray() {
-    setGallerySelectHotelNew(gallerySelectHotel);
-  }
-
   //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
   function selectGalleryShow() {
     //Получаем доступ к Input-элементу
@@ -192,25 +187,29 @@ const HotelEditor = () => {
   //Функция добавления новых изображений в список в модальном окне
   function addGalleryToArray(e) {
     const files = e.target.files;
+    const filesVerified = [];
 
     if (files.length > 10) {
       return toastView("error", "Загрузить можно не более 10 изображений.");
     }
 
-    console.log(files);
-    //dispatch(uploadAvatar(file));
+    for (const file of files) {
+      if (file.type === "image/png" || file.type === "image/jpeg") {
+        filesVerified.push(file);
+      } else {
+        toastView("error", `Файл "${file.name}" не является изображением (или подходящим изображением) и не будет загружен."`);
+      }
+    }
+
+    dispatch(uploadHotelsGallery(idSelectHotel, filesVerified));
     e.target.value = "";
-    // setGallerySelectHotelNew([
-    //   ...gallerySelectHotelNew,
-    //   {
-    //     image: "",
-    //   },
-    // ]);
   }
 
   //Функция удаления изображений из списка в модальном окне
+  // eslint-disable-next-line
   function removeGalleryFromArray(index) {
-    setGallerySelectHotelNew([...gallerySelectHotelNew.filter((_, i) => i != index)]);
+    console.log(index);
+    //setGallerySelectHotel([...gallerySelectHotel.filter((_, i) => i != index)]);
   }
 
   return (
@@ -333,7 +332,7 @@ const HotelEditor = () => {
                 <label className="form-label form-control-sm">Галерея:</label>
               </div>
               <div className="col-sm-9">
-                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGallery" onClick={() => assignmentGalleryToNewArray()}>
+                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGallery">
                   Редактировать
                 </button>
               </div>
@@ -440,52 +439,41 @@ const HotelEditor = () => {
         </div>
 
         {/* Модальное окно с редактором галереи отеля */}
-        <div className="modal fade" id="modalEditGallery" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="modalEditGallery" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Галерея отеля {nameSelectHotelNew} ({gallerySelectHotelNew.length} из 10)
+                  Галерея отеля {nameSelectHotelNew} ({gallerySelectHotel.length} из 10)
                 </h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <div className="col-12">
-                  {gallerySelectHotelNew.map((gallery, index) => (
-                    <div className="row bottom_line_benefits" id={"roweBenefits" + index} key={index}>
-                      <div className="col-1 text-center align-middle benefitsNumber">
-                        <h5>{index + 1}</h5>
+                  <div className="row row-cols-auto">
+                    {gallerySelectHotel.map((gallery, index) => (
+                      <div className="col colGalleryItem" key={index}>
+                        {/* // eslint-disable-next-line */}
+                        <img
+                          className="rounded border shadow galleryHotelPreview"
+                          src={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`}
+                          alt={gallery.image}
+                          // eslint-disable-next-line
+                          onError={(e) => ((e.target.onerror = null), (e.target.src = imageError))}
+                        />
+                        <XCircleFill size={25} className="iconBtnGalleryDelete" onClick={() => removeGalleryFromArray(index)} />
                       </div>
-
-                      <div className="col-10">
-                        <div className="row">Тут будет изображение</div>
-                      </div>
-
-                      <div className="col-1 text-center benefitsBtnDelete">
-                        <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeGalleryFromArray(index)}>
-                          <Trash3Fill color="white" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <br />
-                  {gallerySelectHotelNew.length < 10 && (
+                    ))}
+                  </div>
+                  {gallerySelectHotel.length < 10 && (
                     <div>
                       <input id="btnSelectGalleryHide" accept=".jpg,.jpeg,.png" onChange={(e) => addGalleryToArray(e)} type="file" multiple />
                       <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => selectGalleryShow()}>
-                        <CloudArrowUpFill size={40} className="iconBtnBenefitsAddNew" />
+                        <CloudArrowUpFill size={40} className="iconBtnBenefitsAddNew" /> (.JPG/.JPEG/.PNG)
                       </button>
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                  Отмена
-                </button>
-                <button type="button" className="btn btn-primary btn-sm" data-bs-dismiss="modal" onClick={() => updateHotelNow()}>
-                  Сохранить
-                </button>
               </div>
             </div>
           </div>
