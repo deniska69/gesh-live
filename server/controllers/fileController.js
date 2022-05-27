@@ -81,26 +81,25 @@ class FileController {
     try {
       const idHotel = req.query.id_hotel; //Получаем ID отеля из запроса
       const hotel = await Hotel.findById(idHotel); //Получаем из БД текущие данные отеля
-      const files = req.files.file; //Получаем файлы из запрсоа
-      const fileNames = hotel.gallery; //Создаём пустой массив для хранения новых имён файлов
+      const imageList = req.body; //Получаем имена изображения из запроса
+      let galleryHotel = hotel.gallery; //Получаем изображения галереи отедя из БД в массив
       const path = config.get("staticPath") + "\\hotels\\" + idHotel + "\\gallery\\"; //Заносим в переменную путь до директории
 
-      //Перебираем все файлы из запроса
-      for (const file of files) {
+      //Перебираем все имена изображений из запроса
+      for (const itemDel of imageList) {
         //Проверяем наличие файла: если существует >> удаляем файл
-        if (!fs.existsSync(path + file)) {
-          fs.unlink(path + file);
+        if (fs.existsSync(path + itemDel.image)) {
+          fs.unlinkSync(path + itemDel.image);
         }
 
-        //Добавляем в массив новое имя файла
-        // const fileNamesObj = { image: fileName };
-        // fileNames.push(fileNamesObj);
+        //Удаляем изображение из массива изображений галереи отеля
+        galleryHotel = galleryHotel.filter((item) => item.image !== itemDel.image);
       }
 
-      hotel.gallery = fileNames; //Применяем новые данные отеля
+      hotel.gallery = galleryHotel; //Применяем новые данные отеля
       await hotel.save(); //Сохранем отель
 
-      return res.json({ message: "Выбранные изображения успешно загружены!", hotel }); //Возвращаем клиентской части список обновлённые данные отеля
+      return res.json({ message: "Выбранные изображения успешно удалены!", hotel }); //Возвращаем клиентской части список обновлённые данные отеля
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: "Ошибка загрузки изображений галереи на сервер." });

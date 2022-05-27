@@ -92,7 +92,7 @@ export const uploadHotelsGallery = (id_hotel, files) => {
       });
 
       dispatch(setOneHotel(response.data.hotel));
-      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
+      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной загрузке изображений в галерею отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
@@ -100,20 +100,23 @@ export const uploadHotelsGallery = (id_hotel, files) => {
 };
 
 //Функция удаления изображений галереи на сервер
-export const deleteHotelsGallery = (id_hotel, files) => {
+export const deleteHotelsGallery = (id_hotel, listNameImages) => {
   return async (dispatch) => {
     try {
-      const formData = new FormData();
-      for (const file of files) {
-        formData.append("file", file);
-      }
+      // const formData = new FormData();
+      // for (const item of listNameImages) {
+      //   formData.append("image", item);
+      // }
 
-      const response = await axios.post(`${API_URL}api/files/deleteHotelsGallery?id_hotel=${id_hotel}`, formData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
+      //console.log(formData);
+      console.log(listNameImages);
+
+      const response = await axios.post(`${API_URL}api/files/deleteHotelsGallery?id_hotel=${id_hotel}`, listNameImages, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       dispatch(setOneHotel(response.data.hotel));
-      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной блокировке
+      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешно удалению изображений из галереи отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }

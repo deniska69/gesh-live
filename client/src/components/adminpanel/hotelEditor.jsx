@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Input from "../../utils/input/Input";
 import TextEditor from "../../utils/input/TextEditor";
-import { allHotel, updateHotel, uploadHotelsGallery } from "../../actions/hotels";
+import { allHotel, updateHotel, uploadHotelsGallery, deleteHotelsGallery } from "../../actions/hotels";
 import AddHotel from "./addHotel";
 import { allUser } from "../../actions/users";
 import { toastView } from "../App";
@@ -184,7 +184,7 @@ const HotelEditor = () => {
     fileInput.click();
   }
 
-  //Функция добавления новых изображений в список в модальном окне
+  //Функция добавления новых изображений в галерею отеля
   function addGalleryToArray(e) {
     const files = e.target.files;
     const filesVerified = [];
@@ -205,11 +205,21 @@ const HotelEditor = () => {
     e.target.value = "";
   }
 
-  //Функция удаления изображений из списка в модальном окне
+  //Функция удаления одного изображений из галереи отеля
   // eslint-disable-next-line
-  function removeGalleryFromArray(index) {
-    console.log(index);
-    //setGallerySelectHotel([...gallerySelectHotel.filter((_, i) => i != index)]);
+  function removeGalleryFromArray(nameImage) {
+    const listNameImages = [{ image: nameImage }];
+    dispatch(deleteHotelsGallery(idSelectHotel, listNameImages));
+  }
+
+  //Функция удаления всех изображений из галереи отеля
+  function removeAllGalleryFromArray() {
+    const imageList = [];
+
+    for (const image of gallerySelectHotel) {
+      imageList.push({ image: image.image });
+    }
+    dispatch(deleteHotelsGallery(idSelectHotel, imageList));
   }
 
   return (
@@ -454,14 +464,16 @@ const HotelEditor = () => {
                     {gallerySelectHotel.map((gallery, index) => (
                       <div className="col colGalleryItem" key={index}>
                         {/* // eslint-disable-next-line */}
-                        <img
-                          className="rounded border shadow galleryHotelPreview"
-                          src={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`}
-                          alt={gallery.image}
-                          // eslint-disable-next-line
-                          onError={(e) => ((e.target.onerror = null), (e.target.src = imageError))}
-                        />
-                        <XCircleFill size={25} className="iconBtnGalleryDelete" onClick={() => removeGalleryFromArray(index)} />
+                        <a href={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`} target="_blank" rel="noopener noreferrer">
+                          <img
+                            className="rounded border shadow galleryHotelPreview"
+                            src={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`}
+                            alt={gallery.image}
+                            // eslint-disable-next-line
+                            onError={(e) => ((e.target.onerror = null), (e.target.src = imageError))}
+                          />
+                        </a>
+                        <XCircleFill size={25} className="iconBtnGalleryDelete" onClick={() => removeGalleryFromArray(gallery.image)} />
                       </div>
                     ))}
                   </div>
@@ -475,6 +487,13 @@ const HotelEditor = () => {
                   )}
                 </div>
               </div>
+              {gallerySelectHotel.length > 0 && (
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-danger btn-sm" onClick={() => removeAllGalleryFromArray()}>
+                    Удалить все изображения
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
