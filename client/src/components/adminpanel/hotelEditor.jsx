@@ -206,10 +206,11 @@ const HotelEditor = () => {
   }
 
   //Функция удаления одного изображений из галереи отеля
-  // eslint-disable-next-line
   function removeGalleryFromArray(nameImage) {
     const listNameImages = [{ image: nameImage }];
     dispatch(deleteHotelsGallery(idSelectHotel, listNameImages));
+
+    setGallerySelectHotel([...gallerySelectHotel.filter((item) => item.image !== nameImage)]);
   }
 
   //Функция удаления всех изображений из галереи отеля
@@ -220,6 +221,8 @@ const HotelEditor = () => {
       imageList.push({ image: image.image });
     }
     dispatch(deleteHotelsGallery(idSelectHotel, imageList));
+
+    setGallerySelectHotel([]);
   }
 
   return (

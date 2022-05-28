@@ -47,27 +47,36 @@ class FileController {
   async uploadHotelsGallery(req, res) {
     try {
       const idHotel = req.query.id_hotel; //Получаем ID отеля из запроса
-      const files = req.files.file; //Получаем файлы из запрсоа
+      const countImages = req.query.count_images; //Получаем ID отеля из запроса
+      const files = req.files.file; //Получаем файлы из запроса
       const fileNames = []; //Создаём пустой массив для хранения новых имён файлов
       const path = config.get("staticPath") + "\\hotels\\" + idHotel + "\\gallery\\"; //Заносим в переменную путь до директории
       const hotel = await Hotel.findById(idHotel); //Получаем из БД текущие данные отеля
+      let galleryHotelNew = hotel.gallery; //Получаем изображения галереи отеля из БД в массив
 
       //Проверяем наличие директории: если не существует >> рекурсивно создаём директории до нужной
       if (!fs.existsSync(path)) {
         fs.mkdirSync(path, { recursive: true });
       }
 
-      //Перебираем все файлы из запроса
-      for (const file of files) {
-        const fileName = Uuid.v4() + ".jpg"; //Генерируем новое имя
-        file.mv(path + fileName); //Перемещаем файл в директорию
+      if (countImages > 1) {
+        //Перебираем все файлы из запроса
+        for (const file of files) {
+          const fileName = Uuid.v4() + ".jpg"; //Генерируем новое имя
+          file.mv(path + fileName); //Перемещаем файл в директорию
 
-        //Добавляем в массив новое имя файла
-        const fileNamesObj = { image: fileName };
-        fileNames.push(fileNamesObj);
+          //Добавляем изображение в список изображений галереии отеля
+          galleryHotelNew.push({ image: fileName });
+        }
+      } else {
+        const fileName = Uuid.v4() + ".jpg"; //Генерируем новое имя
+        files.mv(path + fileName); //Перемещаем файл в директорию
+
+        //Добавляем изображение в список изображений галереии отеля
+        galleryHotelNew.push({ image: fileName });
       }
 
-      hotel.gallery = fileNames; //Применяем новые данные отеля
+      hotel.gallery = galleryHotelNew; //Применяем новые данные отеля
       await hotel.save(); //Сохранем отель
 
       return res.json({ message: "Выбранные изображения успешно загружены!", hotel }); //Возвращаем клиентской части список обновлённые данные отеля
