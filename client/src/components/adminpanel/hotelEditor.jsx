@@ -189,7 +189,7 @@ const HotelEditor = () => {
     const files = e.target.files;
     const filesVerified = [];
 
-    if (files.length > 10) {
+    if (files.length > 10 || gallerySelectHotel.length + files.length > 10) {
       return toastView("error", "Загрузить можно не более 10 изображений.");
     }
 
