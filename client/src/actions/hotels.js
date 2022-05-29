@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../config";
-import { setAllHotels, setOneHotelUpdate, setOneHotel } from "../reducers/hotelsReducer";
+//import { setAllHotels, setOneHotelUpdate, setOneHotel, setOneHotelFromAllHotels } from "../reducers/hotelsReducer";
+import { setHotelOne, setHotelsAll } from "../reducers/hotelsReducer";
 import { toastView } from "../components/App";
 
 ///////////// Hotels ///////////////
@@ -21,7 +22,7 @@ export const addHotel = async (name, id_manager) => {
 };
 
 //Функция получения всех записей Hotels
-export const allHotel = () => {
+export const allHotels = () => {
   return async (dispatch) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
@@ -30,7 +31,7 @@ export const allHotel = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, //Отправка токена аутентификации из локального хранилища на компьютере клиента
       });
 
-      dispatch(setAllHotels(response.data.hotels));
+      dispatch(setHotelsAll(response.data.hotels));
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
@@ -52,7 +53,7 @@ export const updateHotel = (_id, name, description, id_manager, url, benefits) =
         benefits,
       });
 
-      dispatch(setOneHotelUpdate(response.data.hotel));
+      dispatch(setHotelOne(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -70,7 +71,7 @@ export const oneHotel = (_id, url) => {
         _id,
         url,
       });
-      dispatch(setOneHotel(response.data.hotel));
+      dispatch(setHotelOne(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -91,7 +92,8 @@ export const uploadHotelsGallery = (id_hotel, imagesList) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}`, "Content-Type": "multipart/form-data" },
       });
 
-      dispatch(setOneHotelUpdate(response.data.hotel));
+      //dispatch(setOneHotelUpdate(response.data.hotel));
+      dispatch(setHotelOne(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешной загрузке изображений в галерею отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
@@ -107,10 +109,18 @@ export const deleteHotelsGallery = (id_hotel, listNameImages) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      dispatch(setOneHotelUpdate(response.data.hotel));
+      //dispatch(setOneHotelUpdate(response.data.hotel));
+      dispatch(setHotelOne(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешно удалению изображений из галереи отеля
     } catch (e) {
       toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
     }
   };
 };
+
+//Функция выборки из редюсера списка всех отелей в редюсер одного отеля
+// export const setOneHotelFrom_AllHotels = (_id) => {
+//   return async (dispatch) => {
+//     dispatch(setOneHotelFromAllHotels({ _id: _id }));
+//   };
+// };

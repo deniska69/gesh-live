@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Input from "../../utils/input/Input";
-import TextEditor from "../../utils/input/TextEditor";
-import { allHotel, updateHotel, uploadHotelsGallery, deleteHotelsGallery } from "../../actions/hotels";
+import Input from "../../../utils/input/Input";
+import TextEditor from "../../../utils/input/TextEditor";
+import { allHotel, updateHotel, uploadHotelsGallery, deleteHotelsGallery, setOneHotelFrom_AllHotels } from "../../../actions/hotels";
 import AddHotel from "./addHotel";
-import { allUser } from "../../actions/users";
-import { toastView } from "../App";
+import { allUsers } from "../../../actions/users";
+import { toastView } from "../../App";
 // eslint-disable-next-line
 import RoomEditor from "./roomEditor";
 import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill, XCircleFill } from "react-bootstrap-icons";
-import { API_URL } from "../../config";
-import imageError from "../../assets/img/error.png";
+import { API_URL } from "../../../config";
+import imageError from "../../../assets/img/error.png";
 
-const HotelEditor = () => {
+const HotelAndRoomEditor = () => {
   const dispatch = useDispatch();
   const isAdmin = useSelector((state) => state.user.isAdmin); //Получаем из редюсера значение, авторизованный пользователь администратор или нет
   const allHotels = useSelector((state) => state.hotel.listHotels); //Получаем из редюсера список отелей
   const allUsers = useSelector((state) => state.user.listUsers); //Получаем из редюсера список пользователей (в данном случае будем дальше выбирать только менеджеров)
-  //const galleryHotel = useSelector((state) => state.hotel.listGallery); //Получаем из редюсера список имён изображений галереи
+  const oneHotel = useSelector((state) => state.hotel.oneHotel); //
 
   //Профиль выбранного отеля
   const [isSelectHotel, setIsSelectHotel] = useState(false); //Выбран ли какой-либо отель из спика
@@ -39,7 +39,7 @@ const HotelEditor = () => {
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
   useEffect(() => {
     dispatch(allHotel()); //Вызов функции загрузки списка всех отелей
-    dispatch(allUser(3)); //Вызов функции загрузски списка всех пользователей с уровнем доступа 3 ("Менеджер отеля")
+    dispatch(allUsers(3)); //Вызов функции загрузски списка всех пользователей с уровнем доступа 3 ("Менеджер отеля")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,6 +58,10 @@ const HotelEditor = () => {
 
   //Функция выбора отеля >> вывод данных отеля на страницу
   function selectHotel(id) {
+    console.log(id);
+    dispatch(setOneHotelFrom_AllHotels(id));
+    console.log(oneHotel);
+
     allHotels.reduce((res, note) => {
       if (note._id === id) {
         setIdSelectHotel(note._id); //Получаем ID отеля
@@ -92,6 +96,31 @@ const HotelEditor = () => {
   function updateHotelNow() {
     //Если выбран како-либо отель из спика
     if (isSelectHotel) {
+      // if (nameSelectHotel !== nameSelectHotelNew) {
+      //   console.log("nameSelectHotel", nameSelectHotel);
+      //   console.log("nameSelectHotelNew", nameSelectHotelNew);
+      // }
+
+      // if (descriptionSelectHotel !== descriptionSelectHotelNew) {
+      //   console.log("descriptionSelectHotel", descriptionSelectHotel);
+      //   console.log("descriptionSelectHotelNew", descriptionSelectHotelNew);
+      // }
+
+      // if (idManagerSelectHotel !== idManagerSelectHotelNew) {
+      //   console.log("idManagerSelectHotel", idManagerSelectHotel);
+      //   console.log("idManagerSelectHotelNew", idManagerSelectHotelNew);
+      // }
+
+      // if (urlSelectHotel !== urlSelectHotelNew) {
+      //   console.log("urlSelectHotel", urlSelectHotel);
+      //   console.log("urlSelectHotelNew", urlSelectHotelNew);
+      // }
+
+      // if (benefitsSelectHotel !== benefitsSelectHotelNew) {
+      //   console.log("benefitsSelectHotel", benefitsSelectHotel);
+      //   console.log("benefitsSelectHotelNew", benefitsSelectHotelNew);
+      // }
+
       //Если никакие данные не были измененны
       if (
         nameSelectHotel === nameSelectHotelNew &&
@@ -202,6 +231,7 @@ const HotelEditor = () => {
     }
 
     dispatch(uploadHotelsGallery(idSelectHotel, filesVerified));
+
     e.target.value = "";
   }
 
@@ -254,6 +284,11 @@ const HotelEditor = () => {
                 <a className="btn btn-warning btn-sm" href={`/hotels/${urlSelectHotel}`} role="button" target="_blank" rel="noopener noreferrer">
                   Открыть страницу
                 </a>
+              )}
+              {isSelectHotel && (
+                <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(oneHotel)}>
+                  console.log(oneHotel)
+                </button>
               )}
             </div>
 
@@ -492,6 +527,9 @@ const HotelEditor = () => {
               </div>
               {gallerySelectHotel.length > 0 && (
                 <div className="modal-footer">
+                  <button type="button" className="btn btn-danger btn-sm" onClick={() => console.log(allHotels)}>
+                    console.log(allHotels)
+                  </button>
                   <button type="button" className="btn btn-danger btn-sm" onClick={() => removeAllGalleryFromArray()}>
                     Удалить все изображения
                   </button>
@@ -507,4 +545,4 @@ const HotelEditor = () => {
   );
 };
 
-export default HotelEditor;
+export default HotelAndRoomEditor;

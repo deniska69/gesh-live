@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../utils/input/Input";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import Input from "../../../utils/input/Input";
+import { useSelector, useDispatch } from "react-redux";
 import AddRoom from "./addRoom";
-import { allRoom } from "../../actions/rooms";
-import { updateRoom } from "../../actions/rooms";
+import { allRoom, updateRoom } from "../../../actions/rooms";
 
 const RoomEditor = (props) => {
   const dispatch = useDispatch();

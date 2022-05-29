@@ -101,7 +101,7 @@ export const uploadAvatar = (file) => {
 };
 
 //Функция получения всех записей User
-export const allUser = (id_acc) => {
+export const allUsers = (id_acc) => {
   return async (dispatch) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {

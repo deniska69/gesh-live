@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Input from "../../utils/input/Input";
-import { allUser } from "../../actions/users";
-import { addHotel } from "../../actions/hotels";
+import Input from "../../../utils/input/Input";
+import { allUser } from "../../../actions/users";
+import { addHotel } from "../../../actions/hotels";
 
 const AddHotel = () => {
   const dispatch = useDispatch();

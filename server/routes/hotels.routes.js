@@ -125,8 +125,9 @@ router.get(
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
-      //Получаем id пользователя
+      //Получаем список всех отелей (только поля '_id' и 'name')
       const hotels = await Hotels.find();
+      //const hotels = await Hotels.find({}, { _id: 1, name: 1, url: 1 }).sort({ name: 1 });
 
       //Возвращаем ответ клиентской части сервера в виде JSON-структуры
       return res.json({ hotels });

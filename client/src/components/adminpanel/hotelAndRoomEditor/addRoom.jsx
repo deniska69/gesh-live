@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Input from "../../utils/input/Input";
-import { addRoom } from "../../actions/rooms";
+import Input from "../../../utils/input/Input";
+import { addRoom } from "../../../actions/rooms";
 
 const AddRoom = (props) => {
   const [nameRoom, setNameRoom] = useState("");

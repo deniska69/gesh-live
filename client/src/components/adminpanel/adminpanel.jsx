@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./adminpanel.css";
 import UserEditor from "./userEditor";
-import HotelEditor from "./hotelEditor";
+import HotelSelect from "./hotelAndRoomEditor/hotelSelect";
 import NewsEditor from "./newsEditor";
 import EventsEditor from "./eventsEditor";
 // eslint-disable-next-line
@@ -125,18 +125,10 @@ const AdminPanel = () => {
         </div>
 
         {/* Редактирование пользователей */}
-        {panelUsers && (
-          <div className="row align-item-start">
-            <UserEditor />
-          </div>
-        )}
+        {panelUsers && <UserEditor />}
 
         {/* Редактирование отелей + апартаментов*/}
-        {panelHotelsAndRooms && (
-          <div className="row align-item-start">
-            <HotelEditor />
-          </div>
-        )}
+        {panelHotelsAndRooms && <HotelSelect />}
 
         {/* Редактирование новостей */}
         {panelNews && (

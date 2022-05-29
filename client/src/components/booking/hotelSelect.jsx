@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { allHotel } from "../../actions/hotels";
+import { allHotels } from "../../actions/hotels";
 import { findBooking } from "../../actions/bookings";
 import { setIsBookingTrue } from "../../reducers/bookingReducer";
 import { setFreeBooking } from "../../reducers/bookingReducer";
@@ -13,7 +13,7 @@ import { setBokingOption } from "../../reducers/bookingReducer";
 
 const HotelSelect = () => {
   const dispatch = useDispatch();
-  const allHotels = useSelector((state) => state.hotel.listHotels); //Список всех отелей
+  const allHotelsList = useSelector((state) => state.hotel.listHotels); //Список всех отелей
   let allExBooking = useSelector((state) => state.booking.listExBooking); //Список всех существующих бронирований
   let allFindBooking = useSelector((state) => state.booking.listFindBooking); //Список всех существующих апартаментов
 
@@ -45,7 +45,7 @@ const HotelSelect = () => {
 
   //Вызов функции для получения списка названий всех отелей
   useEffect(() => {
-    dispatch(allHotel());
+    dispatch(allHotels());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,7 +53,7 @@ const HotelSelect = () => {
   function changeHandlerHotelList(b) {
     /* eslint eqeqeq: 0 */
     if (b.target.value != 0) {
-      allHotels.reduce((res, note) => {
+      allHotelsList.reduce((res, note) => {
         if (note._id === b.target.value) {
           // eslint-disable-next-line
           return setCurrentIDHotel(note._id), (toastText = note.description);
@@ -196,7 +196,7 @@ const HotelSelect = () => {
           <div className="col-sm-6">
             <select className="form-select" aria-label="Default select example" onChange={(b) => changeHandlerHotelList(b)}>
               <option value={0}>Все отели</option>
-              {allHotels.map((allHotels) => (
+              {allHotelsList.map((allHotels) => (
                 <option key={allHotels._id.toString()} value={allHotels._id.toString()}>
                   {" "}
                   {allHotels.name.toString()}
