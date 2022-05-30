@@ -97,10 +97,10 @@ const HotelEditor = props => {
       </div>
 
       {/* Описание отеля */}
-      <HotelDescription value={props.value} setValue={props.setValue} />
+      <HotelDescription value={props.value} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
 
       {/* Преимущества отеля */}
-      {/* <HotelBenefits value={props.value.benefits} /> */}
+      <HotelBenefits value={props.value} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
     </div>
   );
 };

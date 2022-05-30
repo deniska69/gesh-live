@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { allHotels } from '../../../actions/hotels';
+import { allHotels, updateHotel } from '../../../actions/hotels';
 import HotelEditor from './hotelEditor';
+import { toastView } from '../../App';
 
 const HotelSelect = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,27 @@ const HotelSelect = () => {
     }
   }
 
+  //Функция обновления данных выбранного отеля
+  function updateHotelNow() {
+    if (selectHotelUpdate.url !== '') {
+      //Вызываем функцию обновления данных отеля
+      dispatch(
+        updateHotel(
+          selectHotelUpdate._id,
+          selectHotelUpdate.name,
+          selectHotelUpdate.description,
+          selectHotelUpdate.id_manager,
+          selectHotelUpdate.url,
+          selectHotelUpdate.benefits
+        )
+      );
+
+      //setSelectHotel(selectHotelUpdate);
+    } else {
+      return toastView('error', 'Необходимо ввести ссылку!');
+    }
+  }
+
   return (
     <div className="row align-item-start">
       <div className="col-lg-2">
@@ -44,6 +66,9 @@ const HotelSelect = () => {
         </select>
         {isSelectHotel && (
           <div className="d-grid gap-2">
+            <button className="btn btn-primary btn-sm" type="button" onClick={() => updateHotelNow()}>
+              Сохранить отель
+            </button>
             <a className="btn btn-warning btn-sm" href={`/hotels/${selectHotel.url}`} role="button" target="_blank" rel="noopener noreferrer">
               Открыть страницу
             </a>
@@ -56,7 +81,7 @@ const HotelSelect = () => {
           </div>
         )}
       </div>
-      {isSelectHotel && <HotelEditor value={selectHotel} setValue={setSelectHotelUpdate} />}
+      {isSelectHotel && <HotelEditor value={selectHotel} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
     </div>
   );
 };
