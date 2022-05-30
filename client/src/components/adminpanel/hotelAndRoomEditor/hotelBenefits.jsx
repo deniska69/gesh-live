@@ -5,35 +5,28 @@ const HotelBenefits = props => {
   const [benefits, setBenefits] = useState(props.value.benefits); //Список преимуществ выбранного отеля
 
   useEffect(() => {
-    props.setValue({ ...props.value, benefits: benefits });
-    console.log(benefits);
+    setBenefits(props.value.benefits);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.value]);
+  }, [props.value.benefits]);
 
   //Функция добавления новых преимуществ в список в модальном окне
   function addBenefitsToArray() {
-    setBenefits([
-      ...benefits,
-      {
-        title: '',
-        description: '',
-      },
-    ]);
+    props.setValue({ ...props.value, benefits: [...benefits, { title: '', description: '' }] });
   }
 
   //Функция обработки изменений в названиях преимуществ отеля
   function benefitsChangeTitle(e, index) {
-    setBenefits(benefits.map((benefits, i) => (index === i ? { ...benefits, title: e.target.value } : benefits)));
+    props.setValue({ ...props.value, benefits: benefits.map((benefits, i) => (index === i ? { ...benefits, title: e.target.value } : benefits)) });
   }
 
   //Функция обработки изменений в описании преимуществ отеля
   function benefitsChangeDescription(e, index) {
-    setBenefits(benefits.map((benefits, i) => (index === i ? { ...benefits, description: e.target.value } : benefits)));
+    props.setValue({ ...props.value, benefits: benefits.map((benefits, i) => (index === i ? { ...benefits, description: e.target.value } : benefits)) });
   }
 
   //Функция удаления преимуществ из списка в модальном окне
   function removeBenefitsFromArray(index) {
-    setBenefits([...benefits.filter((_, i) => i !== index)]);
+    props.setValue({ ...props.value, benefits: benefits.filter((_, i) => i !== index) });
   }
 
   return (
@@ -42,9 +35,6 @@ const HotelBenefits = props => {
         <label className="form-label form-control-sm">Преимущества:</label>
       </div>
       <div className="col-sm-9">
-        {/* <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits" onClick={() => assignmentBenefitsToNewArray()}>
-          Редактировать
-        </button> */}
         <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits">
           Редактировать
         </button>

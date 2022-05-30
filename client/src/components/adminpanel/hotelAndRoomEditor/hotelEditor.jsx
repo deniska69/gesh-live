@@ -33,6 +33,8 @@ const HotelEditor = props => {
     }
   }
 
+  //Функция вызова функции в родительском компоненте для сохранения отеля
+
   return (
     <div className="col-lg-5">
       {/* Блок отображающийся только для администраторов */}
@@ -100,7 +102,7 @@ const HotelEditor = props => {
       <HotelDescription value={props.value} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
 
       {/* Преимущества отеля */}
-      <HotelBenefits value={props.value} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
+      <HotelBenefits value={props.valueUpdate} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
     </div>
   );
 };

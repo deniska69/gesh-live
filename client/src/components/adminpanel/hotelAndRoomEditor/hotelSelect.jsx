@@ -45,8 +45,6 @@ const HotelSelect = () => {
           selectHotelUpdate.benefits
         )
       );
-
-      //setSelectHotel(selectHotelUpdate);
     } else {
       return toastView('error', 'Необходимо ввести ссылку!');
     }
@@ -81,7 +79,7 @@ const HotelSelect = () => {
           </div>
         )}
       </div>
-      {isSelectHotel && <HotelEditor value={selectHotel} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
+      {isSelectHotel && <HotelEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
     </div>
   );
 };

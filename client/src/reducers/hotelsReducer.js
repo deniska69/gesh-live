@@ -1,10 +1,10 @@
 // const SET_HOTEL = "SET_HOTEL";
 // const SET_UPDATEONEHOTEL = "SET_UPDATEONEHOTEL";
-const SET_ONEHOTEL = "SET_ONEHOTEL";
-const SET_ALLHOTELS = "SET_ALLHOTELS";
+const SET_ONEHOTEL = 'SET_ONEHOTEL';
+const SET_ALLHOTELS = 'SET_ALLHOTELS';
 // const SET_ONEHOTEL = "SET_ONEHOTEL";
 // const SET_GALLERYHOTEL = "SET_GALLERYHOTEL";
-// const SET_ONEHOTEL_FROM_ALLHOTELS = "SET_ONEHOTEL_FROM_ALLHOTELS";
+const SET_ONEHOTEL_UPDATE_IN_ALLHOTELS = 'SET_ONEHOTEL_UPDATE_IN_ALLHOTELS';
 
 const defaultState = {
   // currentHotel: {},
@@ -47,19 +47,19 @@ export default function hotelsReducer(state = defaultState, action) {
     //     ...state,
     //     listGallery: action.payload,
     //   };
-    // case SET_ONEHOTEL_FROM_ALLHOTELS:
-    //   return {
-    //     ...state,
-    //     oneHotel: state.listHotels.filter((n) => n._id === action.payload._id),
-    //   };
+    case SET_ONEHOTEL_UPDATE_IN_ALLHOTELS:
+      return {
+        ...state,
+        oneHotel: state.hotelsAll.filter(n => n._id === action.payload._id),
+      };
     default:
       return state;
   }
 }
 // export const setHotel = (hotel) => ({ type: SET_HOTEL, payload: hotel });
 // export const setOneHotelUpdate = (hotelOneUpdate) => ({ type: SET_UPDATEONEHOTEL, payload: hotelOneUpdate });
-export const setHotelOne = (hotelOne) => ({ type: SET_ONEHOTEL, payload: hotelOne });
-export const setHotelsAll = (hotelsAll) => ({ type: SET_ALLHOTELS, payload: hotelsAll });
+export const setHotelOne = hotelOne => ({ type: SET_ONEHOTEL, payload: hotelOne });
+export const setHotelsAll = hotelsAll => ({ type: SET_ALLHOTELS, payload: hotelsAll });
 // export const setOneHotel = (hotelOne) => ({ type: SET_ONEHOTEL, payload: hotelOne });
 // export const setGalleryHotels = (hotelsGallery) => ({ type: SET_GALLERYHOTEL, payload: hotelsGallery });
-// export const setOneHotelFromAllHotels = (hotelOneFromAllHotels) => ({ type: SET_ONEHOTEL_FROM_ALLHOTELS, payload: hotelOneFromAllHotels });
+export const setOneHotelUpdateInAllHotels = hotelOneUpdateInAllHotels => ({ type: SET_ONEHOTEL_UPDATE_IN_ALLHOTELS, payload: hotelOneUpdateInAllHotels });
