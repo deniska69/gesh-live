@@ -16,7 +16,7 @@ const HotelSelect = () => {
   useEffect(() => {
     dispatch(allHotels()); //Вызов функции загрузки списка всех отелей с занесением их в редюсер
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [allHotelsList]);
 
   //Функция обработки выбора отеля из выпадающего списка
   function selectHotelFromTheList(e) {
