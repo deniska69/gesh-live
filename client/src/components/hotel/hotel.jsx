@@ -7,7 +7,7 @@ import { Check2Circle } from "react-bootstrap-icons";
 const Hotel = (props) => {
   const dispatch = useDispatch();
   const urlHotel = props.match.params.urlHotel;
-  const hotel = useSelector((state) => state.hotel.oneHotel);
+  const hotel = useSelector((state) => state.hotel.hotelOne);
 
   //Вызов функции для получения данных одного отеля
   useEffect(() => {

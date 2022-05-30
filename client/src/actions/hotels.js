@@ -21,6 +21,24 @@ export const addHotel = async (name, id_manager) => {
   }
 };
 
+//Функция получения данных одного отеля
+export const oneHotel = (_id, url) => {
+  return async (dispatch) => {
+    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
+    try {
+      //Отправка асинхронного PUT-запроса на серверную часть
+      const response = await axios.put(`${API_URL}api/auth/hotelOne`, {
+        _id,
+        url,
+      });
+      dispatch(setHotelOne(response.data.hotel));
+      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
+    } catch (e) {
+      toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
+    }
+  };
+};
+
 //Функция получения всех записей Hotels
 export const allHotels = () => {
   return async (dispatch) => {
@@ -53,24 +71,6 @@ export const updateHotel = (_id, name, description, id_manager, url, benefits) =
         benefits,
       });
 
-      dispatch(setHotelOne(response.data.hotel));
-      toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
-    } catch (e) {
-      toastView("error", e.response.data.message); //В случае ошибки выводим уведомление
-    }
-  };
-};
-
-//Функция получения данных одного отеля
-export const oneHotel = (_id, url) => {
-  return async (dispatch) => {
-    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
-    try {
-      //Отправка асинхронного PUT-запроса на серверную часть
-      const response = await axios.put(`${API_URL}api/auth/hotelOne`, {
-        _id,
-        url,
-      });
       dispatch(setHotelOne(response.data.hotel));
       toastView("success", response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
     } catch (e) {

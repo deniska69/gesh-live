@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Input from "../../../utils/input/Input";
-import TextEditor from "../../../utils/input/TextEditor";
-import { allHotel, updateHotel, uploadHotelsGallery, deleteHotelsGallery, setOneHotelFrom_AllHotels } from "../../../actions/hotels";
-import AddHotel from "./addHotel";
-import { allUsers } from "../../../actions/users";
-import { toastView } from "../../App";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Input from '../../../utils/input/Input';
+import TextEditor from '../../../utils/input/TextEditor';
+import { allHotel, updateHotel, uploadHotelsGallery, deleteHotelsGallery, setOneHotelFrom_AllHotels } from '../../../actions/hotels';
+import AddHotel from './addHotel';
+import { allUsers } from '../../../actions/users';
+import { toastView } from '../../App';
 // eslint-disable-next-line
-import RoomEditor from "./roomEditor";
-import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill, XCircleFill } from "react-bootstrap-icons";
-import { API_URL } from "../../../config";
-import imageError from "../../../assets/img/error.png";
+import RoomEditor from './roomEditor';
+import { Trash3Fill, PlusSquareDotted, CloudArrowUpFill, XCircleFill } from 'react-bootstrap-icons';
+import { API_URL } from '../../../config';
+import imageError from '../../../assets/img/error.png';
 
 const HotelAndRoomEditor = () => {
   const dispatch = useDispatch();
-  const isAdmin = useSelector((state) => state.user.isAdmin); //Получаем из редюсера значение, авторизованный пользователь администратор или нет
-  const allHotels = useSelector((state) => state.hotel.listHotels); //Получаем из редюсера список отелей
-  const allUsers = useSelector((state) => state.user.listUsers); //Получаем из редюсера список пользователей (в данном случае будем дальше выбирать только менеджеров)
-  const oneHotel = useSelector((state) => state.hotel.oneHotel); //
+  const isAdmin = useSelector(state => state.user.isAdmin); //Получаем из редюсера значение, авторизованный пользователь администратор или нет
+  const allHotels = useSelector(state => state.hotel.listHotels); //Получаем из редюсера список отелей
+  const allUsers = useSelector(state => state.user.listUsers); //Получаем из редюсера список пользователей (в данном случае будем дальше выбирать только менеджеров)
+  const oneHotel = useSelector(state => state.hotel.oneHotel); //
 
   //Профиль выбранного отеля
   const [isSelectHotel, setIsSelectHotel] = useState(false); //Выбран ли какой-либо отель из спика
-  const [idSelectHotel, setIdSelectHotel] = useState("0"); //ID выбранного отеля
-  const [nameSelectHotel, setNameSelectHotel] = useState(""); //Название выбранного отеля
-  const [descriptionSelectHotel, setDescriptionSelectHotel] = useState(""); //Описание выбранного отеля
-  const [idManagerSelectHotel, setIdManagerSelectHotel] = useState(""); //ID менеджера выбранного отеля
-  const [urlSelectHotel, setURLSelectHotel] = useState(""); //URL выбранного отеля
+  const [idSelectHotel, setIdSelectHotel] = useState('0'); //ID выбранного отеля
+  const [nameSelectHotel, setNameSelectHotel] = useState(''); //Название выбранного отеля
+  const [descriptionSelectHotel, setDescriptionSelectHotel] = useState(''); //Описание выбранного отеля
+  const [idManagerSelectHotel, setIdManagerSelectHotel] = useState(''); //ID менеджера выбранного отеля
+  const [urlSelectHotel, setURLSelectHotel] = useState(''); //URL выбранного отеля
   const [benefitsSelectHotel, setBenefitsSelectHotel] = useState([]); //Список преимуществ выбранного отеля
   const [gallerySelectHotel, setGallerySelectHotel] = useState([]); //Галерея выбранного отеля
 
   //Обновлённые данные профиля отеля
-  const [nameSelectHotelNew, setNameSelectHotelNew] = useState(""); //Новое название выбранного отеля
-  const [descriptionSelectHotelNew, setDescriptionSelectHotelNew] = useState(""); //Новое описание выбранного отеля
-  const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(""); //Новый ID менеджера выбранного отеля
-  const [urlSelectHotelNew, setURLSelectHotelNew] = useState(""); //Новый URL выбранного отеля
+  const [nameSelectHotelNew, setNameSelectHotelNew] = useState(''); //Новое название выбранного отеля
+  const [descriptionSelectHotelNew, setDescriptionSelectHotelNew] = useState(''); //Новое описание выбранного отеля
+  const [idManagerSelectHotelNew, setIdManagerSelectHotelNew] = useState(''); //Новый ID менеджера выбранного отеля
+  const [urlSelectHotelNew, setURLSelectHotelNew] = useState(''); //Новый URL выбранного отеля
   const [benefitsSelectHotelNew, setBenefitsSelectHotelNew] = useState([]); //Новый список преимуществ выбранного отеля
 
   //Функция загрузки списка отелей и списка пользователей с уровенем доступа "Менеджер отеля"
@@ -129,9 +129,9 @@ const HotelAndRoomEditor = () => {
         urlSelectHotel === urlSelectHotelNew &&
         benefitsSelectHotel === benefitsSelectHotelNew
       ) {
-        return toastView("warning", "Никакие данные не были изменены.");
+        return toastView('warning', 'Никакие данные не были изменены.');
       } else {
-        if (urlSelectHotelNew != "") {
+        if (urlSelectHotelNew != '') {
           //Вызываем функцию обновления данных отеля
           dispatch(updateHotel(idSelectHotel, nameSelectHotelNew, descriptionSelectHotelNew, idManagerSelectHotelNew, urlSelectHotelNew, benefitsSelectHotelNew));
 
@@ -141,11 +141,11 @@ const HotelAndRoomEditor = () => {
           setURLSelectHotel(urlSelectHotelNew);
           setBenefitsSelectHotel(benefitsSelectHotelNew);
         } else {
-          return toastView("error", "Необходимо ввести ссылку!");
+          return toastView('error', 'Необходимо ввести ссылку!');
         }
       }
     } else {
-      toastView("warning", "Необходимо выбрать отель!");
+      toastView('warning', 'Необходимо выбрать отель!');
     }
   }
 
@@ -165,7 +165,7 @@ const HotelAndRoomEditor = () => {
         }
       }, {});
     } else {
-      setIdManagerSelectHotelNew(""); //Заносим пустое значение в переменную отвечающую за хранение нового значения id менеджера
+      setIdManagerSelectHotelNew(''); //Заносим пустое значение в переменную отвечающую за хранение нового значения id менеджера
     }
   }
 
@@ -181,8 +181,8 @@ const HotelAndRoomEditor = () => {
     setBenefitsSelectHotelNew([
       ...benefitsSelectHotelNew,
       {
-        title: "",
-        description: "",
+        title: '',
+        description: '',
       },
     ]);
   }
@@ -207,7 +207,7 @@ const HotelAndRoomEditor = () => {
   //Обработка нажатия кнопки "Выбрать изображение" >> ручная инициализация элемента <Input> через вызов метода click()
   function selectGalleryShow() {
     //Получаем доступ к Input-элементу
-    const fileInput = document.getElementById("btnSelectGalleryHide");
+    const fileInput = document.getElementById('btnSelectGalleryHide');
 
     //Вручную инициализируем нажатие по элементу
     fileInput.click();
@@ -219,20 +219,20 @@ const HotelAndRoomEditor = () => {
     const filesVerified = [];
 
     if (files.length > 10 || gallerySelectHotel.length + files.length > 10) {
-      return toastView("error", "Загрузить можно не более 10 изображений.");
+      return toastView('error', 'Загрузить можно не более 10 изображений.');
     }
 
     for (const file of files) {
-      if (file.type === "image/png" || file.type === "image/jpeg") {
+      if (file.type === 'image/png' || file.type === 'image/jpeg') {
         filesVerified.push(file);
       } else {
-        toastView("error", `Файл "${file.name}" не является изображением (или подходящим изображением) и не будет загружен."`);
+        toastView('error', `Файл "${file.name}" не является изображением (или подходящим изображением) и не будет загружен."`);
       }
     }
 
     dispatch(uploadHotelsGallery(idSelectHotel, filesVerified));
 
-    e.target.value = "";
+    e.target.value = '';
   }
 
   //Функция удаления одного изображений из галереи отеля
@@ -240,7 +240,7 @@ const HotelAndRoomEditor = () => {
     const listNameImages = [{ image: nameImage }];
     dispatch(deleteHotelsGallery(idSelectHotel, listNameImages));
 
-    setGallerySelectHotel([...gallerySelectHotel.filter((item) => item.image !== nameImage)]);
+    setGallerySelectHotel([...gallerySelectHotel.filter(item => item.image !== nameImage)]);
   }
 
   //Функция удаления всех изображений из галереи отеля
@@ -261,11 +261,11 @@ const HotelAndRoomEditor = () => {
         {/* Блок выбора отеля */}
         {isAdmin && (
           <div className="col-lg-2">
-            <select className="form-select form-select-sm" aria-label="Default select example" onChange={(e) => changeHandlerHotelList(e)}>
+            <select className="form-select form-select-sm" aria-label="Default select example" onChange={e => changeHandlerHotelList(e)}>
               <option value={0}>Выберите отель...</option>
-              {allHotels.map((allHotels) => (
+              {allHotels.map(allHotels => (
                 <option key={allHotels._id.toString()} value={allHotels._id.toString()}>
-                  {" "}
+                  {' '}
                   {allHotels.name.toString()}
                 </option>
               ))}
@@ -317,11 +317,15 @@ const HotelAndRoomEditor = () => {
                     <label className="form-label form-control-sm">Менеджер:</label>
                   </div>
                   <div className="col-sm-9">
-                    <select className="form-select form-select-sm" aria-label="Default select example" value={idManagerSelectHotelNew} onChange={(e) => changeHandlerManagerList(e)}>
+                    <select
+                      className="form-select form-select-sm"
+                      aria-label="Default select example"
+                      value={idManagerSelectHotelNew}
+                      onChange={e => changeHandlerManagerList(e)}>
                       <option value={0}>Выберите менеджера...</option>
-                      {allUsers.map((allUsers) => (
+                      {allUsers.map(allUsers => (
                         <option key={allUsers._id.toString()} value={allUsers._id.toString()}>
-                          {" "}
+                          {' '}
                           {allUsers.name.toString()}
                         </option>
                       ))}
@@ -368,7 +372,12 @@ const HotelAndRoomEditor = () => {
                 <label className="form-label form-control-sm">Преимущества:</label>
               </div>
               <div className="col-sm-9">
-                <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditBenefits" onClick={() => assignmentBenefitsToNewArray()}>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalEditBenefits"
+                  onClick={() => assignmentBenefitsToNewArray()}>
                   Редактировать
                 </button>
               </div>
@@ -423,7 +432,7 @@ const HotelAndRoomEditor = () => {
               <div className="modal-body">
                 <div className="col-12">
                   {benefitsSelectHotelNew.map((benefitsSelectHotelNew, index) => (
-                    <div className="row bottom_line_benefits" id={"roweBenefits" + index} key={index}>
+                    <div className="row bottom_line_benefits" id={'roweBenefits' + index} key={index}>
                       <div className="col-1 text-center align-middle benefitsNumber">
                         <h5>{index + 1}</h5>
                       </div>
@@ -438,7 +447,7 @@ const HotelAndRoomEditor = () => {
                               type="text"
                               className="form-control form-control-sm"
                               value={benefitsSelectHotelNew.title}
-                              onChange={(e) => benefitsChangeTitle(e, index)}
+                              onChange={e => benefitsChangeTitle(e, index)}
                               placeholder="Введите название преимущества..."
                             />
                           </div>
@@ -452,7 +461,7 @@ const HotelAndRoomEditor = () => {
                               type="text"
                               className="form-control form-control-sm"
                               value={benefitsSelectHotelNew.description}
-                              onChange={(e) => benefitsChangeDescription(e, index)}
+                              onChange={e => benefitsChangeDescription(e, index)}
                               placeholder="Введите описание преимущества..."
                             />
                           </div>
@@ -460,7 +469,7 @@ const HotelAndRoomEditor = () => {
                       </div>
 
                       <div className="col-1 text-center benefitsBtnDelete">
-                        <button id={"btnBenefitsEdit" + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeBenefitsFromArray(index)}>
+                        <button id={'btnBenefitsEdit' + index} type="button" className="btn btn-sm btn-danger" onClick={() => removeBenefitsFromArray(index)}>
                           <Trash3Fill color="white" />
                         </button>
                       </div>
@@ -487,7 +496,14 @@ const HotelAndRoomEditor = () => {
         </div>
 
         {/* Модальное окно с редактором галереи отеля */}
-        <div className="modal fade" id="modalEditGallery" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div
+          className="modal fade"
+          id="modalEditGallery"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
           <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -502,13 +518,13 @@ const HotelAndRoomEditor = () => {
                     {gallerySelectHotel.map((gallery, index) => (
                       <div className="col colGalleryItem" key={index}>
                         {/* // eslint-disable-next-line */}
-                        <a href={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`${API_URL + '\\hotels\\' + idSelectHotel + '\\gallery\\' + gallery.image}`} target="_blank" rel="noopener noreferrer">
                           <img
                             className="rounded border shadow galleryHotelPreview"
-                            src={`${API_URL + "\\hotels\\" + idSelectHotel + "\\gallery\\" + gallery.image}`}
+                            src={`${API_URL + '\\hotels\\' + idSelectHotel + '\\gallery\\' + gallery.image}`}
                             alt={gallery.image}
                             // eslint-disable-next-line
-                            onError={(e) => ((e.target.onerror = null), (e.target.src = imageError))}
+                            onError={e => ((e.target.onerror = null), (e.target.src = imageError))}
                           />
                         </a>
                         <XCircleFill size={25} className="iconBtnGalleryDelete" onClick={() => removeGalleryFromArray(gallery.image)} />
@@ -517,7 +533,7 @@ const HotelAndRoomEditor = () => {
                   </div>
                   {gallerySelectHotel.length < 10 && (
                     <div>
-                      <input id="btnSelectGalleryHide" accept=".jpg,.jpeg,.png" onChange={(e) => addGalleryToArray(e)} type="file" multiple />
+                      <input id="btnSelectGalleryHide" accept=".jpg,.jpeg,.png" onChange={e => addGalleryToArray(e)} type="file" multiple />
                       <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => selectGalleryShow()}>
                         <CloudArrowUpFill size={40} className="iconBtnBenefitsAddNew" /> (.JPG/.JPEG/.PNG)
                       </button>

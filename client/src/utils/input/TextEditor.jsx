@@ -1,28 +1,31 @@
-import React, { useRef, useState, useMemo, useEffect } from "react";
-import JoditEditor from "jodit-react";
+import React, { useRef, useState, useMemo, useEffect } from 'react';
+import JoditEditor from 'jodit-react';
 
-const TextEditor = ({ setValue, initialValue }) => {
+const TextEditor = props => {
   const editor = useRef(null);
   // eslint-disable-next-line
-  const [valueNew, setContent] = useState(initialValue);
+  const [valueNew, setContent] = useState(props.value);
 
   //Функция прослушивания изменений в переменной initialValue >> обновление текста в редакторе
   useEffect(() => {
-    const jEditor = document.querySelector(".jodit-wysiwyg");
-    jEditor.innerHTML = initialValue;
+    const jEditor = document.querySelector('.jodit-wysiwyg');
+    jEditor.innerHTML = props.value;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValue]);
+  }, [props.value]);
 
   const config = {
     readonly: false,
-    buttons: ["bold", "italic", "underline", "|", "left", "center", "right", "justify", "|", "ul", "ol", "|", "table", "link", "hr", "|", "undo", "redo", "|", "eraser"],
-    buttonsMD: ["bold", "italic", "underline", "|", "left", "center", "right", "justify", "|", "ul", "ol", "|", "table", "link", "hr", "|", "undo", "redo", "|", "eraser"],
-    buttonsSM: ["bold", "italic", "underline", "|", "left", "center", "right", "justify", "|", "ul", "ol", "|", "table", "link", "hr", "|", "undo", "redo", "|", "eraser"],
-    buttonsXS: ["bold", "italic", "underline", "|", "left", "center", "right", "justify", "|", "ul", "ol", "|", "table", "link", "hr", "|", "undo", "redo", "|", "eraser"],
+    buttons: ['bold', 'italic', 'underline', '|', 'left', 'center', 'right', 'justify', '|', 'ul', 'ol', '|', 'table', 'link', 'hr', '|', 'undo', 'redo', '|', 'eraser'],
+    buttonsMD: ['bold', 'italic', 'underline', '|', 'left', 'center', 'right', 'justify', '|', 'ul', 'ol', '|', 'table', 'link', 'hr', '|', 'undo', 'redo', '|', 'eraser'],
+    buttonsSM: ['bold', 'italic', 'underline', '|', 'left', 'center', 'right', 'justify', '|', 'ul', 'ol', '|', 'table', 'link', 'hr', '|', 'undo', 'redo', '|', 'eraser'],
+    buttonsXS: ['bold', 'italic', 'underline', '|', 'left', 'center', 'right', 'justify', '|', 'ul', 'ol', '|', 'table', 'link', 'hr', '|', 'undo', 'redo', '|', 'eraser'],
   };
 
-  // eslint-disable-next-line
-  return useMemo(() => <JoditEditor ref={editor} onChange={(content) => setValue(content)} config={config} tabIndex={1} value={valueNew} />, []);
+  return useMemo(
+    () => <JoditEditor ref={editor} onChange={content => props.setValue(content)} config={config} tabIndex={1} value={valueNew} />,
+    // eslint-disable-next-line
+    []
+  );
 };
 
 export default TextEditor;
