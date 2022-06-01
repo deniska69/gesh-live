@@ -5,16 +5,26 @@ import HotelEditor from './hotelEditor';
 import { toastView } from '../../App';
 
 const HotelSelect = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); //Определяем диспетчер
 
   const allHotelsList = useSelector(state => state.hotel.hotelsAll); //Получаем из редюсера список всех отелей
   const [isSelectHotel, setIsSelectHotel] = useState(false); //Выбран ли какой-либо отель из списка
   const [selectHotel, setSelectHotel] = useState(''); //Выбранный отель с данными из БД
   const [selectHotelUpdate, setSelectHotelUpdate] = useState(''); //Выбранный отель с обновлёнными данными
 
-  //Функция загрузки списка всех отелей
+  //Функция загрузки списка всех отелей при обновлении страницы
   useEffect(() => {
     dispatch(allHotels()); //Вызов функции загрузки списка всех отелей с занесением их в редюсер
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //Отселживаем изменения в редюсре хранящем список всех отелей
+  useEffect(() => {
+    //Если отель уже выбран
+    if (isSelectHotel) {
+      setSelectHotel(allHotelsList.filter(n => n._id === selectHotel._id)[0]); //Записываем в переменную данные выбранного отеля
+      setSelectHotelUpdate(allHotelsList.filter(n => n._id === selectHotel._id)[0]); //Записываем в переменную данные выбранного отеля с изменениями
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allHotelsList]);
 
@@ -75,6 +85,9 @@ const HotelSelect = () => {
             </button>
             <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(selectHotelUpdate)}>
               selectHotelUpdate
+            </button>
+            <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(allHotelsList)}>
+              allHotelsList
             </button>
           </div>
         )}

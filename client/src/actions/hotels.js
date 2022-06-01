@@ -71,7 +71,6 @@ export const updateHotel = (_id, name, description, id_manager, url, benefits) =
         benefits,
       });
 
-      dispatch(setHotelOne(response.data.hotel));
       dispatch(setOneHotelUpdateInAllHotels(response.data.hotel));
       toastView('success', response.data.message); //Вывод уведомления с ответом от сервера об успешном обновлении данных отеля
     } catch (e) {
@@ -93,8 +92,7 @@ export const uploadHotelsGallery = (id_hotel, imagesList) => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'multipart/form-data' },
       });
 
-      //dispatch(setOneHotelUpdate(response.data.hotel));
-      dispatch(setHotelOne(response.data.hotel));
+      dispatch(setOneHotelUpdateInAllHotels(response.data.hotel));
       toastView('success', response.data.message); //Вывод уведомления с ответом от сервера об успешной загрузке изображений в галерею отеля
     } catch (e) {
       toastView('error', e.response.data.message); //В случае ошибки выводим уведомление
@@ -110,18 +108,10 @@ export const deleteHotelsGallery = (id_hotel, listNameImages) => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
-      //dispatch(setOneHotelUpdate(response.data.hotel));
-      dispatch(setHotelOne(response.data.hotel));
+      dispatch(setOneHotelUpdateInAllHotels(response.data.hotel));
       toastView('success', response.data.message); //Вывод уведомления с ответом от сервера об успешно удалению изображений из галереи отеля
     } catch (e) {
       toastView('error', e.response.data.message); //В случае ошибки выводим уведомление
     }
   };
 };
-
-//Функция выборки из редюсера списка всех отелей в редюсер одного отеля
-// export const setOneHotelFrom_AllHotels = (_id) => {
-//   return async (dispatch) => {
-//     dispatch(setOneHotelFromAllHotels({ _id: _id }));
-//   };
-// };

@@ -108,7 +108,7 @@
 }
 
 .galleryHotelPreview:hover {
-  border: 2px solid rgb(32, 194, 81) !important;
+  border: 2px solid #0daff2 !important;
 }
 
 .iconBtnGalleryDelete {

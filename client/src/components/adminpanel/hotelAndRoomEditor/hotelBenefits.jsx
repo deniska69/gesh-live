@@ -4,8 +4,9 @@ import { Trash3Fill, PlusSquareDotted } from 'react-bootstrap-icons';
 const HotelBenefits = props => {
   const [benefits, setBenefits] = useState(props.value.benefits); //Список преимуществ выбранного отеля
 
+  //Отслеживаем изменения в props
   useEffect(() => {
-    setBenefits(props.value.benefits);
+    setBenefits(props.value.benefits); //Обновляем state-переменную, в которой хранится из которой выводится список преимуществ отеля на страницу
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value.benefits]);
 
@@ -46,7 +47,7 @@ const HotelBenefits = props => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Преимущества отеля {props.value.name} ({benefits.length} из 10)
+                Преимущества отеля {props.value.name} ({benefits ? benefits.length : '0'} из 10)
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -108,7 +109,7 @@ const HotelBenefits = props => {
               <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                 Отмена
               </button>
-              <button type="button" className="btn btn-primary btn-sm" data-bs-dismiss="modal" onClick={() => props.updateHotelNow()}>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => props.updateHotelNow()}>
                 Сохранить
               </button>
             </div>

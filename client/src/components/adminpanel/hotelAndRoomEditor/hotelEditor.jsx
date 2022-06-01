@@ -4,6 +4,7 @@ import { allUsers } from '../../../actions/users';
 // eslint-disable-next-line
 import HotelBenefits from './hotelBenefits';
 import HotelDescription from './hotelDescription';
+import HotelGallery from './hotelGallery';
 
 const HotelEditor = props => {
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const HotelEditor = props => {
         <div className="col-sm-9">
           <input
             className="form-control form-control-sm"
-            value={props.value.name}
+            value={props.valueUpdate.name}
             onChange={e => props.setValue({ ...props.value, name: e.target.value })}
             placeholder="Введите Название..."
           />
@@ -103,6 +104,9 @@ const HotelEditor = props => {
 
       {/* Преимущества отеля */}
       <HotelBenefits value={props.valueUpdate} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
+
+      {/* Галеря отеля */}
+      <HotelGallery value={props.valueUpdate} setValue={props.setValue} updateHotelNow={props.updateHotelNow} />
     </div>
   );
 };
