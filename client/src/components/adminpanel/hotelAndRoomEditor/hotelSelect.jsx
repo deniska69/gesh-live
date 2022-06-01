@@ -80,14 +80,11 @@ const HotelSelect = () => {
             <a className="btn btn-warning btn-sm" href={`/hotels/${selectHotel.url}`} role="button" target="_blank" rel="noopener noreferrer">
               Открыть страницу
             </a>
-            <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(selectHotel)}>
+            <button className="btn btn-outline-info btn-sm" type="button" onClick={() => console.log(selectHotel)}>
               selectHotel
             </button>
-            <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(selectHotelUpdate)}>
+            <button className="btn btn-outline-info btn-sm" type="button" onClick={() => console.log(selectHotelUpdate)}>
               selectHotelUpdate
-            </button>
-            <button className="btn btn-primary btn-sm" type="button" onClick={() => console.log(allHotelsList)}>
-              allHotelsList
             </button>
           </div>
         )}

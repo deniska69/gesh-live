@@ -1,17 +1,31 @@
 //Импортируем схему и модель из пакета mongoose
-const { Schema, model, ObjectId } = require("mongoose")
+const { Schema, model, ObjectId } = require('mongoose');
 
 //Создаём схему, в которой будет храниться информация о полях сущности User
 const Rooms = new Schema({
+  //id - создаются по умолчанию автоматически
 
-    id_hotel: { type: ObjectId, ref: 'Hotels' },
-    name: { type: String },
-    person1: { type: Number },
-    person2: { type: Number },
-    price: { type: Number },
-    hotel: []
+  //ID отеля, к которому относятся апартаменты - типо поля: ObjectId MongoDB, обязательный, не уникальный
+  id_hotel: { type: ObjectId, ref: 'Hotels', required: true },
 
-})
+  //Название апартаментов - тип поля: строковый, обязательный, не уникальный
+  name: { type: String, required: true },
+
+  //Описание апартаментов - тип поля: строковый, не обязательный, не уникальный
+  description: { type: String },
+
+  //Галерея апартаментов - тип поля: массив объектов, не обзятельный, не уникальный
+  gallery: [{ image: { type: String } }],
+
+  //Количество взрослых - тип поля: числовой, не обязательный, не уникальный
+  count_adults: { type: Number },
+
+  //Количество детей - тип поля: числовой, не обязательный, не уникальный
+  count_childrens: { type: Number },
+
+  //Цена за сутки - тип поля: числовой, не обязательный, не уникальный
+  price: { type: Number },
+});
 
 //Экспорт схемы
-module.exports = model('Rooms', Rooms)
+module.exports = model('Rooms', Rooms);

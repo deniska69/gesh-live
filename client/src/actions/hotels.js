@@ -62,7 +62,7 @@ export const updateHotel = (_id, name, description, id_manager, url, benefits) =
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Отправка асинхронного PUT-запроса на серверную часть
-      const response = await axios.put(`${API_URL}api/auth/hotelOneUpdate`, {
+      const response = await axios.put(`${API_URL}api/auth/updateOneHotel`, {
         _id,
         name,
         description,

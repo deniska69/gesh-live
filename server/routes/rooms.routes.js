@@ -1,23 +1,23 @@
 //Импортируем необходимые модули и библиотеки с соответсвующим названиями для удобной работы
-const Router = require("express");
+const Router = require('express');
 const router = new Router();
-const Rooms = require("../models/Rooms");
-const { check, validationResult } = require("express-validator");
-const authMiddleware = require("../middleware/auth.middleware");
+const Rooms = require('../models/Rooms');
+const { check, validationResult } = require('express-validator');
+const authMiddleware = require('../middleware/auth.middleware');
 
 ///////////// Rooms ////////////////
 
 //POST-запрос по ссылке /addRoom для добавления новых апартаментов
 router.post(
-  "/addRoom",
+  '/addRoom',
   //Проверка отправляемых полей на корректность
-  [check("name", "Некоректное или слишком короткое имя.").isString().isLength({ min: 3, max: 30 }), check("person1", "Некоректный person1.").isNumeric(), check("person2", "Некоректный person2.").isNumeric(), check("price", "Некоректный price.").isNumeric()],
+  [check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 30 })],
   //Выполнение асинхронной функции
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Выводим в логи сервера результат
-      console.log("\nЗапрос на добавление новых апартаментов:");
+      console.log('\nЗапрос на добавление новых апартаментов:');
       console.log(req.body);
 
       //Проверяем, нет ли ошибок в отправляемых полях
@@ -25,8 +25,8 @@ router.post(
 
       //В случае ошибки выводим сообщение об ошибке в консоль сервера и на сайт
       if (!errors.isEmpty()) {
-        console.log("\nОшибка добавления апартаментов:\n", errors.errors);
-        return res.status(400).json({ message: "Ошибка добавления апартаментов. Проверьте поля на корректность заполнения.", errors });
+        console.log('\nОшибка добавления апартаментов:\n', errors.errors);
+        return res.status(400).json({ message: 'Ошибка добавления апартаментов. Проверьте поля на корректность заполнения.', errors });
       }
 
       //Получаем значения отправленных полей
@@ -42,11 +42,11 @@ router.post(
         return res.status(400).json({ message: `Апартаменты с названием "${name}" для отеля "${hotel.name}" уже существует.` });
       }
 
-      const room = new Rooms({ id_hotel, name, person1, person2, price }); //Создаём комнату
-      await room.save(); //Сохранем комнату
+      const room = new Rooms({ id_hotel, name, person1, person2, price }); //Создаём апартаменты
+      await room.save(); //Сохранем апартаменты
 
       //Выводим в логи сервера результат успешной регистрации нового пользователя
-      console.log("\nДобавлены новые апартаменты:");
+      console.log('\nДобавлены новые апартаменты:');
       console.log({
         id: room.id,
         hotel: hotel.name,
@@ -57,19 +57,19 @@ router.post(
       });
 
       //Выводим сообщение об успешной регистрации на сайт
-      return res.json({ message: "Апартаменты добавлены." });
+      return res.json({ message: 'Апартаменты добавлены.' });
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка добавления новых апартаментов:\n", e);
-      res.send({ message: "Ошибка сервера в auth.routes router.post('/addRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/addRoom').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/addRoom')." });
     }
   }
 );
 
 //GET-запрос по ссылке /allRoom для получения списка апартаментов для выбранного отеля
 router.get(
-  "/allRoom",
+  '/allRoom',
   authMiddleware,
   //Выполнение асинхронной функции
   async (req, res) => {
@@ -83,17 +83,22 @@ router.get(
 
       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
     } catch (e) {
-      console.log(e);
-      res.send({ message: "Ошибка сервера в auth.routes router.get('/allRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/allRoom').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/allRoom')." });
     }
   }
 );
 
-//PUT-запрос по ссылке /update для обновления апартаментов
+//PUT-запрос по ссылке /roomOneUpdate для обновления апартаментов
 router.put(
-  "/updateRoom",
+  '/updateOneRoom',
   //Проверка отправляемых полей на корректность
-  [check("name", "Некоректное или слишком короткое имя.").isString().isLength({ min: 3, max: 30 }), check("person1", "Некоректный person1.").isNumeric(), check("person2", "Некоректный person2.").isNumeric(), check("price", "Некоректный price.").isNumeric()],
+  [
+    check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 30 }),
+    check('person1', 'Некоректный person1.').isNumeric(),
+    check('person2', 'Некоректный person2.').isNumeric(),
+    check('price', 'Некоректный price.').isNumeric(),
+  ],
   //Выполнение асинхронной функции
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
@@ -109,8 +114,8 @@ router.put(
       //console.log(_id)
 
       //Выводим в логи сервера результат
-      console.log("\nЗапрос на обновление апартаментов: (id: " + candidate.id + ")");
-      console.log("\nТекущие данные:");
+      console.log('\nЗапрос на обновление апартаментов: (id: ' + candidate.id + ')');
+      console.log('\nТекущие данные:');
       console.log({
         hotel: hotel.name,
         name: candidate.name,
@@ -118,7 +123,7 @@ router.put(
         person2: candidate.person2,
         price: candidate.price,
       });
-      console.log("\nНовые данные:");
+      console.log('\nНовые данные:');
       console.log({
         hotel: hotel.name,
         name: req.body.name,
@@ -132,8 +137,8 @@ router.put(
 
       //В случае ошибки выводим сообщение об ошибке в консоль сервера и на сайт
       if (!errors.isEmpty()) {
-        console.log("\nОшибка обновления апартаментов:\n", errors.errors);
-        return res.status(400).json({ message: "Ошибка обновления апартаментов.", errors });
+        console.log('\nОшибка обновления апартаментов:\n', errors.errors);
+        return res.status(400).json({ message: 'Ошибка обновления апартаментов.', errors });
       }
 
       //Если ошибок нет
@@ -149,38 +154,38 @@ router.put(
       }
 
       //Выводим сообщение об успешной регистрации в консоль сервера и на сайт
-      console.log("\nДанные апартаментов обновленны.\n");
-      return res.json({ message: "Данные апартаментов обновленны!" });
+      console.log('\nДанные апартаментов обновленны.\n');
+      return res.json({ message: 'Данные апартаментов обновленны!' });
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка обновления апартаментов:\n", e);
-      res.send({ message: "Ошибка сервера в auth.routes router.get('/updateRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/updateOneRoom').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/updateOneRoom')." });
     }
   }
 );
 
-//GET-запрос по ссылке /oneRoom для получения конкретную запись апартаментов
-router.get(
-  "/oneRoom",
-  //Выполнение асинхронной функции
-  async (req, res) => {
-    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
-    try {
-      //Получаем значения отправленных полей
-      const { _id } = req.query;
+// //GET-запрос по ссылке /oneRoom для получения конкретную запись апартаментов
+// router.get(
+//   '/oneRoom',
+//   //Выполнение асинхронной функции
+//   async (req, res) => {
+//     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
+//     try {
+//       //Получаем значения отправленных полей
+//       const { _id } = req.query;
 
-      const room = await Rooms.findOne({ _id: _id });
+//       const room = await Rooms.findOne({ _id: _id });
 
-      //Возвращаем ответ клиентской части сервера в виде JSON-структуры
-      return res.json({ room });
+//       //Возвращаем ответ клиентской части сервера в виде JSON-структуры
+//       return res.json({ room });
 
-      //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
-    } catch (e) {
-      console.log(e);
-      res.send({ message: "Ошибка сервера в auth.routes router.get('/oneRoom')." });
-    }
-  }
-);
+//       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
+//     } catch (e) {
+//       console.log("\nОшибка API-сервера в rooms.routes router.put('/oneRoom').\n", e);
+//       res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/oneRoom')." });
+//     }
+//   }
+// );
 
 module.exports = router;
