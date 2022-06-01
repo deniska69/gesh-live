@@ -2,6 +2,7 @@
 const Router = require('express');
 const router = new Router();
 const Rooms = require('../models/Rooms');
+const Hotels = require('../models/Hotels');
 const { check, validationResult } = require('express-validator');
 const authMiddleware = require('../middleware/auth.middleware');
 
@@ -11,7 +12,7 @@ const authMiddleware = require('../middleware/auth.middleware');
 router.post(
   '/addRoom',
   //Проверка отправляемых полей на корректность
-  [check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 30 })],
+  [check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 50 })],
   //Выполнение асинхронной функции
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
@@ -30,7 +31,7 @@ router.post(
       }
 
       //Получаем значения отправленных полей
-      const { id_hotel, name, person1, person2, price } = req.body;
+      const { id_hotel, name } = req.body;
 
       const hotel = await Hotels.findOne({ _id: id_hotel });
 
@@ -42,7 +43,7 @@ router.post(
         return res.status(400).json({ message: `Апартаменты с названием "${name}" для отеля "${hotel.name}" уже существует.` });
       }
 
-      const room = new Rooms({ id_hotel, name, person1, person2, price }); //Создаём апартаменты
+      const room = new Rooms({ id_hotel, name }); //Создаём апартаменты
       await room.save(); //Сохранем апартаменты
 
       //Выводим в логи сервера результат успешной регистрации нового пользователя
@@ -51,9 +52,6 @@ router.post(
         id: room.id,
         hotel: hotel.name,
         name: room.name,
-        person1: room.person1,
-        person2: room.person2,
-        price: room.price,
       });
 
       //Выводим сообщение об успешной регистрации на сайт

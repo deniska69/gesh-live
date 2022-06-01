@@ -1,103 +1,52 @@
-import React, { useEffect, useState } from "react";
-import Input from "../../../utils/input/Input";
-import { useSelector, useDispatch } from "react-redux";
-import AddRoom from "./addRoom";
-import { allRoom, updateRoom } from "../../../actions/rooms";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { allRooms } from '../../../actions/rooms';
+import AddRoom from './addRoom';
 
-const RoomEditor = (props) => {
+const RoomEditor = props => {
   const dispatch = useDispatch();
-  const allRooms = useSelector((state) => state.room.listRooms);
-  const [isSelectRoom, setIsSelectRoom] = useState(false);
-  const [currentIDRoom, setIDRoom] = useState("");
-  const [nameRoom, setNameRoom] = useState("");
-  const [person1Room, setPerson1Room] = useState("");
-  const [person2Room, setPerson2Room] = useState("");
-  const [priceRoom, setPriceRoom] = useState("");
 
+  const allRoomsList = useSelector(state => state.room.roomsAll); //Получаем из редюсера список всех апартаментов, относящихся к выбранному отелю
+  const [isSelectRoom, setIsSelectRoom] = useState(false); //Выбраны ли какие-либо апартаменты из списка
+  const [selectRoom, setSelectRoom] = useState(''); //Выбранные апартаменты с данными из БД
+  const [selectRoomUpdate, setSelectRoomUpdate] = useState(''); //Выбраннык апартаменты с обновлёнными данными
+
+  //Функция загрузки списка всех апартаментов
   useEffect(() => {
-    setIsSelectRoom(false);
-    dispatch(allRoom(props.id_hotel));
+    dispatch(allRooms(props.value._id)); //Вызов функции загрузки списка всех апартаментов
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.id_hotel]);
+  }, [props]);
 
-  function updateRoomNow() {
-    if (isSelectRoom) {
-      updateRoom(currentIDRoom, props.id_hotel, nameRoom, person1Room, person2Room, priceRoom);
+  //Функция обработки выбора апартаментов из выпадающего списка
+  function selectRoomFromTheList(e) {
+    setIsSelectRoom(false); //Предварительно сбрасываем выбор апартаментов из списка
+
+    if (e.target.value !== '0') {
+      setIsSelectRoom(true); //Подтверждаем выбор отеля из списка
+      setSelectRoom(allRoomsList.filter(n => n._id === e.target.value)[0]); //Записываем в переменную данные выбранных апартаментов
+      setSelectRoomUpdate(allRoomsList.filter(n => n._id === e.target.value)[0]); //Записываем в переменную данные выбранных апартаментов с изменениями
     } else {
-      alert("Необходимо выбрать комнату!");
+      setIsSelectRoom(false); //Сбрасываем выбор апартаментов из списка
     }
   }
 
-  function changeHandlerRoomList(e) {
-    /* eslint eqeqeq: 0 */
-    if (e.target.value != 0) {
-      allRooms.reduce((res, note) => {
-        if (note._id === e.target.value) {
-          // eslint-disable-next-line
-          return setIsSelectRoom(true), setIDRoom(note._id), setNameRoom(note.name), setPerson1Room(note.person1), setPerson2Room(note.person2), setPriceRoom(note.price);
-        } else {
-          return res;
-        }
-      }, {});
-    } else {
-      setIsSelectRoom(false);
-    }
-  }
+  //Функция вызова функции в родительском компоненте для сохранения отеля
 
   return (
-    <div className="col-lg-6">
-      <div className="row align-item-start">
-        <h5>Редактирование апартаментов отеля {props.name_hotel}:</h5>
-
-        <div className="col-lg-6">
-          <label className="form-label" id="otstup">
-            Отступ
-          </label>
-          <select className="form-select" aria-label="Default select example" onChange={(e) => changeHandlerRoomList(e)}>
+    <div className="col-lg-5 blockRoomEditor">
+      <div className="row">
+        <div className="col-lg-10">
+          <select className="form-select form-select-sm selectRooms" aria-label="Default select example" onChange={e => selectRoomFromTheList(e)}>
             <option value={0}>Выберите апартаменты...</option>
-            {allRooms.map((allRooms) => (
-              <option key={allRooms._id.toString()} value={allRooms._id.toString()}>
-                {" "}
-                {allRooms.name.toString()}
+            {allRoomsList.map(room => (
+              <option key={room._id.toString()} value={room._id.toString()}>
+                {' '}
+                {room.name.toString()}
               </option>
             ))}
           </select>
-          <br />
-          <br />
-          <div className="d-grid gap-2">
-            <button className="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addRoomModal">
-              Добавить новые апартаменты
-            </button>
-          </div>
-
-          <AddRoom id_hotel={props.id_hotel} name_hotel={props.name_hotel} />
         </div>
-
-        {isSelectRoom && (
-          <div className="col-lg-6">
-            <div className="mb-3">
-              <label className="form-label">Название:</label>
-              <Input className="form-control" value={nameRoom} setValue={setNameRoom} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Количество вмещаемых взрослых:</label>
-              <Input className="form-control" value={person1Room} setValue={setPerson1Room} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Количество вмещаемых детей:</label>
-              <Input className="form-control" value={person2Room} setValue={setPerson2Room} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Цена за сутки:</label>
-              <Input className="form-control" value={priceRoom} setValue={setPriceRoom} />
-            </div>
-            <div className="mb-3">
-              <button type="button" className="btn btn-primary" onClick={() => updateRoomNow()}>
-                Сохранить апартаменты
-              </button>
-            </div>
-          </div>
-        )}
+        <AddRoom value={props.value} />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { allUsers } from '../../../actions/users';
-// eslint-disable-next-line
 import HotelBenefits from './hotelBenefits';
 import HotelDescription from './hotelDescription';
 import HotelGallery from './hotelGallery';
@@ -9,7 +8,7 @@ import HotelGallery from './hotelGallery';
 const HotelEditor = props => {
   const dispatch = useDispatch();
 
-  const isAdmin = useSelector(state => state.user.isAdmin); //Получаем из редюсера значение: является лиавторизованный пользователь администратором или нет
+  const isAdmin = useSelector(state => state.user.isAdmin); //Получаем из редюсера значение: является ли авторизованный пользователь администратором или нет
   const managersList = useSelector(state => state.user.listUsers); //Получаем из редюсера список пользователей (в данном случае только с уровнем доступа 3 - "Менеджер отеля")
 
   //Функция загрузки списка всех пользователей
@@ -34,10 +33,8 @@ const HotelEditor = props => {
     }
   }
 
-  //Функция вызова функции в родительском компоненте для сохранения отеля
-
   return (
-    <div className="col-lg-5">
+    <div className="col-lg-5 blockHotelEditor">
       {/* Блок отображающийся только для администраторов */}
       {isAdmin && (
         <div className="alert alert-warning" role="alert">

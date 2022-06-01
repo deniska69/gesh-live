@@ -21,7 +21,7 @@ export const addRoom = async (id_hotel, name) => {
 };
 
 //Функция получения всех записей Rooms для выбранного отеля
-export const allRoom = id_hotel => {
+export const allRooms = id_hotel => {
   return async dispatch => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {

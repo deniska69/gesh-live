@@ -133,3 +133,7 @@
 .selectHotels {
   margin-bottom: 0.5rem;
 }
+
+.blockHotelEditor {
+  border-right: 2px solid rgba(118, 122, 143, 0.459);
+}

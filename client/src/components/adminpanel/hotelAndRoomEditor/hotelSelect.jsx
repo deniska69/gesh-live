@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { allHotels, updateHotel } from '../../../actions/hotels';
-import HotelEditor from './hotelEditor';
+import { allRooms } from '../../../actions/rooms';
 import { toastView } from '../../App';
+import HotelEditor from './hotelEditor';
+import RoomEditor from './roomEditor';
 
 const HotelSelect = () => {
   const dispatch = useDispatch(); //Определяем диспетчер
@@ -18,7 +20,7 @@ const HotelSelect = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Отселживаем изменения в редюсре хранящем список всех отелей
+  //Отселживаем изменения в редюсере хранящем список всех отелей
   useEffect(() => {
     //Если отель уже выбран
     if (isSelectHotel) {
@@ -27,6 +29,15 @@ const HotelSelect = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allHotelsList]);
+
+  //Отселживаем state-переменной хранящей значение: выбран ли отель из списка
+  useEffect(() => {
+    //Если отель уже выбран
+    if (isSelectHotel) {
+      dispatch(allRooms(selectHotel._id)); //Вызов функции загрузки списка всех апартаментов отеля
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSelectHotel]);
 
   //Функция обработки выбора отеля из выпадающего списка
   function selectHotelFromTheList(e) {
@@ -90,6 +101,7 @@ const HotelSelect = () => {
         )}
       </div>
       {isSelectHotel && <HotelEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
+      {isSelectHotel && <RoomEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
     </div>
   );
 };
