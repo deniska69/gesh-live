@@ -13,6 +13,11 @@ const TextEditor = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
 
+  //Функция возвращения изменений в функцию переданную через props
+  function updateValue(content) {
+    props.setValue(content);
+  }
+
   const config = {
     readonly: false,
     buttons: ['bold', 'italic', 'underline', '|', 'left', 'center', 'right', 'justify', '|', 'ul', 'ol', '|', 'table', 'link', 'hr', '|', 'undo', 'redo', '|', 'eraser'],
@@ -22,7 +27,7 @@ const TextEditor = props => {
   };
 
   return useMemo(
-    () => <JoditEditor ref={editor} onChange={content => props.setValue(content)} config={config} tabIndex={1} value={valueNew} />,
+    () => <JoditEditor ref={editor} onChange={content => updateValue(content)} config={config} tabIndex={1} value={valueNew} />,
     // eslint-disable-next-line
     []
   );

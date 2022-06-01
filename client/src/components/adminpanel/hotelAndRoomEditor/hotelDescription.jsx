@@ -1,14 +1,8 @@
-// eslint-disable-next-line
-//import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line
-import React, { useRef, useState, useMemo, useEffect } from 'react';
-// eslint-disable-next-line
+import React from 'react';
 import TextEditor from '../../../utils/input/TextEditor';
-// eslint-disable-next-line
-import JoditEditor from 'jodit-react';
 
 const HotelDescription = props => {
-  //Функция
+  //Функция изменения описания отеля в state-переменной родителя
   function updateDescription(value) {
     props.setValue({ ...props.value, description: value });
   }
@@ -36,6 +30,14 @@ const HotelDescription = props => {
             </div>
             <div className="modal-body">
               <TextEditor value={props.value.description} setValue={updateDescription} />
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                Отмена
+              </button>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => props.updateHotelNow()}>
+                Сохранить
+              </button>
             </div>
           </div>
         </div>
