@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from "react";
-import "./hotelSelect.css";
-import Input from "../../utils/input/Input";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { allHotels } from "../../actions/hotels";
-import { findBooking } from "../../actions/bookings";
-import { setIsBookingTrue } from "../../reducers/bookingReducer";
-import { setFreeBooking } from "../../reducers/bookingReducer";
-import { setBokingOption } from "../../reducers/bookingReducer";
+import React, { useEffect, useState } from 'react';
+import './hotelSelect.css';
+import Input from '../../utils/input/Input';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { hotelsAll } from '../../actions/hotels';
+import { findBooking } from '../../actions/bookings';
+import { setIsBookingTrue, setFreeBooking, setBokingOption } from '../../reducers/bookingReducer';
 
 const HotelSelect = () => {
   const dispatch = useDispatch();
-  const allHotelsList = useSelector((state) => state.hotel.listHotels); //Список всех отелей
-  let allExBooking = useSelector((state) => state.booking.listExBooking); //Список всех существующих бронирований
-  let allFindBooking = useSelector((state) => state.booking.listFindBooking); //Список всех существующих апартаментов
+  const allHotelsList = useSelector(state => state.hotel.listHotels); //Список всех отелей
+  let allExBooking = useSelector(state => state.booking.listExBooking); //Список всех существующих бронирований
+  let allFindBooking = useSelector(state => state.booking.listFindBooking); //Список всех существующих апартаментов
 
   //Переменные для хранения критерий поиска бронирования
   var id_hotel;
-  const [currentIDHotel, setCurrentIDHotel] = useState(""); //ID выбранного отеля
-  const [currentPerson1, setPerson1] = useState(""); //Кол-во взрослых
-  const [currentPerson2, setPerson2] = useState(""); //Кол-во детей
-  const [currentDate1, setDate1] = useState(""); //Дата заезда
-  const [currentDate2, setDate2] = useState(""); //Дата выезда
+  const [currentIDHotel, setCurrentIDHotel] = useState(''); //ID выбранного отеля
+  const [currentPerson1, setPerson1] = useState(''); //Кол-во взрослых
+  const [currentPerson2, setPerson2] = useState(''); //Кол-во детей
+  const [currentDate1, setDate1] = useState(''); //Дата заезда
+  const [currentDate2, setDate2] = useState(''); //Дата выезда
 
   let date1;
   let date2;
@@ -45,7 +43,7 @@ const HotelSelect = () => {
 
   //Вызов функции для получения списка названий всех отелей
   useEffect(() => {
-    dispatch(allHotels());
+    dispatch(hotelsAll());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -64,7 +62,7 @@ const HotelSelect = () => {
 
       notify();
     } else {
-      setCurrentIDHotel("all");
+      setCurrentIDHotel('all');
     }
   }
 
@@ -72,7 +70,7 @@ const HotelSelect = () => {
   function changeHandlerD1(e) {
     var now = new Date();
 
-    if (currentDate2 == "") {
+    if (currentDate2 == '') {
       if (new Date(e.target.value) > now) {
         setDate1(e.target.value);
         setIsValidDate1(true);
@@ -93,7 +91,7 @@ const HotelSelect = () => {
   function changeHandlerD2(e) {
     var now = new Date();
 
-    if (currentDate1 == "") {
+    if (currentDate1 == '') {
       if (new Date(e.target.value) > now) {
         setDate2(e.target.value);
         setIsValidDate2(true);
@@ -112,13 +110,13 @@ const HotelSelect = () => {
 
   //Функция валидации полей
   function validateFields(hotel, p1, p2, d1, d2) {
-    if (hotel == "") {
-      id_hotel = "all";
+    if (hotel == '') {
+      id_hotel = 'all';
     } else {
       id_hotel = currentIDHotel;
     }
 
-    if (p1 == "") {
+    if (p1 == '') {
       validP1 = false;
       setIsValidPerson1(false);
     } else {
@@ -126,7 +124,7 @@ const HotelSelect = () => {
       setIsValidPerson1(true);
     }
 
-    if (p2 == "") {
+    if (p2 == '') {
       validP2 = false;
       setIsValidPerson2(false);
     } else {
@@ -134,7 +132,7 @@ const HotelSelect = () => {
       setIsValidPerson2(true);
     }
 
-    if (d1 == "") {
+    if (d1 == '') {
       validD1 = false;
       setIsValidDate1(false);
     } else {
@@ -142,7 +140,7 @@ const HotelSelect = () => {
       setIsValidDate1(true);
     }
 
-    if (d2 == "") {
+    if (d2 == '') {
       validD2 = false;
       setIsValidDate2(false);
     } else {
@@ -194,11 +192,11 @@ const HotelSelect = () => {
             <label className="col-form-label">Отель:</label>
           </div>
           <div className="col-sm-6">
-            <select className="form-select" aria-label="Default select example" onChange={(b) => changeHandlerHotelList(b)}>
+            <select className="form-select" aria-label="Default select example" onChange={b => changeHandlerHotelList(b)}>
               <option value={0}>Все отели</option>
-              {allHotelsList.map((allHotels) => (
+              {allHotelsList.map(allHotels => (
                 <option key={allHotels._id.toString()} value={allHotels._id.toString()}>
-                  {" "}
+                  {' '}
                   {allHotels.name.toString()}
                 </option>
               ))}
@@ -214,7 +212,15 @@ const HotelSelect = () => {
             <label className="col-form-label">Дата заезда:</label>
           </div>
           <div className="col-sm-6">
-            <input onChange={(e) => changeHandlerD1(e)} type="date" id="date" name="date" placeholder="Дата" required className={isValidDate1 ? "form-control" : "form-control invalid"} />
+            <input
+              onChange={e => changeHandlerD1(e)}
+              type="date"
+              id="date"
+              name="date"
+              placeholder="Дата"
+              required
+              className={isValidDate1 ? 'form-control' : 'form-control invalid'}
+            />
           </div>
         </div>
         <br />
@@ -225,7 +231,15 @@ const HotelSelect = () => {
             <label className="col-form-label">Дата выезда:</label>
           </div>
           <div className="col-sm-6">
-            <input onChange={(e) => changeHandlerD2(e)} type="date" id="date" name="date" placeholder="Дата" required className={isValidDate2 ? "form-control" : "form-control invalid"} />
+            <input
+              onChange={e => changeHandlerD2(e)}
+              type="date"
+              id="date"
+              name="date"
+              placeholder="Дата"
+              required
+              className={isValidDate2 ? 'form-control' : 'form-control invalid'}
+            />
           </div>
         </div>
         <br />
@@ -236,7 +250,7 @@ const HotelSelect = () => {
             <label className="col-form-label">Кол-во взрослых:</label>
           </div>
           <div className="col-sm-6">
-            <Input value={currentPerson1} setValue={setPerson1} type="text" className={isValidPerson1 ? "form-control" : "form-control invalid"} />
+            <Input value={currentPerson1} setValue={setPerson1} type="text" className={isValidPerson1 ? 'form-control' : 'form-control invalid'} />
           </div>
         </div>
         <br />
@@ -247,7 +261,7 @@ const HotelSelect = () => {
             <label className="col-form-label">Кол-во детей:</label>
           </div>
           <div className="col-sm-6">
-            <Input value={currentPerson2} setValue={setPerson2} type="text" className={isValidPerson2 ? "form-control" : "form-control invalid"} />
+            <Input value={currentPerson2} setValue={setPerson2} type="text" className={isValidPerson2 ? 'form-control' : 'form-control invalid'} />
           </div>
         </div>
         <br />
@@ -256,7 +270,11 @@ const HotelSelect = () => {
         <div className="row">
           <div className="col-sm-6 d-grid gap-2"></div>
           <div className="col-sm-6 d-grid gap-2">
-            <button className="btn btn-primary" type="button" id="button_auth" onClick={() => outputBooking(currentIDHotel, currentPerson1, currentPerson2, currentDate1, currentDate2)}>
+            <button
+              className="btn btn-primary"
+              type="button"
+              id="button_auth"
+              onClick={() => outputBooking(currentIDHotel, currentPerson1, currentPerson2, currentDate1, currentDate2)}>
               Подобрать апартаменты
             </button>
           </div>

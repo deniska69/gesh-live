@@ -7,11 +7,11 @@ import { toastView } from '../components/App';
 ///////////// Hotels ///////////////
 
 //Функция добавления нового отеля
-export const addHotel = async (name, id_manager) => {
+export const hotelAdd = async (name, id_manager) => {
   //Оборовачиваем выполняемый код в try/cath для отлова ошибок
   try {
     //Отправка асинхронного POST-запроса на серверную часть
-    const response = await axios.post(`${API_URL}api/auth/addHotel`, {
+    const response = await axios.post(`${API_URL}api/auth/hotelAdd`, {
       name,
       id_manager,
     });
@@ -22,7 +22,7 @@ export const addHotel = async (name, id_manager) => {
 };
 
 //Функция получения данных одного отеля
-export const oneHotel = (_id, url) => {
+export const hotelOne = (_id, url) => {
   return async dispatch => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
@@ -40,12 +40,12 @@ export const oneHotel = (_id, url) => {
 };
 
 //Функция получения всех записей Hotels
-export const allHotels = () => {
+export const hotelsAll = () => {
   return async dispatch => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Отправка асинхронного POST-запроса на серверную часть
-      const response = await axios.get(`${API_URL}api/auth/allHotel`, {
+      const response = await axios.get(`${API_URL}api/auth/hotelsAll`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, //Отправка токена аутентификации из локального хранилища на компьютере клиента
       });
 
@@ -57,12 +57,12 @@ export const allHotels = () => {
 };
 
 //Функция обновления данных отеля
-export const updateHotel = (_id, name, description, id_manager, url, benefits) => {
+export const hotelOneUpdate = (_id, name, description, id_manager, url, benefits) => {
   return async dispatch => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
     try {
       //Отправка асинхронного PUT-запроса на серверную часть
-      const response = await axios.put(`${API_URL}api/auth/updateOneHotel`, {
+      const response = await axios.put(`${API_URL}api/auth/hotelOneUpdate`, {
         _id,
         name,
         description,
@@ -80,7 +80,7 @@ export const updateHotel = (_id, name, description, id_manager, url, benefits) =
 };
 
 //Функция загрузки изображений галереи на сервер
-export const uploadHotelsGallery = (id_hotel, imagesList) => {
+export const hotelGalleryUpload = (id_hotel, imagesList) => {
   return async dispatch => {
     try {
       const formData = new FormData();
@@ -88,7 +88,7 @@ export const uploadHotelsGallery = (id_hotel, imagesList) => {
         formData.append('file', image);
       }
 
-      const response = await axios.post(`${API_URL}api/files/uploadHotelsGallery?id_hotel=${id_hotel}&count_images=${imagesList.length}`, formData, {
+      const response = await axios.post(`${API_URL}api/files/hotelGalleryUpload?id_hotel=${id_hotel}&count_images=${imagesList.length}`, formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'multipart/form-data' },
       });
 
@@ -101,10 +101,10 @@ export const uploadHotelsGallery = (id_hotel, imagesList) => {
 };
 
 //Функция удаления изображений галереи на сервер
-export const deleteHotelsGallery = (id_hotel, listNameImages) => {
+export const hotelGalleryDelete = (id_hotel, listNameImages) => {
   return async dispatch => {
     try {
-      const response = await axios.post(`${API_URL}api/files/deleteHotelsGallery?id_hotel=${id_hotel}`, listNameImages, {
+      const response = await axios.post(`${API_URL}api/files/hotelGalleryDelete?id_hotel=${id_hotel}`, listNameImages, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 

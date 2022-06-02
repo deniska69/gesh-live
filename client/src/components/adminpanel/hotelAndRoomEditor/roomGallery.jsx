@@ -3,17 +3,17 @@ import { useDispatch } from 'react-redux';
 import { XCircleFill, CloudArrowUpFill } from 'react-bootstrap-icons';
 import { API_URL } from '../../../config';
 import imageError from '../../../assets/img/error.png';
-import { hotelGalleryUpload, hotelGalleryDelete } from '../../../actions/hotels';
+import { roomGalleryUpload, roomGalleryDelete } from '../../../actions/rooms';
 import { toastView } from '../../App';
 
-const HotelGallery = props => {
+const RoomGallery = props => {
   const dispatch = useDispatch(); //Определяем диспетчер
 
-  const [gallery, setGallery] = useState(props.value.gallery); //Список изображений галереи отеля
+  const [gallery, setGallery] = useState(props.value.gallery); //Список изображений галереи апартаментов
 
   //Отслеживаем изменения в props
   useEffect(() => {
-    setGallery(props.value.gallery); //Обновляем state-переменную, в которой хранится из которой выводится список изображений галереи оетля на страницу
+    setGallery(props.value.gallery); //Обновляем state-переменную, в которой хранится из которой выводится список изображений галереи апартаментов на страницу
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value.gallery]);
 
@@ -26,13 +26,13 @@ const HotelGallery = props => {
     fileInput.click();
   }
 
-  //Функция добавления новых изображений в галерею отеля
+  //Функция добавления новых изображений в галерею апартаментов
   function addGalleryToArray(e) {
     const files = e.target.files; //Получаем список выбранных файлов из диалогового окна
     const filesVerified = []; //Создаём переменную, для проверенных файлов
 
-    //Проверяем: не выбрано ли больше 10 файлов с учётом количества уже загруженых изображений в галерею отеля
-    if (files.length > 10 || gallery.length + files.length > 10) {
+    //Проверяем: не выбрано ли больше 5 файлов с учётом количества уже загруженых изображений в галерею апартаментов
+    if (files.length > 10 || gallery.length + files.length > 5) {
       return toastView('error', 'Загрузить можно не более 10 изображений.');
     }
 
@@ -46,17 +46,17 @@ const HotelGallery = props => {
     }
 
     //Передаём список проверенных файлов в action загрузки изображений на сервер
-    dispatch(hotelGalleryUpload(props.value._id, filesVerified));
+    dispatch(roomGalleryUpload(props.value._id, filesVerified));
 
     e.target.value = '';
   }
 
-  //Функция удаления одного изображений из галереи отеля
+  //Функция удаления одного изображений из галереи апартаментов
   function removeGalleryFromArray(nameImage) {
-    dispatch(hotelGalleryDelete(props.value._id, [{ image: nameImage }]));
+    dispatch(roomGalleryDelete(props.value._id, [{ image: nameImage }]));
   }
 
-  //Функция удаления всех изображений из галереи отеля
+  //Функция удаления всех изображений из галереи апартаментов
   function removeAllGalleryFromArray() {
     const imageList = []; //Создаём переменную, для списка изображений на удаление
 
@@ -66,7 +66,7 @@ const HotelGallery = props => {
     }
 
     //Передаём список имён изображений в action удаления изображения с сервера
-    dispatch(hotelGalleryDelete(props.value._id, imageList));
+    dispatch(roomGalleryDelete(props.value._id, imageList));
   }
 
   return (
@@ -86,7 +86,7 @@ const HotelGallery = props => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Галерея отеля {props.value.name} ({gallery ? gallery.length : '0'} из 10)
+                Галерея отеля {props.value.name} ({gallery ? gallery.length : '0'} из 5)
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -109,7 +109,7 @@ const HotelGallery = props => {
                     </div>
                   ))}
                 </div>
-                {gallery.length < 10 && (
+                {gallery.length < 5 && (
                   <div>
                     <input id="btnSelectGalleryHide" accept=".jpg,.jpeg,.png" onChange={e => addGalleryToArray(e)} type="file" multiple />
                     <button type="button" className="btn btn-outline-primary btnBenefitsAddnew" onClick={() => selectGalleryShow()}>
@@ -133,4 +133,4 @@ const HotelGallery = props => {
   );
 };
 
-export default HotelGallery;
+export default RoomGallery;

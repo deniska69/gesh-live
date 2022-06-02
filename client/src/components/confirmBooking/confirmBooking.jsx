@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import "./confirmBooking.css";
-import { useDispatch, useSelector } from "react-redux";
-import { oneBooking } from "../../actions/bookings";
-import { updateBooking } from "../../actions/bookings";
-import { oneRoom } from "../../actions/rooms";
+import React, { useEffect } from 'react';
+import './confirmBooking.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { oneBooking } from '../../actions/bookings';
+import { updateBooking } from '../../actions/bookings';
+import { roomOne } from '../../actions/rooms';
 
-const ConfirmBooking = (props) => {
+const ConfirmBooking = props => {
   const dispatch = useDispatch();
   const id_booking = props.match.params.idBooking;
   const id_room = props.match.params.idRoom;
@@ -13,12 +13,12 @@ const ConfirmBooking = (props) => {
   //Вызов функции для получения одной записи претензии из базы данных
   useEffect(() => {
     dispatch(oneBooking(id_booking));
-    dispatch(oneRoom(id_room));
+    dispatch(roomOne(id_room));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const booking = useSelector((state) => state.booking.oneBooking);
-  const room = useSelector((state) => state.room.currentRoom);
+  const booking = useSelector(state => state.booking.oneBooking);
+  const room = useSelector(state => state.room.currentRoom);
 
   let date1 = new Date(booking.date1);
   let date2 = new Date(booking.date2);

@@ -9,7 +9,13 @@ const TextEditor = props => {
   //Функция прослушивания изменений в переменной initialValue >> обновление текста в редакторе
   useEffect(() => {
     const jEditor = document.querySelector('.jodit-wysiwyg');
-    jEditor.innerHTML = props.value;
+
+    if (props.value === undefined) {
+      jEditor.innerHTML = 'Введите описание...';
+    } else {
+      jEditor.innerHTML = props.value;
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.value]);
 

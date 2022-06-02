@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { allHotels, updateHotel } from '../../../actions/hotels';
-import { allRooms } from '../../../actions/rooms';
+import { hotelsAll, hotelOneUpdate } from '../../../actions/hotels';
+import { roomsAll } from '../../../actions/rooms';
 import { toastView } from '../../App';
 import HotelEditor from './hotelEditor';
-import RoomEditor from './roomEditor';
+import RoomSelect from './roomSelect';
 
 const HotelSelect = () => {
   const dispatch = useDispatch(); //Определяем диспетчер
@@ -16,7 +16,7 @@ const HotelSelect = () => {
 
   //Функция загрузки списка всех отелей при обновлении страницы
   useEffect(() => {
-    dispatch(allHotels()); //Вызов функции загрузки списка всех отелей с занесением их в редюсер
+    dispatch(hotelsAll()); //Вызов функции загрузки списка всех отелей с занесением их в редюсер
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -34,7 +34,7 @@ const HotelSelect = () => {
   useEffect(() => {
     //Если отель уже выбран
     if (isSelectHotel) {
-      dispatch(allRooms(selectHotel._id)); //Вызов функции загрузки списка всех апартаментов отеля
+      dispatch(roomsAll(selectHotel._id)); //Вызов функции загрузки списка всех апартаментов отеля
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectHotel]);
@@ -52,12 +52,12 @@ const HotelSelect = () => {
     }
   }
 
-  //Функция обновления данных выбранного отеля
+  //Функция сохранения данных выбранного отеля
   function updateHotelNow() {
     if (selectHotelUpdate.url !== '') {
       //Вызываем функцию обновления данных отеля
       dispatch(
-        updateHotel(
+        hotelOneUpdate(
           selectHotelUpdate._id,
           selectHotelUpdate.name,
           selectHotelUpdate.description,
@@ -101,7 +101,7 @@ const HotelSelect = () => {
         )}
       </div>
       {isSelectHotel && <HotelEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
-      {isSelectHotel && <RoomEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
+      {isSelectHotel && <RoomSelect value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
     </div>
   );
 };

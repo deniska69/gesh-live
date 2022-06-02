@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../../../utils/input/Input';
-import { addRoom } from '../../../actions/rooms';
+import { roomAdd } from '../../../actions/rooms';
 import { Plus } from 'react-bootstrap-icons';
 
 const AddRoom = props => {
@@ -8,7 +8,7 @@ const AddRoom = props => {
 
   //Функция отправки запроса добавления новый апартаментов
   function addRoomNow() {
-    addRoom(props.value._id, name);
+    roomAdd(props.value, name);
   }
 
   return (

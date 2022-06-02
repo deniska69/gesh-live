@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './hotel.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { oneHotel } from '../../actions/hotels';
+import { hotelOne } from '../../actions/hotels';
 import { Check2Circle } from 'react-bootstrap-icons';
 import { API_URL } from '../../config';
 
@@ -12,7 +12,7 @@ const Hotel = props => {
 
   //Вызов функции для получения данных одного отеля
   useEffect(() => {
-    dispatch(oneHotel('', urlHotel));
+    dispatch(hotelOne('', urlHotel));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

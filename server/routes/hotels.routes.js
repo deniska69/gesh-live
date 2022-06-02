@@ -7,9 +7,9 @@ const authMiddleware = require('../middleware/auth.middleware');
 
 ///////////// Hotels ///////////////
 
-//POST-запрос по ссылке /addhotel для добавления нового отеля
+//POST-запрос по ссылке /hotelAdd для добавления нового отеля
 router.post(
-  '/addhotel',
+  '/hotelAdd',
   //Проверка отправляемых полей на корректность
   [check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 30 })],
   //Выполнение асинхронной функции
@@ -111,15 +111,44 @@ router.post(
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка API-сервера в hotels.routes router.put('/addhotel').\n", e);
-      res.status(400).json({ message: "Ошибка API-сервера в hotels.routes router.put('/addhotel')." });
+      console.log("\nОшибка API-сервера в hotels.routes router.put('/hotelAdd').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в hotels.routes router.put('/hotelAdd')." });
     }
   }
 );
 
-//GET-запрос по ссылке /allhotels для получения списка отелей
+//PUT-запрос по ссылке /hotelOne для получения данных по одному отелю
+router.put(
+  '/hotelOne',
+  //Выполнение асинхронной функции
+  async (req, res) => {
+    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
+    try {
+      //Получаем значения отправленных полей
+      const { _id, url } = req.body;
+
+      //Получаем из БД текущие данные отеля
+      if (_id != '') {
+        const hotel = await Hotels.findOne({ _id: _id });
+        return res.json({ hotel });
+      }
+
+      if (url != '') {
+        const hotel = await Hotels.findOne({ url: url });
+        return res.json({ hotel });
+      }
+
+      //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
+    } catch (e) {
+      console.log("\nОшибка API-сервера в hotels.routes router.put('/hotelOne').\n", e);
+      res.status(400).send({ message: "Ошибка API-сервера в hotels.routes router.put('/hotelOne')." });
+    }
+  }
+);
+
+//GET-запрос по ссылке /hotelsAll для получения списка отелей
 router.get(
-  '/allhotel',
+  '/hotelsAll',
   authMiddleware,
   //Выполнение асинхронной функции
   async (req, res) => {
@@ -134,15 +163,15 @@ router.get(
 
       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
     } catch (e) {
-      console.log("\nОшибка API-сервера в hotels.routes router.put('/allhotel').\n", e);
-      res.status(400).json({ message: "Ошибка API-сервера в hotels.routes router.put('/allhotel')." });
+      console.log("\nОшибка API-сервера в hotels.routes router.put('/hotelsAll').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в hotels.routes router.put('/hotelsAll')." });
     }
   }
 );
 
-//PUT-запрос по ссылке /updateOneHotel для обновления отеля
+//PUT-запрос по ссылке /hotelOneUpdate для обновления отеля
 router.put(
-  '/updateOneHotel',
+  '/hotelOneUpdate',
   //Выполнение асинхронной функции
   async (req, res) => {
     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
@@ -257,37 +286,8 @@ router.put(
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка API-сервера в hotels.routes router.put('/updateOneHotel').\n", e);
-      res.status(400).send({ message: "Ошибка API-сервера в hotels.routes router.put('/updateOneHotel')." });
-    }
-  }
-);
-
-//PUT-запрос по ссылке /hotelOne для получения данных по одному отелю
-router.put(
-  '/hotelOne',
-  //Выполнение асинхронной функции
-  async (req, res) => {
-    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
-    try {
-      //Получаем значения отправленных полей
-      const { _id, url } = req.body;
-
-      //Получаем из БД текущие данные отеля
-      if (_id != '') {
-        const hotel = await Hotels.findOne({ _id: _id });
-        return res.json({ hotel });
-      }
-
-      if (url != '') {
-        const hotel = await Hotels.findOne({ url: url });
-        return res.json({ hotel });
-      }
-
-      //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
-    } catch (e) {
-      console.log("\nОшибка API-сервера в hotels.routes router.put('/hotelOne').\n", e);
-      res.status(400).send({ message: "Ошибка API-сервера в hotels.routes router.put('/hotelOne')." });
+      console.log("\nОшибка API-сервера в hotels.routes router.put('/hotelOneUpdate').\n", e);
+      res.status(400).send({ message: "Ошибка API-сервера в hotels.routes router.put('/hotelOneUpdate')." });
     }
   }
 );

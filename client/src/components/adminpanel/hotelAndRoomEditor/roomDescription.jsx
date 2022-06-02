@@ -1,7 +1,7 @@
 import React from 'react';
 import TextEditor from '../../../utils/input/TextEditor';
 
-const HotelDescription = props => {
+const RoomDescription = props => {
   //Функция изменения описания отеля в state-переменной родителя
   function updateDescription(value) {
     props.setValue({ ...props.value, description: value });
@@ -13,18 +13,18 @@ const HotelDescription = props => {
         <label className="form-label form-control-sm">Описание:</label>
       </div>
       <div className="col-sm-9">
-        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditDescriptionHotel">
+        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditDescriptionRoom">
           Редактировать
         </button>
       </div>
 
       {/* Модальное окно с редактором описания отеля */}
-      <div className="modal fade" id="modalEditDescriptionHotel" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="modalEditDescriptionRoom" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Описание отеля {props.value.nameHotel}
+                Описание апартаментов {props.value.nameHotel}
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -35,7 +35,7 @@ const HotelDescription = props => {
               <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
                 Отмена
               </button>
-              <button type="button" className="btn btn-primary btn-sm" onClick={() => props.updateHotelNow()}>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => props.updateRoomNow()}>
                 Сохранить
               </button>
             </div>
@@ -46,4 +46,4 @@ const HotelDescription = props => {
   );
 };
 
-export default HotelDescription;
+export default RoomDescription;

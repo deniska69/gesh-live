@@ -8,9 +8,9 @@ const authMiddleware = require('../middleware/auth.middleware');
 
 ///////////// Rooms ////////////////
 
-//POST-запрос по ссылке /addRoom для добавления новых апартаментов
+//POST-запрос по ссылке /roomAdd для добавления новых апартаментов
 router.post(
-  '/addRoom',
+  '/roomAdd',
   //Проверка отправляемых полей на корректность
   [check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 50 })],
   //Выполнение асинхронной функции
@@ -59,15 +59,15 @@ router.post(
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка API-сервера в rooms.routes router.put('/addRoom').\n", e);
-      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/addRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/roomAdd').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/roomAdd')." });
     }
   }
 );
 
-//GET-запрос по ссылке /allRoom для получения списка апартаментов для выбранного отеля
+//GET-запрос по ссылке /roomsAll для получения списка апартаментов для выбранного отеля
 router.get(
-  '/allRoom',
+  '/roomsAll',
   authMiddleware,
   //Выполнение асинхронной функции
   async (req, res) => {
@@ -81,15 +81,15 @@ router.get(
 
       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
     } catch (e) {
-      console.log("\nОшибка API-сервера в rooms.routes router.put('/allRoom').\n", e);
-      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/allRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/roomsAll').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/roomsAll')." });
     }
   }
 );
 
 //PUT-запрос по ссылке /roomOneUpdate для обновления апартаментов
 router.put(
-  '/updateOneRoom',
+  '/roomOneUpdate',
   //Проверка отправляемых полей на корректность
   [
     check('name', 'Некоректное или слишком короткое имя.').isString().isLength({ min: 3, max: 30 }),
@@ -157,8 +157,8 @@ router.put(
 
       //В случае возникновения непредвиенной ошибки - выводим сообщение об ошибке в консоль сервера и на сайт
     } catch (e) {
-      console.log("\nОшибка API-сервера в rooms.routes router.put('/updateOneRoom').\n", e);
-      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/updateOneRoom')." });
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/roomOneUpdate').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/roomOneUpdate')." });
     }
   }
 );

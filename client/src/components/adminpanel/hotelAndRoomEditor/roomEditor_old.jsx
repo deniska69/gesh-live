@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Input from "../../../utils/input/Input";
-import { useSelector, useDispatch } from "react-redux";
-import AddRoom from "./addRoom";
-import { allRoom, updateRoom } from "../../../actions/rooms";
+import React, { useEffect, useState } from 'react';
+import Input from '../../../utils/input/Input';
+import { useSelector, useDispatch } from 'react-redux';
+import AddRoom from './roomAdd';
+import { allRoom, updateRoom } from '../../../actions/rooms';
 
-const RoomEditor = (props) => {
+const RoomEditor = props => {
   const dispatch = useDispatch();
-  const allRooms = useSelector((state) => state.room.listRooms);
+  const allRooms = useSelector(state => state.room.listRooms);
   const [isSelectRoom, setIsSelectRoom] = useState(false);
-  const [currentIDRoom, setIDRoom] = useState("");
-  const [nameRoom, setNameRoom] = useState("");
-  const [person1Room, setPerson1Room] = useState("");
-  const [person2Room, setPerson2Room] = useState("");
-  const [priceRoom, setPriceRoom] = useState("");
+  const [currentIDRoom, setIDRoom] = useState('');
+  const [nameRoom, setNameRoom] = useState('');
+  const [person1Room, setPerson1Room] = useState('');
+  const [person2Room, setPerson2Room] = useState('');
+  const [priceRoom, setPriceRoom] = useState('');
 
   useEffect(() => {
     setIsSelectRoom(false);
@@ -24,7 +24,7 @@ const RoomEditor = (props) => {
     if (isSelectRoom) {
       updateRoom(currentIDRoom, props.id_hotel, nameRoom, person1Room, person2Room, priceRoom);
     } else {
-      alert("Необходимо выбрать комнату!");
+      alert('Необходимо выбрать комнату!');
     }
   }
 
@@ -53,11 +53,11 @@ const RoomEditor = (props) => {
           <label className="form-label" id="otstup">
             Отступ
           </label>
-          <select className="form-select" aria-label="Default select example" onChange={(e) => changeHandlerRoomList(e)}>
+          <select className="form-select" aria-label="Default select example" onChange={e => changeHandlerRoomList(e)}>
             <option value={0}>Выберите апартаменты...</option>
-            {allRooms.map((allRooms) => (
+            {allRooms.map(allRooms => (
               <option key={allRooms._id.toString()} value={allRooms._id.toString()}>
-                {" "}
+                {' '}
                 {allRooms.name.toString()}
               </option>
             ))}
