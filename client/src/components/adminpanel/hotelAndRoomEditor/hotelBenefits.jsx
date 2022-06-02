@@ -47,7 +47,7 @@ const HotelBenefits = props => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Преимущества отеля {props.value.name} ({benefits ? benefits.length : '0'} из 10)
+                Преимущества отеля "{props.value.name}" ({benefits ? benefits.length : '0'} из 10)
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

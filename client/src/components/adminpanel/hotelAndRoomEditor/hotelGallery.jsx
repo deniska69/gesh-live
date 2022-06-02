@@ -75,18 +75,18 @@ const HotelGallery = props => {
         <label className="form-label form-control-sm">Галерея:</label>
       </div>
       <div className="col-sm-9">
-        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGallery">
+        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGalleryHotel">
           Редактировать
         </button>
       </div>
 
       {/* Модальное окно с редактором галереи отеля */}
-      <div className="modal fade" id="modalEditGallery" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="modalEditGalleryHotel" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Галерея отеля {props.value.name} ({gallery ? gallery.length : '0'} из 10)
+                Галерея отеля "{props.value.name}" ({gallery ? gallery.length : '0'} из 10)
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

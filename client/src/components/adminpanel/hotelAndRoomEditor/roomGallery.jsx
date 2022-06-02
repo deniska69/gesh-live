@@ -33,7 +33,7 @@ const RoomGallery = props => {
 
     //Проверяем: не выбрано ли больше 5 файлов с учётом количества уже загруженых изображений в галерею апартаментов
     if (files.length > 10 || gallery.length + files.length > 5) {
-      return toastView('error', 'Загрузить можно не более 10 изображений.');
+      return toastView('error', 'Загрузить можно не более 5 изображений.');
     }
 
     //Проверяем: являются ли выбранные файлы подходящим нам изображением
@@ -46,14 +46,14 @@ const RoomGallery = props => {
     }
 
     //Передаём список проверенных файлов в action загрузки изображений на сервер
-    dispatch(roomGalleryUpload(props.value._id, filesVerified));
+    dispatch(roomGalleryUpload(props.id_hotel, props.value._id, filesVerified));
 
     e.target.value = '';
   }
 
   //Функция удаления одного изображений из галереи апартаментов
   function removeGalleryFromArray(nameImage) {
-    dispatch(roomGalleryDelete(props.value._id, [{ image: nameImage }]));
+    dispatch(roomGalleryDelete(props.id_hotel, props.value._id, [{ image: nameImage }]));
   }
 
   //Функция удаления всех изображений из галереи апартаментов
@@ -66,7 +66,7 @@ const RoomGallery = props => {
     }
 
     //Передаём список имён изображений в action удаления изображения с сервера
-    dispatch(roomGalleryDelete(props.value._id, imageList));
+    dispatch(roomGalleryDelete(props.id_hotel, props.value._id, imageList));
   }
 
   return (
@@ -75,18 +75,18 @@ const RoomGallery = props => {
         <label className="form-label form-control-sm">Галерея:</label>
       </div>
       <div className="col-sm-9">
-        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGallery">
+        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditGalleryRoom">
           Редактировать
         </button>
       </div>
 
       {/* Модальное окно с редактором галереи отеля */}
-      <div className="modal fade" id="modalEditGallery" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="modalEditGalleryRoom" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Галерея отеля {props.value.name} ({gallery ? gallery.length : '0'} из 5)
+                Галерея апартаментов "{props.value.name}" ({gallery ? gallery.length : '0'} из 5)
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -96,10 +96,13 @@ const RoomGallery = props => {
                   {gallery.map((item, index) => (
                     <div className="col colGalleryItem" key={index}>
                       {/* // eslint-disable-next-line */}
-                      <a href={`${API_URL + '\\hotels\\' + props.value._id + '\\gallery\\' + item.image}`} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={`${API_URL + '\\hotels\\' + props.id_hotel + '\\rooms\\' + props.value._id + '\\gallery\\' + item.image}`}
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <img
                           className="rounded border shadow galleryHotelPreview"
-                          src={`${API_URL + '\\hotels\\' + props.value._id + '\\gallery\\' + item.image}`}
+                          src={`${API_URL + '\\hotels\\' + props.id_hotel + '\\rooms\\' + props.value._id + '\\gallery\\' + item.image}`}
                           alt={item.image}
                           // eslint-disable-next-line
                           onError={e => ((e.target.onerror = null), (e.target.src = imageError))}

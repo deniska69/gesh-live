@@ -8,5 +8,7 @@ router.post('/news', fileController.uploadNews);
 router.post('/events', fileController.uploadEvents);
 router.post('/hotelGalleryUpload', authMiddleware, fileController.hotelGalleryUpload);
 router.post('/hotelGalleryDelete', authMiddleware, fileController.hotelGalleryDelete);
+router.post('/roomGalleryUpload', authMiddleware, fileController.roomGalleryUpload);
+router.post('/roomGalleryDelete', authMiddleware, fileController.roomGalleryDelete);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const config = require('config');
 const fs = require('fs');
 const User = require('../models/User');
 const Hotel = require('../models/Hotels');
+const Room = require('../models/Rooms');
 const Uuid = require('uuid');
 
 class FileController {
@@ -109,6 +110,79 @@ class FileController {
       await hotel.save(); //Сохранем отель
 
       return res.json({ message: 'Выбранные изображения успешно удалены!', hotel }); //Возвращаем клиентской части список обновлённые данные отеля
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: 'Ошибка загрузки изображений галереи на сервер.' });
+    }
+  }
+
+  async roomGalleryUpload(req, res) {
+    try {
+      const idHotel = req.query.id_hotel; //Получаем ID отеля из запроса
+      const idRoom = req.query.id_room; //Получаем ID апартаментов из запроса
+      const countImages = req.query.count_images; //Получаем ID апартаментов из запроса
+      const files = req.files.file; //Получаем файлы из запроса
+      const fileNames = []; //Создаём пустой массив для хранения новых имён файлов
+      const path = config.get('staticPath') + '\\hotels\\' + idHotel + '\\rooms\\' + idRoom + '\\gallery\\'; //Заносим в переменную путь до директории
+      const room = await Room.findById(idRoom); //Получаем из БД текущие данные апартаментов
+      let galleryRoomNew = room.gallery; //Получаем изображения галереи апартаментов из БД в массив
+
+      //Проверяем наличие директории: если не существует >> рекурсивно создаём директории до нужной
+      if (!fs.existsSync(path)) {
+        fs.mkdirSync(path, { recursive: true });
+      }
+
+      if (countImages > 1) {
+        //Перебираем все файлы из запроса
+        for (const file of files) {
+          const fileName = Uuid.v4() + '.jpg'; //Генерируем новое имя
+          file.mv(path + fileName); //Перемещаем файл в директорию
+
+          //Добавляем изображение в список изображений галереии апартаментов
+          galleryRoomNew.push({ image: fileName });
+        }
+      } else {
+        const fileName = Uuid.v4() + '.jpg'; //Генерируем новое имя
+        files.mv(path + fileName); //Перемещаем файл в директорию
+
+        //Добавляем изображение в список изображений галереии апартаментов
+        galleryRoomNew.push({ image: fileName });
+      }
+
+      room.gallery = galleryRoomNew; //Применяем новые данные апартаментов
+      await room.save(); //Сохранем отель
+
+      return res.json({ message: 'Выбранные изображения успешно загружены!', room }); //Возвращаем клиентской части список обновлённые данные апартаментов
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ message: 'Ошибка загрузки изображений галереи на сервер.' });
+    }
+  }
+
+  async roomGalleryDelete(req, res) {
+    try {
+      const idHotel = req.query.id_hotel; //Получаем ID отеля из запроса
+      const idRoom = req.query.id_room; //Получаем ID апартаментов из запроса
+      const room = await Room.findById(idRoom); //Получаем из БД текущие данные апартаментов
+      const imageList = req.body; //Получаем имена изображения из запроса
+      let galleryRoom = room.gallery; //Получаем изображения галереи отедя из БД в массив
+      const path = config.get('staticPath') + '\\hotels\\' + idHotel + '\\rooms\\' + idRoom + '\\gallery\\'; //Заносим в переменную путь до директории
+
+      //Перебираем все имена изображений из запроса
+      for (const itemDel of imageList) {
+        //Проверяем наличие файла: если существует >> удаляем файл
+        if (fs.existsSync(path + itemDel.image)) {
+          fs.unlinkSync(path + itemDel.image);
+        }
+
+        //Удаляем изображение из массива изображений галереи апартаментов
+        galleryRoom = galleryRoom.filter(item => item.image !== itemDel.image);
+      }
+
+      room.gallery = galleryRoom; //Применяем новые данные апартаментов
+      await room.save(); //Сохранем отель
+
+      return res.json({ message: 'Выбранные изображения успешно удалены!', room }); //Возвращаем клиентской части список обновлённые данные апартаментов
     } catch (e) {
       console.log(e);
       return res.status(400).json({ message: 'Ошибка загрузки изображений галереи на сервер.' });

@@ -78,7 +78,7 @@ export const roomOneUpdate = async (_id, id_hotel, name, description, gallery, c
 };
 
 //Функция загрузки изображений галереи на сервер
-export const roomGalleryUpload = (id_hotel, imagesList) => {
+export const roomGalleryUpload = (id_hotel, id_room, imagesList) => {
   return async dispatch => {
     try {
       const formData = new FormData();
@@ -86,7 +86,7 @@ export const roomGalleryUpload = (id_hotel, imagesList) => {
         formData.append('file', image);
       }
 
-      const response = await axios.post(`${API_URL}api/files/roomGalleryUpload?id_room=${id_hotel}&count_images=${imagesList.length}`, formData, {
+      const response = await axios.post(`${API_URL}api/files/roomGalleryUpload?id_hotel=${id_hotel}&id_room=${id_room}&count_images=${imagesList.length}`, formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'multipart/form-data' },
       });
 
@@ -99,10 +99,10 @@ export const roomGalleryUpload = (id_hotel, imagesList) => {
 };
 
 //Функция удаления изображений галереи на сервер
-export const roomGalleryDelete = (id_hotel, listNameImages) => {
+export const roomGalleryDelete = (id_hotel, id_room, listNameImages) => {
   return async dispatch => {
     try {
-      const response = await axios.post(`${API_URL}api/files/roomGalleryDelete?id_room=${id_hotel}`, listNameImages, {
+      const response = await axios.post(`${API_URL}api/files/roomGalleryDelete?id_hotel=${id_hotel}&id_room=${id_room}`, listNameImages, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 

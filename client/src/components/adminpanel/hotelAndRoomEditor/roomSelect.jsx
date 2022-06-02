@@ -14,9 +14,19 @@ const RoomSelect = props => {
 
   //Функция загрузки списка всех апартаментов
   useEffect(() => {
-    dispatch(roomsAll(props.value._id)); //Вызов функции загрузки списка всех апартаментов
+    dispatch(roomsAll(props.id_hotel)); //Вызов функции загрузки списка всех апартаментов
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props]);
+
+  //Отселживаем изменения в редюсере хранящем список всех отелей
+  useEffect(() => {
+    //Если отель уже выбран
+    if (isSelectRoom) {
+      setSelectRoom(allRoomsList.filter(n => n._id === selectRoom._id)[0]); //Записываем в переменную данные выбранных апартаментов
+      setSelectRoomUpdate(allRoomsList.filter(n => n._id === selectRoom._id)[0]); //Записываем в переменную данные выбранных апартаментов с изменениями
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allRoomsList]);
 
   //Функция обработки выбора апартаментов из выпадающего списка
   function selectRoomFromTheList(e) {
@@ -63,11 +73,11 @@ const RoomSelect = props => {
               ))}
             </select>
           </div>
-          <RoomAdd value={props.value._id} />
+          <RoomAdd value={props.id_hotel} />
         </div>
       </div>
 
-      {isSelectRoom && <RoomEditor value={selectRoom} valueUpdate={selectRoomUpdate} setValue={setSelectRoomUpdate} updateRoomNow={updateRoomNow} />}
+      {isSelectRoom && <RoomEditor value={selectRoom} valueUpdate={selectRoomUpdate} setValue={setSelectRoomUpdate} updateRoomNow={updateRoomNow} id_hotel={props.id_hotel} />}
     </div>
   );
 };

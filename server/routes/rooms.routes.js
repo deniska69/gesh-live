@@ -65,6 +65,29 @@ router.post(
   }
 );
 
+//GET-запрос по ссылке /roomOne для получения конкретную запись апартаментов
+router.get(
+  '/roomOne',
+  //Выполнение асинхронной функции
+  async (req, res) => {
+    //Оборовачиваем выполняемый код в try/cath для отлова ошибок
+    try {
+      //Получаем значения отправленных полей
+      const { _id } = req.query;
+
+      const room = await Rooms.findOne({ _id: _id });
+
+      //Возвращаем ответ клиентской части сервера в виде JSON-структуры
+      return res.json({ room });
+
+      //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
+    } catch (e) {
+      console.log("\nОшибка API-сервера в rooms.routes router.put('/roomOne').\n", e);
+      res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/roomOne')." });
+    }
+  }
+);
+
 //GET-запрос по ссылке /roomsAll для получения списка апартаментов для выбранного отеля
 router.get(
   '/roomsAll',
@@ -162,28 +185,5 @@ router.put(
     }
   }
 );
-
-// //GET-запрос по ссылке /oneRoom для получения конкретную запись апартаментов
-// router.get(
-//   '/oneRoom',
-//   //Выполнение асинхронной функции
-//   async (req, res) => {
-//     //Оборовачиваем выполняемый код в try/cath для отлова ошибок
-//     try {
-//       //Получаем значения отправленных полей
-//       const { _id } = req.query;
-
-//       const room = await Rooms.findOne({ _id: _id });
-
-//       //Возвращаем ответ клиентской части сервера в виде JSON-структуры
-//       return res.json({ room });
-
-//       //В случае возникновения непредвиденной ошибки - выводим сообщение об ошибке
-//     } catch (e) {
-//       console.log("\nОшибка API-сервера в rooms.routes router.put('/oneRoom').\n", e);
-//       res.status(400).json({ message: "Ошибка API-сервера в rooms.routes router.put('/oneRoom')." });
-//     }
-//   }
-// );
 
 module.exports = router;

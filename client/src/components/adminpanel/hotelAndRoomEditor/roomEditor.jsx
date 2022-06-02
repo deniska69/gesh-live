@@ -22,8 +22,9 @@ const RoomEditor = props => {
 
       {/* Описание апартаментов */}
       <RoomDescription value={props.value} setValue={props.setValue} updateRoomNow={props.updateRoomNow} />
+
       {/* Галеря апартаментов */}
-      <RoomGallery value={props.valueUpdate} setValue={props.setValue} updateRoomNow={props.updateRoomNow} />
+      <RoomGallery value={props.valueUpdate} setValue={props.setValue} updateRoomNow={props.updateRoomNow} id_hotel={props.id_hotel} />
     </div>
   );
 };
