@@ -1,17 +1,17 @@
-import React from "react";
-import "./press.css";
-import press1 from "../../assets/img/press/press1.jpg";
-import press2 from "../../assets/img/press/press2.jpg";
-import press3 from "../../assets/img/press/press3.jpg";
-import press4 from "../../assets/img/press/press4.jpg";
-import press5 from "../../assets/img/press/press5.jpg";
+import React from 'react';
+import './press.css';
+import press1 from '../../assets/img/press/press1.jpg';
+import press2 from '../../assets/img/press/press2.jpg';
+import press3 from '../../assets/img/press/press3.jpg';
+import press4 from '../../assets/img/press/press4.jpg';
+import press5 from '../../assets/img/press/press5.jpg';
 
 const Weather = () => {
   return (
     <div className="card" id="card_press">
       <div className="card-body">
         <div className="row">
-          <h3>Пресс-службы заведений</h3>
+          <h5>Пресс-службы заведений</h5>
           <br />
           <br />
 
