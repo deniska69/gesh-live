@@ -1,54 +1,53 @@
-import React from "react";
-import "./left_block.css";
-import logo from "./logo.svg";
-import weather from "./weather.svg";
-import elevator from "./elevator.svg";
-import mountain from "./mountain.svg";
-import food from "./food.svg";
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import './left_block.css';
+
+import logo from './logo.svg';
+import weather from './weather.svg';
+import elevator from './elevator.svg';
+import mountain from './mountain.svg';
+import food from './food.svg';
 
 const LeftBlock = () => {
   return (
     <div className="col leftBlock">
       <div className="row justify-content-center">
-        <a className="a_menu" href="/">
-          {/* eslint-disable-next-line */}
-          <img src={logo} id="icons_menu" />
-        </a>
+        <Link to="/" className="a_menu">
+          <img src={logo} id="icons_menu" alt="Шерегеш LIVE" />
+        </Link>
+
         <br />
         <br />
         <br />
 
-        <a className="a_menu" href="/weather">
-          {/* eslint-disable-next-line */}
-          <img src={weather} id="icons_menu" />
-        </a>
-        <a className="a_menu" href="/weather">
+        <Link className="a_menu" to="/weather">
+          <img src={weather} id="icons_menu" alt="Шерегеш LIVE Погода" />
+        </Link>
+        <Link className="a_menu" to="/weather">
           Погода
-        </a>
+        </Link>
 
-        <a className="a_menu" href="/elevator">
-          {/* eslint-disable-next-line */}
-          <img src={elevator} id="icons_menu" />
-        </a>
-        <a className="a_menu" href="/elevator">
-          <p id="text_menu">Подъёмники</p>
-        </a>
+        <Link className="a_menu" to="/elevator">
+          <img src={elevator} id="icons_menu" alt="Шерегеш LIVE Подъёмники" />
+        </Link>
+        <Link className="a_menu" to="/elevator">
+          Подъёмники
+        </Link>
 
-        <a className="a_menu" href="/mountain">
-          {/* eslint-disable-next-line */}
-          <img src={mountain} id="icons_menu" />
-        </a>
-        <a className="a_menu" href="/mountain">
-          <p id="text_menu">Карта горы</p>
-        </a>
+        <Link className="a_menu" to="/mountain">
+          <img src={mountain} id="icons_menu" alt="Шерегеш LIVE Карта горы" />
+        </Link>
+        <Link className="a_menu" to="/mountain">
+          Карта горы
+        </Link>
 
-        <a className="a_menu" href="/food">
-          {/* eslint-disable-next-line */}
-          <img src={food} id="icons_menu" />
-        </a>
-        <a className="a_menu" href="/food">
-          <p id="text_menu">Источники питания</p>
-        </a>
+        <Link className="a_menu" to="/food">
+          <img src={food} id="icons_menu" alt="Шерегеш LIVE Источники питания" />
+        </Link>
+        <Link className="a_menu" to="/food">
+          Источники питания
+        </Link>
       </div>
     </div>
   );

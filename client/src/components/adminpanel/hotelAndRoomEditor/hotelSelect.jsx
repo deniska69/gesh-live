@@ -4,6 +4,7 @@ import { hotelsAll, hotelOneUpdate } from '../../../actions/hotels';
 import { roomsAll } from '../../../actions/rooms';
 import { toastView } from '../../App';
 import HotelEditor from './hotelEditor';
+// eslint-disable-next-line
 import RoomSelect from './roomSelect';
 
 const HotelSelect = () => {

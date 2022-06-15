@@ -1,15 +1,18 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import "./home.css";
-import centr_img from "../../assets/img/home/line.svg";
-import cards1 from "../../assets/img/home/cards1.png";
-import cards2 from "../../assets/img/home/cards2.png";
-import cards3 from "../../assets/img/home/cards3.png";
-import cards4 from "../../assets/img/home/cards4.png";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import './home.css';
+
+import centr_img from '../../assets/img/home/line.svg';
+import cards1 from '../../assets/img/home/cards1.png';
+import cards2 from '../../assets/img/home/cards2.png';
+import cards3 from '../../assets/img/home/cards3.png';
+import cards4 from '../../assets/img/home/cards4.png';
 
 const Home = () => {
   //Получаем из редюсера состояние: авторизован ли пользователь
-  const isAuth = useSelector((state) => state.user.isAuth);
+  const isAuth = useSelector(state => state.user.isAuth);
 
   return (
     <div className="container-fluid">
@@ -20,15 +23,15 @@ const Home = () => {
             <div className="col-lg-6 offset-lg-6">
               <div id="parent">
                 <div id="child">
-                  <a className="ac" href="/history">
+                  <Link to={'/history'} className="ac">
                     История основания горы
-                  </a>
-                  <a className="ac" href="/gallery">
+                  </Link>
+                  <Link to={'/gallery'} className="ac">
                     Фотогаллерея
-                  </a>
-                  <a className="ac" href="/press">
+                  </Link>
+                  <Link to={'/press'} className="ac">
                     Пресс-службы заведений
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
