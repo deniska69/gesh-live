@@ -10,6 +10,8 @@ const TextEditor = props => {
   useEffect(() => {
     const jEditor = document.querySelector('.jodit-wysiwyg');
 
+    console.log(props);
+
     if (props.value === undefined) {
       jEditor.innerHTML = 'Введите описание...';
     } else {

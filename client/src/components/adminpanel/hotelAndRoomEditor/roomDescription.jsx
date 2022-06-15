@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextEditor from '../../../utils/input/TextEditor';
 
 const RoomDescription = props => {
+  const [description, setDescription] = useState(props.value.description);
+
   //Функция изменения описания отеля в state-переменной родителя
   function updateDescription(value) {
     props.setValue({ ...props.value, description: value });
@@ -13,7 +15,12 @@ const RoomDescription = props => {
         <label className="form-label form-control-sm">Описание:</label>
       </div>
       <div className="col-sm-9">
-        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditDescriptionRoom">
+        <button
+          type="button"
+          className="btn btn-sm btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#modalEditDescriptionRoom"
+          onClick={() => setDescription(props.value.description)}>
           Редактировать
         </button>
       </div>
@@ -29,7 +36,7 @@ const RoomDescription = props => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <TextEditor value={props.value.description} setValue={updateDescription} />
+              <TextEditor value={description} setValue={updateDescription} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">

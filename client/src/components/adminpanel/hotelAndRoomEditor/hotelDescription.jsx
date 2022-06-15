@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextEditor from '../../../utils/input/TextEditor';
 
 const HotelDescription = props => {
+  // eslint-disable-next-line
+  const [description, setDescription] = useState(props.value.description);
+
   //Функция изменения описания отеля в state-переменной родителя
   function updateDescription(value) {
     props.setValue({ ...props.value, description: value });
@@ -13,7 +16,12 @@ const HotelDescription = props => {
         <label className="form-label form-control-sm">Описание:</label>
       </div>
       <div className="col-sm-9">
-        <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalEditDescriptionHotel">
+        <button
+          type="button"
+          className="btn btn-sm btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#modalEditDescriptionHotel"
+          onClick={() => setDescription(props.value.description)}>
           Редактировать
         </button>
       </div>

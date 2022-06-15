@@ -101,7 +101,7 @@ const HotelSelect = () => {
         )}
       </div>
       {isSelectHotel && <HotelEditor value={selectHotel} valueUpdate={selectHotelUpdate} setValue={setSelectHotelUpdate} updateHotelNow={updateHotelNow} />}
-      {isSelectHotel && <RoomSelect id_hotel={selectHotel._id} />}
+      {/* {isSelectHotel && <RoomSelect id_hotel={selectHotel._id} />} */}
     </div>
   );
 };
